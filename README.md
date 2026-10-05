@@ -1,8 +1,8 @@
 # The Singularity Workshop — Economy
 
-**TheSingularityWorkshop.Economy is an exploratory economic domain model, not a financial service.**
+**TheSingularityWorkshop.Economy is an exploratory economic domain model and interoperability package, not a financial service.**
 
-This package exists because economic exchange is an important part of the Workshop's eventual ecosystem. It is deliberately incomplete. It is a place to establish vocabulary, boundaries, experiments, and architecture that can later be reviewed by qualified lawyers, accountants, financial professionals, compliance specialists, and provider teams.
+This package exists because economic exchange is an important part of the Workshop's eventual ecosystem. It is deliberately incomplete. It establishes vocabulary, boundaries, and experiments that can later be reviewed by qualified lawyers, accountants, financial professionals, compliance specialists, and provider teams.
 
 The goal is **theoretical alignment before operational commitment**: when the Workshop eventually has the resources and professional guidance required to become operational, the groundwork should already be organized well enough that the transition from investment to launch is as small and deliberate as possible.
 
@@ -30,26 +30,67 @@ The author is not a lawyer, accountant, financial institution, or regulatory aut
 
 The Workshop is being built from the technology outward.
 
-The immediate purpose of Economy is to give us a playground for exploring how economic concepts could fit into the larger ecosystem without prematurely choosing a financial provider or pretending that a prototype is a production financial system.
+The immediate purpose of Economy is to give us a playground for exploring how economic concepts can become a **shared language for software creators** without forcing those creators to rebuild the same commerce concepts inside every application.
 
-The package can therefore describe concepts such as:
+An external creator should be able to build an RPG, simulation, marketplace, social world, or other application and consume this package as a neutral economic vocabulary. The creator's software can own its presentation, gameplay rules, inventory, characters, quests, and world state while interoperating with the Workshop's economic concepts.
 
-- purchases and sales
-- transfers
-- gifts and donations
-- tips and rewards
-- creator compensation
-- advertising revenue
-- subscriptions
-- royalties
-- refunds and reimbursements
-- marketplace settlement
-- fees and taxes as separate allocation concepts
-- grants
-- deposits and withdrawals
-- future forms of value exchange
+That means an RPG should be able to describe something as simple as:
 
-This vocabulary is useful even before any of those operations can be performed.
+~~~text
+Shop
+  |
+  +-- Name: Dragonforge Armory
+  +-- Owner: Blacksmith Guild
+  +-- Products:
+       +-- Iron Sword — 50 GP
+       +-- Dragon Armor — 500 GP
+       +-- Repair Kit — 15 GP
+~~~
+
+The software does not need to invent a bespoke economic model merely because it contains a shop.
+
+## Creator-defined shops and digital reflection
+
+EconomyShop is intentionally small. It composes:
+
+- an owner
+- a shop name
+- a product collection
+
+CommerceItem supplies the economic product boundary:
+
+- seller
+- name
+- price
+- optional external reference
+- optional Micro Bundle reference
+
+This makes a useful **digital reflection** possible.
+
+A creator can represent an in-world shop without requiring the Workshop to own the game's entire product database:
+
+~~~text
+RPG Experience
+      |
+      v
+Dragonforge Armory
+      |
+      +-- Owner
+      +-- Products
+      |     +-- Dragon Armor
+      |     +-- Firesteel Sword
+      |     +-- Repair Kit
+      |
+      +-- Digital representation
+            +-- URL
+            +-- Micro Bundle
+            +-- Experience
+            +-- Marketplace
+~~~
+
+The same pattern can support an armor shop, potion shop, antiquities dealer, tavern, crafting guild, player marketplace, creator storefront, or entirely different economic structure.
+
+**The point is not to prescribe the game. The point is to remove an unnecessary interoperability obstruction.**
 
 ## Provider-neutral by design
 
@@ -69,13 +110,13 @@ A future architecture may look like:
                  +----------+----------+
                             |
                      Provider Adapter
-                       /    |     \
+                       /    |     \\
                     Bank  Square  Future
 ~~~
 
 Provider-specific requirements belong in separate adapters and infrastructure. They should not be smuggled into this neutral core.
 
-A future virtual bank branch inside an Experience is therefore a **visualization and interaction surface**, not the bank itself.
+A virtual bank branch inside an Experience is therefore a **visualization and interaction surface**, not the bank itself.
 
 ## Professional review is part of the eventual design
 
@@ -229,6 +270,6 @@ This package intentionally does not include:
 - production settlement
 - compliance certification
 
-The next useful work is **not necessarily more Economy code**. The domain should remain available as a playground while higher-value, non-financial foundations—especially Profiles and identity—are developed.
+The next useful work is **not necessarily more Economy code**. The domain should remain available as an interoperability playground while higher-value, non-financial foundations—especially Profiles and identity—are developed.
 
 When the Workshop eventually has the resources and professional guidance to operationalize financial functionality, this repository should provide a cleaner starting point for that review rather than pretending that review has already happened.
