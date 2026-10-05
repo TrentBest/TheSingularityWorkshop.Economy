@@ -1,1 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><AssemblyName>TheSingularityWorkshop.Economy</AssemblyName><RootNamespace>TheSingularityWorkshop.Economy</RootNamespace><PackageId>TheSingularityWorkshop.Economy</PackageId><Version>0.1.0-alpha.1</Version><Authors>Trent Best</Authors><Company>The Singularity Workshop</Company><Description>Provider-neutral economic primitives for sovereign money, commerce, rewards, donations, marketplaces, and external financial integrations.</Description><PackageTags>economy;payments;commerce;money;marketplace;donations;rewards;financial;TheSingularityWorkshop</PackageTags><RepositoryUrl>https://github.com/TrentBest/TheSingularityWorkshop.Economy</RepositoryUrl><RepositoryType>git</RepositoryType><PackageLicenseExpression>MIT</PackageLicenseExpression><PackageReadmeFile>README.md</PackageReadmeFile><GeneratePackageOnBuild>false</GeneratePackageOnBuild></PropertyGroup><ItemGroup><None Include="README.md" Pack="true" PackagePath="/" /></ItemGroup></Project>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>TheSingularityWorkshop.Economy</AssemblyName>
+    <RootNamespace>TheSingularityWorkshop.Economy</RootNamespace>
+    <PackageId>TheSingularityWorkshop.Economy</PackageId>
+    <Version>0.1.0-alpha.1</Version>
+    <Authors>Trent Best</Authors>
+    <Company>The Singularity Workshop</Company>
+    <Description>Provider-neutral economic primitives for sovereign money, commerce, rewards, donations, marketplaces, and external financial integrations.</Description>
+    <PackageTags>economy;payments;commerce;money;marketplace;donations;rewards;financial;TheSingularityWorkshop</PackageTags>
+    <RepositoryUrl>https://github.com/TrentBest/TheSingularityWorkshop.Economy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="tests/**/*.cs" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>
