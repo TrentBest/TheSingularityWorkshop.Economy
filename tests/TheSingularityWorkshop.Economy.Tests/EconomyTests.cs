@@ -56,4 +56,38 @@ public sealed class EconomyTests
             DateTimeOffset.UtcNow);
         Assert.Equal("sandbox-bank", connection.Provider.Value);
     }
+
+    [Fact]
+    public void Shop_CanComposeOwnerNameAndProducts()
+    {
+        var owner = EconomyEntityId.New();
+        var sword = new CommerceItem(CommerceItemId.New(), owner, "Iron Sword", new Money(50m, "GP"));
+        var potion = new CommerceItem(CommerceItemId.New(), owner, "Healing Potion", new Money(10m, "GP"));
+
+        var shop = EconomyShop.Create(owner, "The Adventurer's Supply", new[] { sword, potion });
+
+        Assert.Equal("The Adventurer's Supply", shop.Name);
+        Assert.Equal(owner, shop.Owner);
+        Assert.Equal(2, shop.Products.Count);
+        Assert.Contains(sword, shop.Products);
+        Assert.Contains(potion, shop.Products);
+    }
+
+    [Fact]
+    public void Shop_CanExposeDigitalRepresentationForCreatorDefinedProduct()
+    {
+        var owner = EconomyEntityId.New();
+        var armor = new CommerceItem(
+            CommerceItemId.New(),
+            owner,
+            "Dragon Armor",
+            new Money(500m, "GP"),
+            new Uri("https://example.invalid/dragon-armor"),
+            "armor-microbundle");
+
+        var shop = EconomyShop.Create(owner, "Dragonforge Armory", new[] { armor });
+
+        Assert.Equal("Dragon Armor", shop.Products.Single().Name);
+        Assert.Equal("armor-microbundle", shop.Products.Single().MicroBundleReference);
+    }
 }
