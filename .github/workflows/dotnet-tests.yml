@@ -19,7 +19,9 @@ jobs:
         with:
           dotnet-version: 8.x
       - name: Restore
-        run: dotnet restore TheSingularityWorkshop.Economy.csproj
+        run: |
+          dotnet restore TheSingularityWorkshop.Economy.csproj
+          dotnet restore tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj
       - name: Build
         run: dotnet build TheSingularityWorkshop.Economy.csproj --configuration Release --no-restore
       - name: Test
