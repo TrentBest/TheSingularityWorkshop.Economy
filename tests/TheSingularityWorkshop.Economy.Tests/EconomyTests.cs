@@ -61,8 +61,8 @@ public sealed class EconomyTests
     public void Shop_CanComposeOwnerNameAndProducts()
     {
         var owner = EconomyEntityId.New();
-        var sword = new CommerceItem(CommerceItemId.New(), owner, "Iron Sword", new Money(50m, "GP"));
-        var potion = new CommerceItem(CommerceItemId.New(), owner, "Healing Potion", new Money(10m, "GP"));
+        var sword = new CommerceItem(CommerceItemId.New(), owner, "Iron Sword", new Money(50m, "GLD"));
+        var potion = new CommerceItem(CommerceItemId.New(), owner, "Healing Potion", new Money(10m, "GLD"));
 
         var shop = EconomyShop.Create(owner, "The Adventurer's Supply", new[] { sword, potion });
 
@@ -81,7 +81,7 @@ public sealed class EconomyTests
             CommerceItemId.New(),
             owner,
             "Dragon Armor",
-            new Money(500m, "GP"),
+            new Money(500m, "GLD"),
             new Uri("https://example.invalid/dragon-armor"),
             "armor-microbundle");
 
