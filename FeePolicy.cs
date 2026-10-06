@@ -1,0 +1,3 @@
+namespace TheSingularityWorkshop.Economy;
+/// <summary>Defines how an economic transaction may allocate a platform share.</summary>
+public sealed class FeePolicy{public FeePolicy(decimal platformShare){if(platformShare<0m||platformShare>1m)throw new ArgumentOutOfRangeException(nameof(platformShare));PlatformShare=platformShare;}public decimal PlatformShare{get;}public Money Calculate(Money gross)=>gross.Multiply(PlatformShare);}

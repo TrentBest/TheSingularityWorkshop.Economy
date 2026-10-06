@@ -1,0 +1,28 @@
+name: .NET Tests
+
+on:
+  push:
+    branches: [development]
+  pull_request:
+    branches: [main, development]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.x
+      - name: Restore
+        run: |
+          dotnet restore TheSingularityWorkshop.Economy.csproj
+          dotnet restore tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj
+      - name: Build
+        run: dotnet build TheSingularityWorkshop.Economy.csproj --configuration Release --no-restore
+      - name: Test
+        run: dotnet test tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj --configuration Release --no-restore
