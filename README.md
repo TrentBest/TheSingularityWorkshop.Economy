@@ -1,4 +1,42 @@
+![The Singularity Workshop animated moniker](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Renderer/development/docs/assets/moniker.svg)
+
 # The Singularity Workshop — Economy
+
+
+> **An exploratory economic domain model and interoperability package—not a financial service.**
+
+Economy organizes vocabulary and boundaries for possible future economic exchange while deliberately remaining incomplete and non-operational.
+
+```mermaid
+flowchart TD
+  V[Domain vocabulary] --> M[Exploratory models]
+  M --> I[Interoperability contracts]
+  I --> R[Future review and validation]
+```
+
+## 🟦 01 What
+
+Economy organizes vocabulary and boundaries for possible future economic exchange while deliberately remaining incomplete and non-operational.
+
+## 🟣 02 Why
+
+The Workshop is easier to understand when each repository states its responsibility clearly and shows how it connects to the wider system—without claiming ownership of neighboring layers.
+
+## 🔺 03 How
+
+Use it to examine domain concepts and interoperability assumptions, not to move money, provide financial advice, or infer regulatory readiness. Any future operationalization requires qualified professional review.
+
+## 🟢 04 See it in a minute
+
+Start with the scope and limitations documented below; run the repository tests to evaluate the current models, not to infer production or compliance readiness.
+
+## 🟪 05 Documentation and theory
+
+[What this package is — and is not](#what-this-package-is--and-is-not)
+
+---
+
+## Detailed guide
 
 **TheSingularityWorkshop.Economy is an exploratory economic domain model and interoperability package, not a financial service.**
 
