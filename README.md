@@ -20,7 +20,7 @@ Economy organizes vocabulary and boundaries for possible future economic exchang
 
 ## 🟣 02 Why
 
-Economic concepts are easier to review when vocabulary and interoperability experiments are separated from operational services. The exploratory boundary makes the current scope visible and avoids implying that models are regulated, production-ready, or suitable for moving money.
+This repository explores domain vocabulary and interoperability rather than providing an operational financial service. Keeping that distinction visible helps readers evaluate current models without mistaking them for production systems or professional guidance.
 
 ## 🔺 03 How
 
