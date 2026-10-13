@@ -20,7 +20,7 @@ Economy organizes vocabulary and boundaries for possible future economic exchang
 
 ## 🟣 02 Why
 
-The Workshop is easier to understand when each repository states its responsibility clearly and shows how it connects to the wider system—without claiming ownership of neighboring layers.
+Economic concepts are easier to review when vocabulary and interoperability experiments are separated from operational services. The exploratory boundary makes the current scope visible and avoids implying that models are regulated, production-ready, or suitable for moving money.
 
 ## 🔺 03 How
 
