@@ -19,6 +19,7 @@
     <None Include="../../README.md" Pack="true" PackagePath="/" />
     <None Include="../../DOCUMENTATION_INDEX.md" Pack="true" PackagePath="/" />
     <None Include="../../ECONOMY_ARCHITECTURE.md" Pack="true" PackagePath="/" />
+    <None Include="../../docs/ARCHITECTURE.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/WHAT_IS_ECONOMY.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/assets/economy-boundary.svg" Pack="true" PackagePath="docs/assets/" />
   </ItemGroup>
