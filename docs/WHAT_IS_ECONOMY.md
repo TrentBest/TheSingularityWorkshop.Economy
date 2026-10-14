@@ -33,7 +33,7 @@ The current source includes small domain primitives for:
 - **Provider and access contracts** — early abstractions, not a working financial integration.
 - **Execution observations** — a value describing a reported operation state and environment, not an executor or proof of settlement.
 
-See [Architecture](../ECONOMY_ARCHITECTURE.md) for the source-checked inventory and the distinction between implemented types and the intended larger system.
+See [Architecture](ARCHITECTURE.md) for the source-checked inventory and the distinction between implemented types and the intended larger system.
 
 ## The four meanings that must stay separate
 
@@ -66,4 +66,4 @@ The goal is to prepare clear concepts before making operational commitments. A d
 
 **Exploratory alpha.** The current code is useful as a starting point for shared vocabulary and creator-defined shop composition. It is not a production commerce or real-money platform.
 
-For exact contracts and the proposed implementation sequence, read [Economy architecture](../ECONOMY_ARCHITECTURE.md). For a map of the repository's guides, read [Documentation index](../DOCUMENTATION_INDEX.md).
+For exact contracts and the proposed implementation sequence, read [Economy architecture](ARCHITECTURE.md). For a map of the repository's guides, read [Documentation index](../DOCUMENTATION_INDEX.md).
