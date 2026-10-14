@@ -11,8 +11,6 @@ flowchart TD
 
 > **Exploratory economic domain model and interoperability package—not a financial service.**
 
-Economy organizes vocabulary and boundaries for possible future economic exchange while deliberately remaining incomplete and non-operational.
-
 ## 🟦 01 What
 
 Economy organizes vocabulary and boundaries for possible future economic exchange while deliberately remaining incomplete and non-operational.
@@ -349,3 +347,15 @@ This package intentionally does not include:
 The next useful work is **not necessarily more Economy code**. The domain should remain available as an interoperability playground while higher-value, non-financial foundations—especially Profiles and identity—are developed.
 
 When the Workshop eventually has the resources and professional guidance to operationalize financial functionality, this repository should provide a cleaner starting point for that review rather than pretending that review has already happened.
+
+
+---
+
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://avatars.githubusercontent.com/u/16405167?v=4" alt="Trent Best — The Singularity Workshop" width="64">
+  </a>
+  <br>
+  <strong>The Singularity Workshop</strong><br>
+  <a href="https://github.com/TrentBest">GitHub profile</a> · <a href="https://github.com/TrentBest/TheSingularityWorkshop.Economy">Economy repository</a> · <a href="https://github.com/TrentBest/TheSingularityWorkshop.FSM_COS/blob/development/DOCUMENTATION_STANDARD.md">Documentation standard</a>
+</p>
