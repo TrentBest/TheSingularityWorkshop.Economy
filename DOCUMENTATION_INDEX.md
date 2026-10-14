@@ -7,8 +7,8 @@ The README is the public front door. These guides have different jobs; use the o
 | Understand the concept without starting from code | [What is Economy?](docs/WHAT_IS_ECONOMY.md) |
 | See what exists now versus the intended architecture | [Economy architecture](ECONOMY_ARCHITECTURE.md) |
 | Try the shortest source-checked shop example | [README: See it in a minute](README.md#-04-see-it-in-a-minute) |
-| Inspect domain types | [Commerce](Commerce.cs), [EconomyShop](EconomyShop.cs), [Money](Money.cs), [Transfer](Transfer.cs), [Accounts](EconomyAccount.cs), [Fees](FeePolicy.cs), [Provider contract](FinancialProvider.cs), [Execution observation](EconomicExecutionResult.cs) |
-| Inspect access/audit vocabulary | [Access ledger contracts](AccessLedger.cs) |
+| Inspect domain types | [Commerce](src/TheSingularityWorkshop.Economy/Commerce.cs), [EconomyShop](src/TheSingularityWorkshop.Economy/EconomyShop.cs), [Money](src/TheSingularityWorkshop.Economy/Money.cs), [Transfer](src/TheSingularityWorkshop.Economy/Transfer.cs), [Accounts](src/TheSingularityWorkshop.Economy/EconomyAccount.cs), [Fees](src/TheSingularityWorkshop.Economy/FeePolicy.cs), [Provider contract](src/TheSingularityWorkshop.Economy/FinancialProvider.cs), [Execution observation](src/TheSingularityWorkshop.Economy/EconomicExecutionResult.cs) |
+| Inspect access/audit vocabulary | [Access ledger contracts](src/TheSingularityWorkshop.Economy/AccessLedger.cs) |
 | Run tests | [Test project](tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj) and [workflow](.github/workflows/dotnet-tests.yml) |
 
 ## Status and authority
