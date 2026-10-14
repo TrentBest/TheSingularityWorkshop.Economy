@@ -30,6 +30,7 @@ Use it to examine domain concepts and interoperability assumptions, not to move 
 The following source-checked example uses the public types defined in this repository and demonstrates a creator-defined shop. It models a fictional in-world currency (`GLD`); it does **not** execute a payment or move money.
 
 ```csharp
+using System;
 using TheSingularityWorkshop.Economy;
 
 var owner = EconomyEntityId.New();
