@@ -13,7 +13,7 @@ flowchart TD
 
 ## 🟦 01 What
 
-Economy organizes vocabulary and boundaries for possible future economic exchange while deliberately remaining incomplete and non-operational.
+Economy is intended as shared economic vocabulary for both simulated worlds and creator commerce. An Experience can compose shops and offers without requiring a payment provider; real-money execution remains a separate future capability.
 
 ## 🟣 02 Why
 
@@ -21,7 +21,7 @@ This repository explores domain vocabulary and interoperability rather than prov
 
 ## 🔺 03 How
 
-Use it to examine domain concepts and interoperability assumptions, not to move money, provide financial advice, or infer regulatory readiness. Any future operationalization requires qualified professional review.
+Use it to model economic concepts and creator-defined shops—not to move money or infer production readiness. Simulation and real-money execution must remain distinct: an offer is not a payment, and a transfer intent is not proof of settlement. See the [dual-mode architecture guide](ECONOMY_ARCHITECTURE.md) for the proposed boundaries and implementation sequence.
 
 ## 🟢 04 See it in a minute
 
@@ -63,6 +63,7 @@ The sample follows the same shop/product composition exercised by [the existing 
 
 ## 🟪 05 Documentation and theory
 
+- **Architecture for simulated economies and future real-money connections:** [ECONOMY_ARCHITECTURE.md](ECONOMY_ARCHITECTURE.md)
 - **Scope and limits:** [What this package is — and is not](#what-this-package-is--and-is-not)
 - **Creator shops and product references:** [EconomyShop.cs](EconomyShop.cs) and [Commerce.cs](Commerce.cs)
 - **Amounts, intended transfers, and fee calculation:** [Money.cs](Money.cs), [Transfer.cs](Transfer.cs), and [FeePolicy.cs](FeePolicy.cs)
