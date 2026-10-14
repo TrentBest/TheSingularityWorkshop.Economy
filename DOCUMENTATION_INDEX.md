@@ -5,7 +5,7 @@ The README is the public front door. These guides have different jobs; use the o
 | If you want to… | Read |
 |---|---|
 | Understand the concept without starting from code | [What is Economy?](docs/WHAT_IS_ECONOMY.md) |
-| See what exists now versus the intended architecture | [Economy architecture](ECONOMY_ARCHITECTURE.md) |
+| See what exists now versus the intended architecture | [Economy architecture](docs/ARCHITECTURE.md) |
 | Try the shortest source-checked shop example | [README: See it in a minute](README.md#-04-see-it-in-a-minute) |
 | Inspect domain types | [Commerce](src/TheSingularityWorkshop.Economy/Commerce.cs), [EconomyShop](src/TheSingularityWorkshop.Economy/EconomyShop.cs), [Money](src/TheSingularityWorkshop.Economy/Money.cs), [Transfer](src/TheSingularityWorkshop.Economy/Transfer.cs), [Accounts](src/TheSingularityWorkshop.Economy/EconomyAccount.cs), [Fees](src/TheSingularityWorkshop.Economy/FeePolicy.cs), [Provider contract](src/TheSingularityWorkshop.Economy/FinancialProvider.cs), [Execution observation](src/TheSingularityWorkshop.Economy/EconomicExecutionResult.cs) |
 | Inspect access/audit vocabulary | [Access ledger contracts](src/TheSingularityWorkshop.Economy/AccessLedger.cs) |
