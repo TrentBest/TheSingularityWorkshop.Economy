@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>TheSingularityWorkshop.Economy</AssemblyName>
+    <RootNamespace>TheSingularityWorkshop.Economy</RootNamespace>
+    <PackageId>TheSingularityWorkshop.Economy</PackageId>
+    <Version>0.1.0-alpha.1</Version>
+    <Authors>Trent Best</Authors>
+    <Company>The Singularity Workshop</Company>
+    <Description>Provider-neutral economic primitives for simulated economies, creator commerce, and future external financial integrations.</Description>
+    <PackageTags>economy;commerce;money;marketplace;simulation;creator;TheSingularityWorkshop</PackageTags>
+    <RepositoryUrl>https://github.com/TrentBest/TheSingularityWorkshop.Economy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../DOCUMENTATION_INDEX.md" Pack="true" PackagePath="/" />
+    <None Include="../../ECONOMY_ARCHITECTURE.md" Pack="true" PackagePath="/" />
+    <None Include="../../docs/WHAT_IS_ECONOMY.md" Pack="true" PackagePath="docs/" />
+    <None Include="../../docs/assets/economy-boundary.svg" Pack="true" PackagePath="docs/assets/" />
+  </ItemGroup>
+</Project>
