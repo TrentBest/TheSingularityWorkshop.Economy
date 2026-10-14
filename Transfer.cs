@@ -3,9 +3,7 @@ namespace TheSingularityWorkshop.Economy;
 /// <summary>Describes an intended movement of value; it does not execute or settle a payment.</summary>
 public sealed record EconomyTransfer
 {
-    /// <summary>
-    /// Creates a transfer intent whose accounts and amount use the same currency.
-    /// </summary>
+    /// <summary>Creates a transfer intent whose accounts and amount use the same currency.</summary>
     /// <param name="Id">Stable identifier for this transfer intent.</param>
     /// <param name="From">Account from which value is intended to move.</param>
     /// <param name="To">Account to which value is intended to move.</param>
@@ -50,13 +48,13 @@ public sealed record EconomyTransfer
         Timestamp = CreatedAt ?? DateTimeOffset.UtcNow;
     }
 
-    public Guid Id { get; init; }
-    public EconomyAccount From { get; init; }
-    public EconomyAccount To { get; init; }
-    public Money Amount { get; init; }
-    public TransferKind Kind { get; init; }
-    public string? Reference { get; init; }
-    public DateTimeOffset? CreatedAt { get; init; }
+    public Guid Id { get; }
+    public EconomyAccount From { get; }
+    public EconomyAccount To { get; }
+    public Money Amount { get; }
+    public TransferKind Kind { get; }
+    public string? Reference { get; }
+    public DateTimeOffset? CreatedAt { get; }
 
     /// <summary>Effective timestamp for this intent, not evidence of settlement.</summary>
     public DateTimeOffset Timestamp { get; }
