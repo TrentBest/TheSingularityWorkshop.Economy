@@ -33,6 +33,42 @@ public sealed class EconomyTests
     }
 
     [Fact]
+    public void TransferRejectsNegativeAmount()
+    {
+        var from = new EconomyAccount(EconomyEntityId.New(), "USD");
+        var to = new EconomyAccount(EconomyEntityId.New(), "USD");
+
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new EconomyTransfer(Guid.NewGuid(), from, to, new Money(-1m, "USD"), TransferKind.Transfer));
+    }
+
+    [Theory]
+    [InlineData("USD", "EUR", "USD")]
+    [InlineData("USD", "USD", "EUR")]
+    public void TransferRejectsCurrencyMismatch(string fromCurrency, string toCurrency, string amountCurrency)
+    {
+        var from = new EconomyAccount(EconomyEntityId.New(), fromCurrency);
+        var to = new EconomyAccount(EconomyEntityId.New(), toCurrency);
+
+        Assert.Throws<InvalidOperationException>(() =>
+            new EconomyTransfer(Guid.NewGuid(), from, to, new Money(1m, amountCurrency), TransferKind.Transfer));
+    }
+
+    [Fact]
+    public void TransferUsesProvidedTimestampAndDoesNotClaimSettlement()
+    {
+        var from = new EconomyAccount(EconomyEntityId.New(), "USD");
+        var to = new EconomyAccount(EconomyEntityId.New(), "USD");
+        var timestamp = new DateTimeOffset(2026, 1, 2, 3, 4, 5, TimeSpan.Zero);
+
+        var transfer = new EconomyTransfer(
+            Guid.NewGuid(), from, to, new Money(25m, "USD"), TransferKind.Donation, CreatedAt: timestamp);
+
+        Assert.Equal(timestamp, transfer.CreatedAt);
+        Assert.Equal(timestamp, transfer.Timestamp);
+    }
+
+    [Fact]
     public void CommerceItemCanReferenceDigitalRepresentation()
     {
         var item = new CommerceItem(
