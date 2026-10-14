@@ -38,7 +38,7 @@ flowchart TB
     O --> L
 ```
 
-The diagram is a **target architecture**, not a claim that these components all exist today. The current repository contains domain primitives and a provider interface; it does not yet provide this complete transaction lifecycle, ledger, reconciliation service, or checkout.
+The diagram is a **target architecture**, not a claim that these components all exist today. The current repository contains domain primitives, a provider interface, and an explicit execution-observation value; it does not yet provide this complete transaction lifecycle, ledger, reconciliation service, or checkout.
 
 ## What exists today
 
@@ -54,6 +54,7 @@ The current public surface includes:
 | `EconomyAccount` | Owner and currency boundary | Does not hold or calculate a balance |
 | `FeePolicy` | Explicit platform-share calculation | Does not collect, distribute, or account for fees |
 | `IFinancialProvider` | Early provider abstraction for connection and execution | Its current return type is an `EconomyTransfer`, so it cannot by itself express a reliable provider outcome |
+| `EconomicExecutionResult` | Immutable observation linking an operation, transfer intent, reporting environment, status, timestamp, and optional external reference | A value contract only: it does not execute operations, enforce idempotency, verify provider messages, maintain balances, or establish settlement |
 
 See the implementations in [Commerce.cs](Commerce.cs), [EconomyShop.cs](EconomyShop.cs), [Money.cs](Money.cs), [Transfer.cs](Transfer.cs), [EconomyAccount.cs](EconomyAccount.cs), [FeePolicy.cs](FeePolicy.cs), and [FinancialProvider.cs](FinancialProvider.cs).
 
@@ -123,15 +124,14 @@ The architecture can evolve incrementally. It does not require adding every laye
 
 ## Suggested implementation sequence
 
-These are proposed steps, not existing capabilities.
+The domain vocabulary and first result value contract now exist. The remaining steps are proposed work, not existing capabilities.
 
-1. **Lock down the domain vocabulary.** Document what each current type guarantees and what it deliberately does not guarantee. Keep the tests focused on those invariants.
-2. **Introduce an explicit execution-result contract.** Design a result that carries an operation identifier, outcome state, timestamps, and safe provider references. Do not use the intent object itself as proof of execution.
-3. **Define the lifecycle and idempotency boundary.** Decide who creates operation IDs, who owns retry safety, and how uncertain outcomes are recovered.
-4. **Build a simulation adapter first.** Exercise accepted, pending, failed, duplicate request, timeout/unknown, and reversal scenarios without any real money. Make the simulated nature explicit.
-5. **Define records and reconciliation.** Model immutable observations and corrections so asynchronous provider events and reversals do not erase history. Do not call a simple account object a ledger.
-6. **Add one sandbox provider adapter only after the contract is stable.** Keep provider implementation in a separate package/repository boundary where practical. Use the provider's test environment and test credentials, not live money.
-7. **Add operational and professional review before live use.** Security review, provider approval, jurisdiction-specific advice, monitoring, incident procedures, and explicit launch authorization remain outside what a domain library can certify.
+1. **Lock down the domain vocabulary.** Continue documenting what each current type guarantees and what it deliberately does not guarantee. Keep tests focused on those invariants.
+2. **Define the lifecycle and idempotency boundary.** Decide who creates operation IDs, who owns retry safety, and how uncertain outcomes are recovered. The current result's operation ID is descriptive; it does not implement idempotency.
+3. **Build a simulation adapter first.** Exercise accepted, pending, failed, duplicate request, timeout/unknown, and reversal scenarios without any real money. Make the simulated nature explicit and keep simulated balances/records inside the simulation boundary.
+4. **Define records and reconciliation.** Model immutable observations and corrections so asynchronous provider events and reversals do not erase history. Do not call a simple account object a ledger.
+5. **Add one sandbox provider adapter only after the lifecycle contract is stable.** Keep provider implementation in a separate package/repository boundary where practical. Use the provider's test environment and test credentials, not live money.
+6. **Add operational and professional review before live use.** Security review, provider approval, jurisdiction-specific advice, monitoring, incident procedures, and explicit launch authorization remain outside what a domain library can certify.
 
 ## Example: one storefront, two execution environments
 
