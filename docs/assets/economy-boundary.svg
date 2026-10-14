@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 430" role="img" aria-labelledby="title desc">
+  <title id="title">Economy responsibility boundary</title>
+  <desc id="desc">An Experience owns its presentation, inventory, and policy. Economy provides shared commerce vocabulary and economic intent. Execution is selected separately as simulation or a future external provider, and both lead to an observed outcome that must be interpreted and reconciled by the responsible system.</desc>
+  <defs>
+    <style>
+      .label{font:700 22px system-ui,sans-serif;fill:#172033}
+      .detail{font:16px system-ui,sans-serif;fill:#273449}
+      .small{font:14px system-ui,sans-serif;fill:#273449}
+      .line{fill:none;stroke:#475569;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+      .node{stroke-width:4}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker>
+  </defs>
+  <rect x="20" y="20" width="1060" height="390" rx="22" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="55" y="65" width="280" height="105" rx="14" fill="#dbeafe" stroke="#2563eb" class="node"/>
+  <text x="195" y="103" text-anchor="middle" class="label">Experience</text>
+  <text x="195" y="130" text-anchor="middle" class="detail">Presentation · inventory</text>
+  <text x="195" y="151" text-anchor="middle" class="detail">Rules · permissions</text>
+  <rect x="400" y="65" width="300" height="105" rx="14" fill="#ede9fe" stroke="#7c3aed" class="node"/>
+  <text x="550" y="103" text-anchor="middle" class="label">Economy</text>
+  <text x="550" y="130" text-anchor="middle" class="detail">Items · shops · offers</text>
+  <text x="550" y="151" text-anchor="middle" class="detail">Money · economic intent</text>
+  <path d="M335 117 H392" class="line" marker-end="url(#arrow)"/>
+  <rect x="765" y="50" width="270" height="82" rx="14" fill="#ccfbf1" stroke="#0f766e" class="node"/>
+  <text x="900" y="82" text-anchor="middle" class="label">Simulation</text>
+  <text x="900" y="107" text-anchor="middle" class="small">Fictional value · local rules</text>
+  <rect x="765" y="158" width="270" height="82" rx="14" fill="#ffedd5" stroke="#c2410c" class="node"/>
+  <text x="900" y="190" text-anchor="middle" class="label">External provider</text>
+  <text x="900" y="215" text-anchor="middle" class="small">Future capability · explicit controls</text>
+  <path d="M700 100 H730 V91 H757" class="line" marker-end="url(#arrow)"/>
+  <path d="M700 136 H730 V199 H757" class="line" marker-end="url(#arrow)"/>
+  <rect x="365" y="275" width="670" height="90" rx="14" fill="#f1f5f9" stroke="#475569" class="node"/>
+  <text x="700" y="310" text-anchor="middle" class="label">Observed outcome and records</text>
+  <text x="700" y="338" text-anchor="middle" class="detail">A reported state is not, by itself, proof of settlement</text>
+  <path d="M900 240 V258 H700 V267" class="line" marker-end="url(#arrow)"/>
+  <text x="195" y="230" text-anchor="middle" class="label" style="font-size:18px">Boundary rule</text>
+  <text x="195" y="258" text-anchor="middle" class="small">A shop is not a checkout.</text>
+  <text x="195" y="280" text-anchor="middle" class="small">An intent is not a payment.</text>
+  <text x="195" y="302" text-anchor="middle" class="small">Simulation never implies real money.</text>
+</svg>
