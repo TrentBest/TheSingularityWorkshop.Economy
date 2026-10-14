@@ -1,18 +1,15 @@
-![The Singularity Workshop animated moniker](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Renderer/development/docs/assets/moniker.svg)
+# ✳️ 00 The Singularity Workshop — Economy
 
-# The Singularity Workshop — Economy
-
-
-> **An exploratory economic domain model and interoperability package—not a financial service.**
-
-Economy organizes vocabulary and boundaries for possible future economic exchange while deliberately remaining incomplete and non-operational.
+[![Build and tests](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.Economy/dotnet-tests.yml?branch=development&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.Economy/actions/workflows/dotnet-tests.yml)
 
 ```mermaid
 flowchart TD
-  V[Domain vocabulary] --> M[Exploratory models]
-  M --> I[Interoperability contracts]
-  I --> R[Future review and validation]
+  V["Creator's economic vocabulary"] --> M["Domain models"]
+  M --> I["Provider-neutral contracts"]
+  I --> R["External review before any operational use"]
 ```
+
+> **Exploratory economic domain model and interoperability package—not a financial service.**
 
 ## 🟦 01 What
 
@@ -28,11 +25,50 @@ Use it to examine domain concepts and interoperability assumptions, not to move 
 
 ## 🟢 04 See it in a minute
 
-Start with the scope and limitations documented below; run the repository tests to evaluate the current models, not to infer production or compliance readiness.
+The following source-checked example uses the public types defined in this repository and demonstrates a creator-defined shop. It models a fictional in-world currency (`GLD`); it does **not** execute a payment or move money.
+
+```csharp
+using System;
+using TheSingularityWorkshop.Economy;
+
+var owner = EconomyEntityId.New();
+
+var sword = new CommerceItem(
+    CommerceItemId.New(),
+    owner,
+    "Iron Sword",
+    new Money(50m, "GLD"));
+
+var potion = new CommerceItem(
+    CommerceItemId.New(),
+    owner,
+    "Healing Potion",
+    new Money(10m, "GLD"));
+
+var shop = EconomyShop.Create(
+    owner,
+    "The Adventurer's Supply",
+    new[] { sword, potion });
+
+Console.WriteLine($"{shop.Name}: {shop.Products.Count} items");
+```
+
+Expected output:
+
+```text
+The Adventurer's Supply: 2 items
+```
+
+The sample follows the same shop/product composition exercised by [the existing tests](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs). The API was checked against source; this documentation change does not claim the snippet was independently compiled or run.
 
 ## 🟪 05 Documentation and theory
 
-[What this package is — and is not](#what-this-package-is--and-is-not)
+- **Scope and limits:** [What this package is — and is not](#what-this-package-is--and-is-not)
+- **Creator shops and product references:** [EconomyShop.cs](EconomyShop.cs) and [Commerce.cs](Commerce.cs)
+- **Amounts, intended transfers, and fee calculation:** [Money.cs](Money.cs), [Transfer.cs](Transfer.cs), and [FeePolicy.cs](FeePolicy.cs)
+- **Provider and access boundaries:** [FinancialProvider.cs](FinancialProvider.cs) and [AccessLedger.cs](AccessLedger.cs)
+- **Executable examples currently covered by tests:** [EconomyTests.cs](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs)
+- **Build/test workflow:** [dotnet-tests.yml](.github/workflows/dotnet-tests.yml)
 
 ---
 
@@ -311,3 +347,15 @@ This package intentionally does not include:
 The next useful work is **not necessarily more Economy code**. The domain should remain available as an interoperability playground while higher-value, non-financial foundations—especially Profiles and identity—are developed.
 
 When the Workshop eventually has the resources and professional guidance to operationalize financial functionality, this repository should provide a cleaner starting point for that review rather than pretending that review has already happened.
+
+
+---
+
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://avatars.githubusercontent.com/u/16405167?v=4" alt="Trent Best — The Singularity Workshop" width="64">
+  </a>
+  <br>
+  <strong>The Singularity Workshop</strong><br>
+  <a href="https://github.com/TrentBest">GitHub profile</a> · <a href="https://github.com/TrentBest/TheSingularityWorkshop.Economy">Economy repository</a> · <a href="https://github.com/TrentBest/TheSingularityWorkshop.FSM_COS/blob/development/DOCUMENTATION_STANDARD.md">Documentation standard</a>
+</p>
