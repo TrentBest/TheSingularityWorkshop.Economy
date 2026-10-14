@@ -1,5 +1,12 @@
 namespace TheSingularityWorkshop.Economy;
 
+public enum TransferKind
+{
+    Purchase, Sale, Transfer, Gift, Donation, Reward, Tip, Refund, Reimbursement, Compensation,
+    Royalty, Subscription, AdvertisingRevenue, MarketplaceSettlement, Fee, Tax, Grant, Deposit,
+    Withdrawal, Adjustment, Custom
+}
+
 /// <summary>Describes an intended movement of value; it does not execute or settle a payment.</summary>
 public sealed record EconomyTransfer
 {
