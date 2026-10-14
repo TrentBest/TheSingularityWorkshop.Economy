@@ -66,9 +66,9 @@ The sample follows the same shop/product composition exercised by [the existing 
 - **Architecture for simulated economies and future real-money connections:** [ECONOMY_ARCHITECTURE.md](ECONOMY_ARCHITECTURE.md)
 - **Scope and limits:** [What this package is — and is not](#what-this-package-is--and-is-not)
 - **Creator shops and product references:** [EconomyShop.cs](EconomyShop.cs) and [Commerce.cs](Commerce.cs)
-- **Amounts, intended transfers, and fee calculation:** [Money.cs](Money.cs), [Transfer.cs](Transfer.cs), and [FeePolicy.cs](FeePolicy.cs)
+- **Amounts, intended transfers, outcomes, and fee calculation:** [Money.cs](Money.cs), [Transfer.cs](Transfer.cs), [EconomicExecutionResult.cs](EconomicExecutionResult.cs), and [FeePolicy.cs](FeePolicy.cs)
 - **Provider and access boundaries:** [FinancialProvider.cs](FinancialProvider.cs) and [AccessLedger.cs](AccessLedger.cs)
-- **Executable examples currently covered by tests:** [EconomyTests.cs](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs)
+- **Executable examples and domain contract tests:** [EconomyTests.cs](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) and [EconomicExecutionResultTests.cs](tests/TheSingularityWorkshop.Economy.Tests/EconomicExecutionResultTests.cs)
 - **Build/test workflow:** [dotnet-tests.yml](.github/workflows/dotnet-tests.yml)
 
 ---
