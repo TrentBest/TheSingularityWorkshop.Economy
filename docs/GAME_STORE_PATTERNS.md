@@ -16,7 +16,7 @@ A weapon shop and a magic shop usually do not need different economic primitives
 
 This is a current-API example. **GLD** is fictional game currency using the package's required three-letter unit code.
 
-\`\`\`csharp
+```csharp
 using TheSingularityWorkshop.Economy;
 
 var guild = EconomyEntityId.New();
@@ -31,7 +31,7 @@ var adventurerSupply = EconomyShop.Create(
     guild,
     "Adventurer's Supply",
     new[] { ironSword, healthPotion });
-\`\`\`
+```
 
 This creates two product descriptions and a shop containing a snapshot of those product references. It does **not** add inventory, grant items to a player, check a balance, reserve stock, or execute a purchase.
 
@@ -45,14 +45,14 @@ Use Economy for the shared item identity and asking price. Keep weapon stats and
 
 Illustrative Experience-owned definition (application code, not an Economy type):
 
-\`\`\`csharp
+```csharp
 public sealed record WeaponDefinition(
     CommerceItem Commerce,
     int Damage,
     string DamageType,
     string RequiredSkill,
     int RequiredLevel);
-\`\`\`
+```
 
 A weapon shop can apply level requirements, class restrictions, durability, upgrades, buyback prices, and limited stock. The same weapon definition may be referenced by a merchant, quest reward, crafting result, or loot table without making those systems all become shops.
 
@@ -62,14 +62,14 @@ A weapon shop can apply level requirements, class restrictions, durability, upgr
 
 Magic items may need spell school, charges, attunement, rarity, usage restrictions, or spell-learning behavior.
 
-\`\`\`csharp
+```csharp
 public sealed record MagicItemDefinition(
     CommerceItem Commerce,
     string School,
     string Rarity,
     int? Charges,
     string? RequiredAttunement);
-\`\`\`
+```
 
 The Experience decides whether the buyer knows the required discipline, whether a relic is unique, and whether use consumes a charge. Avoid encoding these rules in a global Economy enum: another game may have an entirely different magic system.
 
@@ -77,13 +77,13 @@ The Experience decides whether the buyer knows the required discipline, whether 
 
 Consumables may need stack limits, expiration, effects, and restock behavior. These are inventory/gameplay concerns.
 
-\`\`\`csharp
+```csharp
 public sealed record ConsumableDefinition(
     CommerceItem Commerce,
     string EffectId,
     int StackLimit,
     TimeSpan? Duration);
-\`\`\`
+```
 
 The store may use bulk discounts or daily restock rules. The game should validate quantities and calculate the final total explicitly. The current API has no cart or quantity-aware order object.
 
