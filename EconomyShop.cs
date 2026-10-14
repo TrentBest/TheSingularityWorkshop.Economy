@@ -22,6 +22,6 @@ public sealed record EconomyShop(
             throw new ArgumentException("A shop name is required.", nameof(name));
         }
 
-        return new EconomyShop(Guid.NewGuid(), owner, name, products.ToArray());
+        return new EconomyShop(Guid.NewGuid(), owner, name, Array.AsReadOnly(products.ToArray()));
     }
 }
