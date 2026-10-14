@@ -56,7 +56,7 @@ The current public surface includes:
 | `IFinancialProvider` | Early provider abstraction for connection and execution | Its current return type is an `EconomyTransfer`, so it cannot by itself express a reliable provider outcome |
 | `EconomicExecutionResult` | Immutable observation linking an operation, transfer intent, reporting environment, status, timestamp, and optional external reference | A value contract only: it does not execute operations, enforce idempotency, verify provider messages, maintain balances, or establish settlement |
 
-See the implementations in [Commerce.cs](Commerce.cs), [EconomyShop.cs](EconomyShop.cs), [Money.cs](Money.cs), [Transfer.cs](Transfer.cs), [EconomyAccount.cs](EconomyAccount.cs), [FeePolicy.cs](FeePolicy.cs), and [FinancialProvider.cs](FinancialProvider.cs).
+See the implementations in [Commerce.cs](src/TheSingularityWorkshop.Economy/Commerce.cs), [EconomyShop.cs](src/TheSingularityWorkshop.Economy/EconomyShop.cs), [Money.cs](src/TheSingularityWorkshop.Economy/Money.cs), [Transfer.cs](src/TheSingularityWorkshop.Economy/Transfer.cs), [EconomyAccount.cs](src/TheSingularityWorkshop.Economy/EconomyAccount.cs), [FeePolicy.cs](src/TheSingularityWorkshop.Economy/FeePolicy.cs), and [FinancialProvider.cs](src/TheSingularityWorkshop.Economy/FinancialProvider.cs).
 
 ## The four words we must not collapse
 
