@@ -110,6 +110,25 @@ public sealed class EconomyTests
     }
 
     [Fact]
+    public void Shop_ProductSnapshotCannotBeMutatedThroughItsPublicCollection()
+    {
+        var owner = EconomyEntityId.New();
+        var sword = new CommerceItem(CommerceItemId.New(), owner, "Iron Sword", new Money(50m, "GLD"));
+        var sourceProducts = new List<CommerceItem> { sword };
+
+        var shop = EconomyShop.Create(owner, "The Adventurer's Supply", sourceProducts);
+        sourceProducts.Clear();
+
+        Assert.Single(shop.Products);
+        Assert.Contains(sword, shop.Products);
+
+        var collection = Assert.IsAssignableFrom<IList<CommerceItem>>(shop.Products);
+        Assert.True(collection.IsReadOnly);
+        Assert.Throws<NotSupportedException>(() =>
+            collection.Add(new CommerceItem(CommerceItemId.New(), owner, "Potion", new Money(10m, "GLD"))));
+    }
+
+    [Fact]
     public void Shop_CanExposeDigitalRepresentationForCreatorDefinedProduct()
     {
         var owner = EconomyEntityId.New();
