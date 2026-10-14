@@ -1,0 +1,5 @@
+namespace TheSingularityWorkshop.Economy;
+/// <summary>Identifies an external financial provider without embedding its SDK in the core.</summary>
+public readonly record struct FinancialProviderId{public FinancialProviderId(string value){ArgumentException.ThrowIfNullOrWhiteSpace(value);Value=value.Trim();}public string Value{get;}}
+public sealed record ExternalFinancialConnection(Guid Id,EconomyEntityId Owner,FinancialProviderId Provider,string ExternalAccountReference,DateTimeOffset ConnectedAt);
+public interface IFinancialProvider{FinancialProviderId Provider{get;}ValueTask<ExternalFinancialConnection> ConnectAsync(EconomyEntityId owner,CancellationToken cancellationToken=default);ValueTask<EconomyTransfer> ExecuteAsync(EconomyTransfer transfer,CancellationToken cancellationToken=default);}
