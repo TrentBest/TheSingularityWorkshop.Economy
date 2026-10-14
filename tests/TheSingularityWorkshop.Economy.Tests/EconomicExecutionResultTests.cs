@@ -17,15 +17,14 @@ public sealed class EconomicExecutionResultTests
             transferId,
             EconomicExecutionEnvironment.Simulation,
             EconomicExecutionStatus.Completed,
-            observedAt,
-            "simulation-ledger-entry-42");
+            observedAt);
 
         Assert.Equal(operationId, result.OperationId);
         Assert.Equal(transferId, result.TransferId);
         Assert.Equal(EconomicExecutionEnvironment.Simulation, result.Environment);
         Assert.Equal(EconomicExecutionStatus.Completed, result.Status);
         Assert.Equal(observedAt, result.ObservedAt);
-        Assert.Equal("simulation-ledger-entry-42", result.ExternalReference);
+        Assert.Null(result.ExternalReference);
     }
 
     [Theory]
