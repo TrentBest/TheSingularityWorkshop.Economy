@@ -25,7 +25,7 @@ Each application can invent its own shop and offer models, but those models are 
 
 Keep four things distinct: **offer, intent, execution, and outcome**. A shop is not a checkout; a transfer intent is not a payment; a reported outcome is not automatically proof of settlement.
 
-Simulation is intended to work without a payment provider. Real-money execution is a separate future capability requiring explicit policy, provider-specific integration, secure operations, reconciliation, and professional review. See the [architecture guide](ECONOMY_ARCHITECTURE.md) for what exists now and what remains proposed.
+Simulation is intended to work without a payment provider. Real-money execution is a separate future capability requiring explicit policy, provider-specific integration, secure operations, reconciliation, and professional review. See the [architecture guide](docs/ARCHITECTURE.md) for what exists now and what remains proposed.
 
 ## 🟢 04 See it in a minute
 
@@ -63,7 +63,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 ## 🟪 05 Available documentation and theory
 
 - [What is Economy?](docs/WHAT_IS_ECONOMY.md) — build the conceptual model and understand the intended boundary without starting from API details.
-- [Economy architecture](ECONOMY_ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
+- [Economy architecture](docs/ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
 - [Documentation index](DOCUMENTATION_INDEX.md) — navigate the source, tests, and workflow by task.
 - [Domain tests](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) and [execution-result tests](tests/TheSingularityWorkshop.Economy.Tests/EconomicExecutionResultTests.cs) — inspect the invariants currently exercised.
 - [Build and test workflow](.github/workflows/dotnet-tests.yml) — see the automated restore, build, and test commands.
