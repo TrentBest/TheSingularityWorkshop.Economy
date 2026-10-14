@@ -170,6 +170,8 @@ The same pattern can support an armor shop, potion shop, antiquities dealer, tav
 
 The core describes **economic intent and domain concepts**. It does not perform real financial operations.
 
+A transfer intent is only constructed when its amount is non-negative and the amount currency matches both account currencies. This catches a common modeling error at the domain boundary; it does **not** prove that either account exists at a provider, that funds are available, or that a payment has been authorized or settled.
+
 A future architecture may look like:
 
 ~~~text
