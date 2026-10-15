@@ -2,6 +2,8 @@
 
 > Status: implementation guide for the exploratory alpha. The current-API example below uses real public types. Inventory, purchase processing, pricing rules, and player balances are Experience-owned responsibilities; this package does not implement them.
 
+For the broader product direction—simulated economies in Singularity City, creator-owned shops that can be reskinned and reused across Experiences, Digiten-scale measurement, and adoption/monetization experiments—see [Simulated Economies and Creator Commerce](SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md). This guide focuses on how current shop vocabulary can be used without claiming that the full creator workflow exists yet.
+
 ## The design principle
 
 Build different stores from a small shared vocabulary, then let each game define its own rules.
@@ -167,6 +169,7 @@ A future reusable game-commerce layer could add optional, game-neutral contracts
 
 ## Related reading
 
+- [Simulated economies and creator commerce](SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — Singularity City, reusable creator shops, adoption, and the first vertical slice.
 - [Economy architecture](ARCHITECTURE.md) — current types and explicit future boundaries.
 - [What is Economy?](WHAT_IS_ECONOMY.md) — the domain model in plain language.
 - [Domain tests](../tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) — current API invariants.
