@@ -259,8 +259,7 @@ These examples are design targets. Add them to the actual contract and tests whe
 
 ## 10. Related documents
 
-- [Simulated economies and creator commerce](SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md)
-- [Creator shop composition proof](CREATOR_SHOP_COMPOSITION_PROOF.md)
-- [Game store patterns](GAME_STORE_PATTERNS.md)
-- [Economy architecture](ARCHITECTURE.md)
-- [WebPage Experience catalog](https://github.com/TrentBest/WebPage/blob/work/digiten-world-slice/docs/EXPERIENCE_CATALOG.md) — review-branch direction, not a released WebPage feature
+- [Economy architecture](ARCHITECTURE.md) — current package types and boundaries.
+- [What is Economy?](WHAT_IS_ECONOMY.md) — current concepts and implemented-scope summary.
+- [Economy PR #12: creator commerce and shop patterns](https://github.com/TrentBest/TheSingularityWorkshop.Economy/pull/12) — companion review branch containing the simulated-economy overview, creator shop composition proof, and game-store guide. These files are not yet on the development branch.
+- [WebPage Experience catalog](https://github.com/TrentBest/WebPage/blob/work/digiten-world-slice/docs/EXPERIENCE_CATALOG.md) — review-branch direction, not a released WebPage feature.
