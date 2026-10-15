@@ -64,6 +64,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 - [What is Economy?](docs/WHAT_IS_ECONOMY.md) — build the conceptual model and understand the intended boundary without starting from API details.
 - [Economy architecture](docs/ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
+- [Economy systems roadmap and WebPage handoff](docs/ECONOMY_SYSTEMS_ROADMAP_AND_WEBPAGE_HANDOFF.md) — long-range plan for barter, simulated banking, credit, corporations, securities exchanges, casinos, economic education, and the optional WebPage integration.
 - [Documentation index](DOCUMENTATION_INDEX.md) — navigate the source, tests, and workflow by task.
 - [Domain tests](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) and [execution-result tests](tests/TheSingularityWorkshop.Economy.Tests/EconomicExecutionResultTests.cs) — inspect the invariants currently exercised.
 - [Build and test workflow](.github/workflows/dotnet-tests.yml) — see the automated restore, build, and test commands.
