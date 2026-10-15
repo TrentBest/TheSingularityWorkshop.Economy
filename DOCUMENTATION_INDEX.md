@@ -5,6 +5,7 @@ The README is the public front door. These guides have different jobs; use the o
 | If you want to… | Read |
 |---|---|
 | Understand the concept without starting from code | [What is Economy?](docs/WHAT_IS_ECONOMY.md) |
+| Plan the Singularity City simulation, Digiten-scale measurements, reusable/reskinnable creator shops, adoption, and a first vertical slice | [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) |
 | See what exists now versus the intended architecture | [Economy architecture](docs/ARCHITECTURE.md) |
 | Design reusable RPG weapon, magic, consumable, faction, and player-market stores | [Game store patterns](docs/GAME_STORE_PATTERNS.md) |
 | Try the shortest source-checked shop example | [README: See it in a minute](README.md#-04-see-it-in-a-minute) |
