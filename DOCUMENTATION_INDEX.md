@@ -6,6 +6,7 @@ The README is the public front door. These guides have different jobs; use the o
 |---|---|
 | Understand the concept without starting from code | [What is Economy?](docs/WHAT_IS_ECONOMY.md) |
 | Plan the Singularity City simulation, Digiten-scale measurements, reusable/reskinnable creator shops, adoption, and a first vertical slice | [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) |
+| Understand the long-range banking, credit, barter, corporations, securities exchanges, casinos, economic education, scale hierarchy, and WebPage integration plan | [Economy systems roadmap and WebPage handoff](docs/ECONOMY_SYSTEMS_ROADMAP_AND_WEBPAGE_HANDOFF.md) |
 | Inspect the first test-owned proof of one canonical shop reused across two Experience placements with different skins | [Creator shop composition proof](docs/CREATOR_SHOP_COMPOSITION_PROOF.md) and [its tests](tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs) |
 | See what exists now versus the intended architecture | [Economy architecture](docs/ARCHITECTURE.md) |
 | Design reusable RPG weapon, magic, consumable, faction, and player-market stores | [Game store patterns](docs/GAME_STORE_PATTERNS.md) |
@@ -19,6 +20,7 @@ The README is the public front door. These guides have different jobs; use the o
 - Source and tests are authoritative for implemented behavior.
 - The architecture guide distinguishes current code from proposed components.
 - The creator shop composition fixture is consumer-owned test code; it proves a boundary contract, not a production editor, renderer, persistence service, or WebPage integration.
+- The long-range systems roadmap is architecture direction and a WebPage LLM handoff; its future capabilities are not claims of current implementation.
 - A source-checked example is not the same as a separately built or run example.
 - This package does not execute real payments or certify legal, tax, security, or compliance readiness.
 - Publishing or enabling any operational financial capability remains a separate, explicitly authorized activity.
