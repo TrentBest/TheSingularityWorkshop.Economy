@@ -20,12 +20,12 @@ public sealed class CreatorShopCompositionTests
                 CommerceItemId.New(),
                 owner,
                 "City-grown apples",
-                new Money(3m, "CITY_CREDITS")),
+                new Money(3m, "GLD")),
             new CommerceItem(
                 CommerceItemId.New(),
                 owner,
                 "Handmade ceramic cup",
-                new Money(12m, "CITY_CREDITS"))
+                new Money(12m, "GLD"))
         };
 
         var canonicalShop = EconomyShop.Create(owner, "Mara's Corner Market", catalog);
@@ -61,7 +61,7 @@ public sealed class CreatorShopCompositionTests
             CommerceItemId.New(),
             owner,
             "Workshop blueprint",
-            new Money(1m, "CITY_CREDITS"));
+            new Money(1m, "GLD"));
         var shop = EconomyShop.Create(owner, "Workshop Exchange", new[] { item });
         var originalShopId = shop.Id;
         var originalProductIds = shop.Products.Select(product => product.Id).ToArray();
