@@ -8,7 +8,7 @@ The [CreatorShopCompositionTests](../tests/TheSingularityWorkshop.Economy.Tests/
 - An Experience owns where the shop is placed and how it is presented.
 - A presentation skin is not a new shop, catalog, owner, or product identity.
 - The same canonical shop can be referenced by two different Experience placements.
-- These examples use fictional `CITY_CREDITS`; no account, balance, checkout, or real-money operation is involved.
+- These examples use fictional `GLD`; no account, balance, checkout, or real-money operation is involved.
 
 ## What the tests prove
 
