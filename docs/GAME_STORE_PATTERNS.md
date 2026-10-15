@@ -139,6 +139,24 @@ A game can expose the same catalog through several views:
 
 The storefronts can share item definitions while having different shop compositions and policies. Avoid duplicating the canonical item definition just to show it in another shop. If different merchants quote different prices, model the quote/listing explicitly in the Experience; the current **CommerceItem** itself carries one price.
 
+## Market and craft fairs: Economy is optional
+
+A Market Fair or Craft Fair is first an Experience: people arrive, browse, talk to makers, watch demonstrations, compare work, and learn. None of those interactions requires Economy.
+
+A fair provider can expose stall identity, maker profile, activity, demonstration schedule, and a nullable reference to an optional economic offer. If no Economy capability is composed, the stall still works as a social/creative space and simply has no checkout or price-backed offer. Do not fabricate a payment state to make a stall appear complete.
+
+When Economy is composed, a stall may describe a product using the current shared vocabulary:
+
+- an Experience-owned craft/product definition retains materials, provenance, size, custom options, production time, and maker-specific details;
+- a current `CommerceItem` can supply the shared seller/name/price description;
+- an `EconomyShop` can group the offered product references;
+- the fair Experience remains responsible for actual stock, reservations, commissions, pickup/delivery, and creator policies;
+- a future execution adapter must return an authoritative outcome before the Experience reports that a purchase succeeded.
+
+The current Economy package does not implement inventory, carts, order processing, stock reservation, balances, or a payment adapter. This is a composition pattern, not a claim that a functioning marketplace already exists.
+
+The same rule applies to a soccer venue's merchandise table, a concert's creator booth, a gallery's print shop, or a magic shop: commerce may enrich the Experience, but the Experience does not need commerce merely to exist. Optional Economy must remain outside the required dependency set for the base venue/activity.
+
 ## Current API boundary and future opportunities
 
 Already available: **Money**, **CommerceItem**, **EconomyShop**, **MarketplaceOffer**, **EconomyTransfer**, and **EconomicExecutionResult**.
