@@ -17,6 +17,8 @@
 
 Economy gives an Experience shared concepts for money-like values, products, shops, offers, transfer intent, and reported execution outcomes. An RPG, simulation, creator storefront, or marketplace can reuse this vocabulary without handing over its UI, inventory, or world rules.
 
+The first major proving ground is **Singularity City**: a simulated economy populated by Digitens, with businesses and creator-owned shops that can eventually be reused, reskinned, and composed into different Experiences. In-world economic behavior must be testable without a real-money provider.
+
 ## 🟣 02 Why
 
 Each application can invent its own shop and offer models, but those models are harder to reuse together. Economy explores a small shared language so an Experience can describe an economic concept once and retain control over its own rules and presentation.
@@ -62,8 +64,10 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 ## 🟪 05 Available documentation and theory
 
+- [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — Singularity City, Digiten-scale measurement, reusable/reskinnable creator shops, adoption, and the first vertical slice.
 - [What is Economy?](docs/WHAT_IS_ECONOMY.md) — build the conceptual model and understand the intended boundary without starting from API details.
 - [Economy architecture](docs/ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
+- [Game store patterns](docs/GAME_STORE_PATTERNS.md) — current API examples and Experience-owned store rules.
 - [Documentation index](DOCUMENTATION_INDEX.md) — navigate the source, tests, and workflow by task.
 - [Domain tests](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) and [execution-result tests](tests/TheSingularityWorkshop.Economy.Tests/EconomicExecutionResultTests.cs) — inspect the invariants currently exercised.
 - [Build and test workflow](.github/workflows/dotnet-tests.yml) — see the automated restore, build, and test commands.
@@ -72,7 +76,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 Economy should remain independently useful. Workshop experiences may compose it with other contracts, but no Workshop package is required just to describe a shop or an economic concept. The Experience owns its UI, inventory, gameplay rules, and execution policy.
 
-**Current status: exploratory alpha.** The package does not provide a production storefront, cart, inventory system, ledger, payment processor, wallet, settlement service, live provider adapter, or compliance determination. A future creator marketplace or real-money path is design intent, not an implemented capability or promise of revenue.
+**Current status: exploratory alpha.** The package does not provide a production storefront, cart, inventory system, ledger, payment processor, wallet, settlement service, live provider adapter, or compliance determination. Creator workflows and near-term revenue models remain hypotheses to validate, not implemented capabilities or promises of income. Real-money integration is deliberately separate from proving the simulated economy.
 
 ---
 
