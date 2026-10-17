@@ -5,6 +5,7 @@ The README is the public front door. These guides have different jobs; use the o
 | If you want to… | Read |
 |---|---|
 | Understand the concept without starting from code | [What is Economy?](docs/WHAT_IS_ECONOMY.md) |
+| Define Singularity currency, casino chips, buy-in/cash-out, house accounting, and the staged casino vertical slice | [Singularity currency and casino contract](docs/SINGULARITY_CURRENCY_AND_CASINO.md) |
 | Plan the Singularity City simulation, Digiten-scale measurements, reusable/reskinnable creator shops, adoption, and a first vertical slice | [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) |
 | Inspect the first test-owned proof of one canonical shop reused across two Experience placements with different skins | [Creator shop composition proof](docs/CREATOR_SHOP_COMPOSITION_PROOF.md) and [its tests](tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs) |
 | See what exists now versus the intended architecture | [Economy architecture](docs/ARCHITECTURE.md) |
