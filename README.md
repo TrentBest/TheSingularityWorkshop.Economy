@@ -51,7 +51,7 @@ var potion = new CommerceItem(
     CommerceItemId.New(), owner, "Healing Potion", new Money(10m, "GLD"));
 
 var shop = EconomyShop.Create(owner, "The Adventurer's Supply", new[] { sword, potion });
-Console.WriteLine($"$"{shop.Name}: {shop.Products.Count} items");
+Console.WriteLine($"{shop.Name}: {shop.Products.Count} items");
 ```
 
 Expected output:
