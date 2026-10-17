@@ -51,7 +51,7 @@ var potion = new CommerceItem(
     CommerceItemId.New(), owner, "Healing Potion", new Money(10m, "GLD"));
 
 var shop = EconomyShop.Create(owner, "The Adventurer's Supply", new[] { sword, potion });
-Console.WriteLine($"{shop.Name}: {shop.Products.Count} items");
+Console.WriteLine($"$"{shop.Name}: {shop.Products.Count} items");
 ```
 
 Expected output:
@@ -66,6 +66,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 - [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — Singularity City, Digiten-scale measurement, reusable/reskinnable creator shops, adoption, and the first vertical slice.
 - [Singularity currency and casino contract](docs/SINGULARITY_CURRENCY_AND_CASINO.md) — non-redeemable in-world currency, casino chip custody, wager lifecycle, house accounting, and the first authoritative simulation slice.
+- [Exploratory Economy Experiences](docs/EXPLORATORY_ECONOMY_EXPERIENCES.md) — casino back-of-house exploration, simulated camera feeds, courtesy bankroll, free transit and paid transport jobs, and multiplayer building construction.
 - [What is Economy?](docs/WHAT_IS_ECONOMY.md) — build the conceptual model and understand the intended boundary without starting from API details.
 - [Economy architecture](docs/ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
 - [Game store patterns](docs/GAME_STORE_PATTERNS.md) — current API examples and Experience-owned store rules.
