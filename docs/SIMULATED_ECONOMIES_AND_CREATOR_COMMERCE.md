@@ -10,6 +10,56 @@ That means in-world money is not a placeholder for a payment processor. It is a 
 
 The same contracts should also be useful outside the city simulation. A creator should be able to build a shop once, present it in a digital storefront, reskin its presentation, and compose that storefront into different Experiences. A market fair, game hub, gallery, RPG, or community world may all present a shop differently while retaining its creator-defined catalog and the host Experience's rules.
 
+## Digitens are the economic actors—and their movement creates traffic
+
+Digitens must not be decorative population counters. They are the everyday participants that make the simulated city function: they hold jobs, earn wages, buy necessities and discretionary goods, sell products or services, operate businesses, pay rent and operating costs, travel between places, and respond to changing availability and demand. The user's economy is experienced through these people and the businesses they keep alive.
+
+The first useful simulation does not need maximal individual intelligence. It needs a small, deterministic, inspectable loop whose causes and consequences are visible:
+
+```text
+home / needs / schedule
+        |
+        v
+workplace <---- jobs, wages, operating costs
+        |
+        v
+earned balance / household budget
+        |
+        v
+shopping intent -----> travel destination
+        |                     |
+        v                     v
+seller inventory <--- street / transit traffic
+        |
+        v
+purchase or failed attempt
+        |
+        +----> buyer balance and carried goods
+        +----> seller revenue and inventory
+        +----> business demand / restocking signal
+        +----> follow-up travel, work, or return home
+```
+
+Treat the diagram as the intended causal model, not as implemented behavior. The first vertical slice should make at least one complete cycle observable and testable: a Digiten travels to work, earns a simulated wage, visits a shop, purchases an available item, and the seller's balance/inventory and the buyer's balance/inventory change consistently. An unavailable item, insufficient funds, closed business, or interrupted trip must produce a defined outcome rather than silently creating goods or value.
+
+### Traffic is a consequence of intent, not a separate crowd animation
+
+City traffic should emerge from meaningful trips. Digitens travel between homes, workplaces, shops, schools, services, transit stops, recreation, and events. Each trip has an origin, destination, purpose, departure/arrival lifecycle, and optional transport mode. When enough independent journeys share roads, paths, stations, or corridors, congestion and crowding become observable consequences of the economy and daily life.
+
+Keep the first model bounded and deterministic:
+- Represent trip intent and trip lifecycle independently from visual agents.
+- Give destinations reasons to change: work schedules, available offers, prices, needs, stock, opening state, events, and transit options.
+- Separate a citizen's decision/update cadence from high-frequency movement and collision work.
+- Aggregate distant or inactive citizens when detailed movement is not useful, while preserving counts and economic effects.
+- Do not let a visual vehicle or walking animation claim a completed trip; trip completion must be recorded by the owning simulation.
+- Keep physical movement and contact in the Physics domain, route/service policy in transportation capabilities, and purchases/wages/inventory effects in the appropriate economy/simulation boundary.
+
+### A small economy should close its books
+
+Every first-slice transaction should identify buyer, seller, item, quantity, unit price, and the simulation operation that caused it. Successful purchases update both sides exactly once. Failed and duplicate attempts have no economic side effect. Explicit issuance (such as a documented starter grant), wages, production, fees, rent, refunds, and destruction are named flows—not unexplained balance changes. This provides conservation checks while still allowing a world to create value through explicitly modeled production or issuance.
+
+Start with fictional, non-redeemable currency and deterministic rules. No bank connection or real-money provider is needed. The purpose is to prove that people, travel, businesses, and exchange form a coherent living world before adding complexity.
+
 ## Keep the layers separate
 
 | Layer | Responsibility |
