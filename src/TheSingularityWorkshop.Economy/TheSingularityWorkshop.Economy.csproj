@@ -25,6 +25,8 @@
     <None Include="../../docs/GALLERY.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/THEORY/README.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/THEORY/01-VALUE-SCARCITY-AND-EXCHANGE.md" Pack="true" PackagePath="docs/THEORY/" />
+    <None Include="../../docs/API/SimulationLedger.md" Pack="true" PackagePath="docs/API/" />
+    <None Include="../../docs/UML/SimulationLedgerUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/assets/economy-boundary.svg" Pack="true" PackagePath="docs/assets/" />
   </ItemGroup>
 </Project>

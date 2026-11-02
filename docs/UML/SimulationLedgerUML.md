@@ -16,32 +16,34 @@ The ledger is a central new domain boundary. Its neighborhood should make clear 
 
 ### Target-centered neighborhood
 
-    flowchart TB
-      subgraph Users["Known consumers"]
-        T["SimulationLedgerTests"]
-      end
+```mermaid
+flowchart TB
+  subgraph Users["Known consumers"]
+    T["SimulationLedgerTests"]
+  end
 
-      L["SimulationLedger<br/>target"]
-      
-      subgraph Dependencies["Direct domain dependencies"]
-        A["SimulationAccount"]
-        C["SimulatedCurrency"]
-        M["SimulatedAmount"]
-        E["SimulationLedgerEntry"]
-        R["SimulationLedgerReceipt"]
-        K["SimulationLedgerOperationKind"]
-      end
+  L["SimulationLedger<br/>target"]
+  
+  subgraph Dependencies["Direct domain dependencies"]
+    A["SimulationAccount"]
+    C["SimulatedCurrency"]
+    M["SimulatedAmount"]
+    E["SimulationLedgerEntry"]
+    R["SimulationLedgerReceipt"]
+    K["SimulationLedgerOperationKind"]
+  end
 
-      P[".NET 8 project<br/>TheSingularityWorkshop.Economy"]
+  P[".NET 8 project<br/>TheSingularityWorkshop.Economy"]
 
-      T -->|"constructs / verifies"| L
-      L -->|"registers and validates"| A
-      A -->|"owns currency identity"| C
-      L -->|"accepts operation quantity"| M
-      L -->|"appends signed postings"| E
-      L -->|"returns operation receipt"| R
-      L -->|"classifies journal operation"| K
-      L -->|"compiled in"| P
+  T -->|"constructs / verifies"| L
+  L -->|"registers and validates"| A
+  A -->|"owns currency identity"| C
+  L -->|"accepts operation quantity"| M
+  L -->|"appends signed postings"| E
+  L -->|"returns operation receipt"| R
+  L -->|"classifies journal operation"| K
+  L -->|"compiled in"| P
+```
 
 ### Relationships
 
