@@ -300,6 +300,9 @@ public sealed class SimulationLedger
     {
         if (account.Currency.Id != amount.CurrencyId)
             throw new InvalidOperationException("The amount currency does not match the account currency.");
+        if (decimal.Round(amount.Value, account.Currency.DecimalPlaces) != amount.Value)
+            throw new ArgumentOutOfRangeException(nameof(amount),
+                $"The amount exceeds the currency precision of {account.Currency.DecimalPlaces} decimal places.");
     }
 
     private decimal GetBalanceCore(Guid accountId) =>
