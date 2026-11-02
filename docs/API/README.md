@@ -28,7 +28,7 @@ The current source scope is the 11 C# files under src/TheSingularityWorkshop.Eco
 | Transfer.cs | TransferKind, EconomyTransfer | Planned | Planned |
 | SimulationLedger.cs | SimulatedCurrencyId, SimulatedCurrency, SimulatedAmount, SimulationAccount, SimulationLedgerOperationKind, SimulationLedgerEntry, SimulationLedgerReceipt, SimulationLedger | [SimulationLedger API](SimulationLedger.md) | [SimulationLedger UML](../UML/SimulationLedgerUML.md) |
 
-**Coverage status:** 8 of 28 public declarations are documented together on the SimulationLedger API page; one target-centered neighborhood exists for SimulationLedger. The remaining 20 declarations need dedicated type pages and companion diagrams/use cases. No repository-wide documentation generator is claimed.
+**Coverage status:** one combined API page currently explains the 8 declarations in SimulationLedger.cs; 20 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 28 public declarations. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
