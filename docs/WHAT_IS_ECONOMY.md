@@ -29,6 +29,7 @@ The current source includes small domain primitives for:
 - **Commerce items and offers** — a seller, name, price, optional external reference, optional MicroBundle reference, and a marketplace offer.
 - **Economy shops** — an owner, name, and read-only snapshot of product references.
 - **Accounts and transfer intent** — an owner/currency boundary and a validated description of intended value movement.
+- **Typed simulated currency and ledger** — a fictional-currency identity plus a process-local journal that records explicit issuance, transfer, and retirement and derives balances from signed entries.
 - **Fee calculation** — a platform-share calculation, not fee collection.
 - **Provider and access contracts** — early abstractions, not a working financial integration.
 - **Execution observations** — a value describing a reported operation state and environment, not an executor or proof of settlement.
@@ -50,7 +51,7 @@ Creating a shop, offer, or transfer intent does not mean a buyer paid, a seller 
 
 **Real-money connections** are a separate future capability. They require deliberately selected provider adapters, explicit permissions, secure credentials, operation identity and idempotency, reliable outcome handling, records and reconciliation, operational safeguards, and qualified professional review appropriate to the actual service and jurisdictions.
 
-Adding this package to an Experience must never silently enable real-money operations. The present repository does not implement a production checkout, ledger, payment processor, wallet, settlement system, or compliance determination.
+Adding this package to an Experience must never silently enable real-money operations. The present repository does not implement a production checkout, durable or distributed ledger, payment processor, wallet, settlement system, or compliance determination. Its initial SimulationLedger is process-local and simulation-only.
 
 ## Creator freedom and ecosystem fit
 

@@ -16,7 +16,7 @@
 
 ## 🟦 01 What
 
-Economy gives an Experience shared concepts for money-like values, products, shops, offers, transfer intent, and reported execution outcomes. An RPG, simulation, creator storefront, or marketplace can reuse this vocabulary without handing over its UI, inventory, or world rules.
+Economy gives an Experience shared concepts for money-like values, products, shops, offers, transfer intent, a typed fictional-currency identity, and a process-local simulation ledger with derived balances. An RPG, simulation, creator storefront, or marketplace can reuse this vocabulary without handing over its UI, inventory, or world rules.
 
 The first major proving ground is **Singularity City**: a simulated economy populated by Digitens, with businesses and creator-owned shops that can eventually be reused, reskinned, and composed into different Experiences. In-world economic behavior must be testable without a real-money provider.
 
@@ -82,7 +82,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 Economy should remain independently useful. Workshop experiences may compose it with other contracts, but no Workshop package is required just to describe a shop or an economic concept. The Experience owns its UI, inventory, gameplay rules, and execution policy.
 
-**Current status: exploratory alpha.** The package does not provide a production storefront, cart, inventory system, ledger, payment processor, wallet, settlement service, live provider adapter, or compliance determination. Creator workflows and near-term revenue models remain hypotheses to validate, not implemented capabilities or promises of income. Real-money integration is deliberately separate from proving the simulated economy.
+**Current status: exploratory alpha.** The package does not provide a production storefront, cart, inventory system, durable or distributed ledger, payment processor, wallet, settlement service, live provider adapter, or compliance determination. The current SimulationLedger is an in-memory, process-local journal for explicit fictional-currency issuance, transfers, and retirement; it is not persistent casino custody or a production transaction service. Creator workflows and near-term revenue models remain hypotheses to validate, not implemented capabilities or promises of income. Real-money integration is deliberately separate from proving the simulated economy.
 
 
 ---

@@ -38,7 +38,7 @@ flowchart TB
     O --> L
 ```
 
-The diagram is a **target architecture**, not a claim that these components all exist today. The current repository contains domain primitives, a provider interface, and an explicit execution-observation value; it does not yet provide this complete transaction lifecycle, ledger, reconciliation service, or checkout.
+The diagram is a **target architecture**, not a claim that these components all exist today. The current repository contains domain primitives, a provider interface, an explicit execution-observation value, and an initial process-local simulated ledger. The ledger supports explicit fictional-currency issuance, account-to-account transfer, retirement, and balances derived from signed journal entries. It is not durable or distributed, and it does not provide the complete transaction lifecycle, reconciliation service, casino custody, or checkout.
 
 ## What exists today
 
@@ -47,6 +47,8 @@ The current public surface includes:
 | Existing type | Current responsibility | Important limit |
 |---|---|---|
 | `Money` | Decimal amount and normalized three-letter currency/unit code; same-code addition and subtraction | Not an exchange-rate service, tax calculator, or currency registry |
+| `SimulatedCurrency` / `SimulatedAmount` | Typed fictional-currency identity and amount, independent of `Money`'s three-letter code | Simulation-only identity; no real-world denomination or redemption |
+| `SimulationAccount` / `SimulationLedger` | Process-local account registry, explicit issuance/transfer/retirement journal, and balances derived from signed postings | In-memory only; no persistence, distributed atomicity, casino wager model, or real-money custody |
 | `CommerceItem` | Seller, name, price, optional external URL and MicroBundle reference | Not a full product catalog, stock system, shipping record, or license |
 | `EconomyShop` | Owner, name, immutable snapshot of product references | Not a hosted storefront, cart, inventory, or checkout |
 | `MarketplaceOffer` | Item, marketplace identity, and creation timestamp | Not an order, acceptance, or settlement |
@@ -56,7 +58,7 @@ The current public surface includes:
 | `IFinancialProvider` | Early provider abstraction for connection and execution | Its current return type is an `EconomyTransfer`, so it cannot by itself express a reliable provider outcome |
 | `EconomicExecutionResult` | Immutable observation linking an operation, transfer intent, reporting environment, status, timestamp, and optional external reference | A value contract only: it does not execute operations, enforce idempotency, verify provider messages, maintain balances, or establish settlement |
 
-See the implementations in [Commerce.cs](../src/TheSingularityWorkshop.Economy/Commerce.cs), [EconomyShop.cs](../src/TheSingularityWorkshop.Economy/EconomyShop.cs), [Money.cs](../src/TheSingularityWorkshop.Economy/Money.cs), [Transfer.cs](../src/TheSingularityWorkshop.Economy/Transfer.cs), [EconomyAccount.cs](../src/TheSingularityWorkshop.Economy/EconomyAccount.cs), [FeePolicy.cs](../src/TheSingularityWorkshop.Economy/FeePolicy.cs), [FinancialProvider.cs](../src/TheSingularityWorkshop.Economy/FinancialProvider.cs), [EconomicExecutionResult.cs](../src/TheSingularityWorkshop.Economy/EconomicExecutionResult.cs), and [AccessLedger.cs](../src/TheSingularityWorkshop.Economy/AccessLedger.cs).
+See the implementations in [SimulationLedger.cs](../src/TheSingularityWorkshop.Economy/SimulationLedger.cs), [Commerce.cs](../src/TheSingularityWorkshop.Economy/Commerce.cs), [EconomyShop.cs](../src/TheSingularityWorkshop.Economy/EconomyShop.cs), [Money.cs](../src/TheSingularityWorkshop.Economy/Money.cs), [Transfer.cs](../src/TheSingularityWorkshop.Economy/Transfer.cs), [EconomyAccount.cs](../src/TheSingularityWorkshop.Economy/EconomyAccount.cs), [FeePolicy.cs](../src/TheSingularityWorkshop.Economy/FeePolicy.cs), [FinancialProvider.cs](../src/TheSingularityWorkshop.Economy/FinancialProvider.cs), [EconomicExecutionResult.cs](../src/TheSingularityWorkshop.Economy/EconomicExecutionResult.cs), and [AccessLedger.cs](../src/TheSingularityWorkshop.Economy/AccessLedger.cs).
 
 ## The four words we must not collapse
 
@@ -84,7 +86,7 @@ An Experience should be able to define its own:
 
 These rules belong to the Experience or its chosen economic policy, not to hard-coded assumptions in the shared core. The shared package supplies interoperable concepts; it should not dictate the economy of every game or marketplace.
 
-A future simulation adapter should explicitly identify itself as simulated and keep its records in its own simulation boundary. It must not be able to masquerade as a real provider result merely because both implement a common interface. Tests should make it easy to verify that simulated balances, fictional currency, and simulated completion never imply real payment.
+The process-local `SimulationLedger` is an initial simulated custody primitive, not a complete simulation adapter. Its currency identity and journal entries remain distinct from the external-provider observation contract. Future adapters must explicitly identify their environment and must not masquerade as real-provider results. Tests should verify that simulated balances and completion never imply real payment.
 
 ## Real-money readiness is a separate capability, not a global switch
 
@@ -128,8 +130,8 @@ The domain vocabulary and first result value contract now exist. The remaining s
 
 1. **Lock down the domain vocabulary.** Continue documenting what each current type guarantees and what it deliberately does not guarantee. Keep tests focused on those invariants.
 2. **Define the lifecycle and idempotency boundary.** Decide who creates operation IDs, who owns retry safety, and how uncertain outcomes are recovered. The current result's operation ID is descriptive; it does not implement idempotency.
-3. **Build a simulation adapter first.** Exercise accepted, pending, failed, duplicate request, timeout/unknown, and reversal scenarios without any real money. Make the simulated nature explicit and keep simulated balances/records inside the simulation boundary.
-4. **Define records and reconciliation.** Model immutable observations and corrections so asynchronous provider events and reversals do not erase history. Do not call a simple account object a ledger.
+3. **Extend the simulation ledger.** The first process-local journal now exercises explicit issuance, transfer, retirement, typed currency isolation, insufficient-funds rejection, and idempotent retries. Add casino custody and wager operations only as separately tested domain transitions.
+4. **Add durable records and reconciliation.** The current journal is in-memory and process-local. Define persistence, recovery, immutable corrections, and reconciliation before describing it as durable or operational.
 5. **Add one sandbox provider adapter only after the lifecycle contract is stable.** Keep provider implementation in a separate package/repository boundary where practical. Use the provider's test environment and test credentials, not live money.
 6. **Add operational and professional review before live use.** Security review, provider approval, jurisdiction-specific advice, monitoring, incident procedures, and explicit launch authorization remain outside what a domain library can certify.
 

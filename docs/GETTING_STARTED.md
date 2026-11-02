@@ -30,7 +30,7 @@ Add the package reference to your own compatible project:
 
 Then create a seller and two catalog items:
 
-    using TheSingularityWorkshop.Economy;
+    using System;\n    using TheSingularityWorkshop.Economy;
 
     var owner = EconomyEntityId.New();
 
@@ -73,7 +73,7 @@ Expected console output:
 
 The construction pattern is covered by [EconomyTests](../tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs). The creator-owned composition boundary is covered separately by [CreatorShopCompositionTests](../tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs).
 
-**Evidence status:** source-checked against the current development baseline; the snippet is not a separately built sample project. Run the repository test project to verify the current implementation:
+**Evidence status:** source-checked against development source commit `06d2bc1202d226284e5ac6ef52d5b55699d33dd0`; the snippet is not a separately built sample project. Run the repository test project to verify the current implementation:
 
     dotnet test tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj --configuration Release
 

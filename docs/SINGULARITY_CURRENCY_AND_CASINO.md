@@ -1,6 +1,6 @@
 # Singularity Currency and Casino Contract
 
-**Status: product/domain contract and staged implementation plan.** This document records the intended Economy behavior for Singularity City. It does not claim that a persistent wallet, authoritative casino ledger, complete game rules, real-money service, or legally reviewed currency exists today.
+**Status: product/domain contract and staged implementation plan.** This document records the intended Economy behavior for Singularity City. A first process-local typed simulation ledger now supports explicit issuance, transfers, retirement, and derived balances. This does not yet provide persistent wallet state, casino custody/wager accounting, complete game rules, real-money service, or a legally reviewed currency.
 
 ## Product intent
 
@@ -81,8 +81,8 @@ Do not make the Economy package depend upward on WebPage, a particular renderer,
 
 1. Inventory the current Economy types and tests; label each capability as implemented, partial, or proposed.
 2. Define a typed fictional currency/unit identity that cannot be mistaken for a real ISO currency merely because the current `Money` type uses a three-letter code. Preserve compatibility deliberately rather than silently changing existing public semantics.
-3. Define the simulation ledger and transfer invariants before adding game logic. Model issuance, destruction, fees, wages, and casino custody as named, auditable operations.
-4. Add invariant-focused tests: currency isolation, conservation except named issuance/sinks, duplicate-operation rejection, insufficient balance, exact buy-in/cash-out, wager commit/resolve, payout calculation, and deterministic outcomes.
+3. Establish the initial simulation ledger and transfer invariants before adding game logic. Extend it with separately named, auditable fees, wages, casino custody, and wager operations; do not infer those operations from generic transfers.
+4. The initial ledger tests now cover typed currency isolation, explicit issuance/retirement, transfer conservation, insufficient balance, exact idempotent retry, conflicting operation-ID rejection, and immutable journal snapshots. Add further invariant-focused tests for exact buy-in/cash-out, wager commit/resolve, payout calculation, and deterministic outcomes.
 5. Connect one game and cashier to the canonical simulation state; make the browser UI consume that state instead of maintaining independent pretend balances.
 6. Add Digitens work, wages, venue staffing, business expenses, and ordinary city shopping through the same economic model.
 7. Expand game variety, economic experiments, persistence, and scale tests only after the vertical slice passes.

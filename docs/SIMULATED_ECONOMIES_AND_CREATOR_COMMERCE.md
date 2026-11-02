@@ -120,7 +120,7 @@ Do not make a real-money connection a prerequisite for testing the simulated eco
 
 The current Economy API includes shared concepts such as `Money`, `CommerceItem`, `EconomyShop`, `MarketplaceOffer`, `EconomyTransfer`, and `EconomicExecutionResult`. These are useful vocabulary and composition building blocks, but the presence of a type does not mean a complete service exists.
 
-The current package does **not** by itself provide a persistent city simulation, Digitens behavior, production/inventory, creator editing UI, a reskinning engine, storefront hosting, balances/ledger, purchase orchestration, or a real payment adapter. Those should be implemented and proven in the appropriate owning layers.
+The current package does **not** by itself provide a persistent city simulation, Digitens behavior, production/inventory, creator editing UI, a reskinning engine, storefront hosting, durable balances/ledger persistence, purchase orchestration, or a real payment adapter. It now includes a process-local typed simulation ledger for explicit fictional-currency issuance, transfers, retirement, and derived account balances; that is a foundational primitive, not the complete Digiten or casino economy. Those should be implemented and proven in the appropriate owning layers.
 
 ## First vertical slice to prove
 

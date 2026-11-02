@@ -63,6 +63,8 @@ A price is not a balance. A balance is not inventory. A transfer intent is not a
 | Concept | Current source mapping | What the code currently guarantees |
 |---|---|---|
 | Amount and unit | [Money.cs](../../src/TheSingularityWorkshop.Economy/Money.cs) | Decimal amount, normalized three-letter code, and same-code arithmetic |
+| Fictional currency identity and amount | [SimulationLedger.cs](../../src/TheSingularityWorkshop.Economy/SimulationLedger.cs) | Typed identity and amount that cannot be confused merely because two currencies share a display symbol |
+| Simulated balances and journal | [SimulationLedger.cs](../../src/TheSingularityWorkshop.Economy/SimulationLedger.cs) | Process-local signed postings, explicit issuance/retirement, transfers, and derived balances; no durable storage |
 | Economic actor identity | [EconomyEntity.cs](../../src/TheSingularityWorkshop.Economy/EconomyEntity.cs) | Entity identity vocabulary |
 | Account boundary | [EconomyAccount.cs](../../src/TheSingularityWorkshop.Economy/EconomyAccount.cs) | Owner and currency identity; no balance storage |
 | Offer description | [Commerce.cs](../../src/TheSingularityWorkshop.Economy/Commerce.cs) | Item/seller/name/price and marketplace offer data |
@@ -71,7 +73,7 @@ A price is not a balance. A balance is not inventory. A transfer intent is not a
 | Fee calculation | [FeePolicy.cs](../../src/TheSingularityWorkshop.Economy/FeePolicy.cs) | Calculates a configured share of a gross amount; does not collect it |
 | Execution observation | [EconomicExecutionResult.cs](../../src/TheSingularityWorkshop.Economy/EconomicExecutionResult.cs) | Records operation/transfer IDs, reporting environment, status, timestamp, and optional external reference |
 
-The implementation does not yet supply authoritative balances, stock custody, a journal/ledger, atomic multi-account posting, idempotent execution, or reconciliation. These are not minor details: without them, the worked model cannot be honestly called an implemented transaction.
+The implementation now supplies a process-local simulation ledger with derived balances, atomic in-memory multi-account postings, and idempotent operation identities. It does not supply durable storage, crash recovery, distributed atomicity, stock custody, casino-specific accounting, or reconciliation. These are not minor details: without them, the worked model cannot be honestly called an implemented transaction.
 
 ### Assumptions and limits
 
