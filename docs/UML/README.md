@@ -1,0 +1,50 @@
+# Economy UML and evidence inventory
+
+## 01 — What
+
+This index records which structural and behavioral views exist for the current Economy source. The Workshop standard requires an explicit inventory; a missing diagram must be visible rather than silently implied complete.
+
+## 02 — Why
+
+A class diagram alone cannot explain an economic operation. Type neighborhoods, operation sequences, control flow, lifecycle, use cases, architecture, and test traceability answer different questions and need different evidence.
+
+## 03 — How
+
+| View family | Required scope | Current status | Evidence / next action |
+|---|---|---|---|
+| Class/type diagrams | Each public declaration in source scope | Partial | [SimulationLedger neighborhood](SimulationLedgerUML.md); remaining 20 public declarations need companions |
+| Class neighborhoods | Consumers above, focal type centered, dependencies below, package references to the right | Partial | SimulationLedger target-centered view exists; other focal types planned |
+| Sequence diagrams | Important workflows and failure paths | Planned | Add issue, transfer, retirement, retry, and rejection traces from source/tests |
+| Activity/control-flow diagrams | Nontrivial branches, validation, loops, and exceptions | Planned | Begin with transfer validation and atomic commit path |
+| State/lifecycle diagrams | Stateful domain lifecycles | Planned / applicability review | Casino wager lifecycle is a future domain contract; current ledger has no persistent lifecycle |
+| Use cases | Actor goals, preconditions, success, alternatives, evidence | Partial | Five SimulationLedger use cases documented; remaining public types need use cases where meaningful |
+| Architecture/component diagrams | Project boundaries and dependency direction | Present, manual | [Architecture guide](../ARCHITECTURE.md); target diagram is authored conceptual architecture, not a generated dependency graph |
+| Deployment/runtime topology | Actual deployed runtime nodes | Not applicable to current library runtime | Economy is a library; the Pages site is documentation hosting, not a deployed economic runtime |
+| Data models and data flow | Ownership, journal postings, provenance, transformations | Partial | SimulationLedger entries and signed posting flow documented; durable storage and reconciliation are absent |
+| MicroBundle views | Locally defined or consumed capability contracts | No local definitions identified | CommerceItem may carry a MicroBundle reference; this repository does not define a MicroBundle runtime |
+| Requirement/test traceability | Contract and issue to tests/evidence | Partial | [Simulation ledger tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/tree/development/tests/TheSingularityWorkshop.Economy.Tests); expand against issue #14 and #16 |
+| Decision/constraint records | Important invariants and rationale | Partial | [Singularity currency contract](../SINGULARITY_CURRENCY_AND_CASINO.md); formal ADR set not yet established |
+
+### Provenance rules
+
+- **Source-derived:** relationships verified from the current source declarations.
+- **Test-supported:** behavior exercised by a named test.
+- **Human-authored:** use cases and design intent grounded in product goals.
+- **Conceptual:** proposed architecture or workflow, not proof of implementation.
+- **Runtime-captured:** reserved for observations from a named, reproducible execution; none are claimed by the current static diagrams.
+
+No Roslyn-based repository-wide UML generator, reflection inventory, relationship coverage report, or stale-artifact CI gate is implemented. Current pages are manually maintained and their scope is declared.
+
+## 04 — See it in a minute
+
+The [SimulationLedger neighborhood](SimulationLedgerUML.md) is the first example. It identifies the current test consumer, the target type, its direct domain dependencies, and its project boundary. Its five use cases are human-authored and tied to the actual ledger operations and tests.
+
+## 05 — Choose your next step
+
+- Read the [API type inventory](../API/README.md).
+- Inspect [SimulationLedger source](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/SimulationLedger.cs) and [tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs).
+- Expand the remaining UML views only where they add distinct evidence.
+
+
+<!-- THE SINGULARITY WORKSHOP FOOTER -->
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop avatar" width="200" /></p>
