@@ -77,7 +77,8 @@ The example follows the shop/product composition covered by the [domain tests](t
 - [SimulationLedger API](docs/API/SimulationLedger.md) and [target-centered UML](docs/UML/SimulationLedgerUML.md) — inspect the first typed simulated-currency ledger contract.
 - [Documentation index](DOCUMENTATION_INDEX.md) — navigate the source, tests, and workflow by task.
 - [Domain tests](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) and [execution-result tests](tests/TheSingularityWorkshop.Economy.Tests/EconomicExecutionResultTests.cs) — inspect the invariants currently exercised.
-- [Build and test workflow](.github/workflows/dotnet-tests.yml) — see the automated restore, build, and test commands.
+- [Build and test workflow](.github/workflows/dotnet-tests.yml) — see the automated restore, build, test, and package-content verification.
+- [Pages preview workflow](.github/workflows/pages-build.yml) — build and upload the documentation site artifact without deploying it.
 
 ## Ecosystem fit and status
 

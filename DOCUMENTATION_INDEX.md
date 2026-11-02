@@ -19,7 +19,8 @@ The README is the public front door. These guides have different jobs; use the o
 | Inspect access/audit vocabulary | [Access ledger contracts](src/TheSingularityWorkshop.Economy/AccessLedger.cs) |
 | Inspect typed fictional currency and simulated custody | [Simulation ledger](src/TheSingularityWorkshop.Economy/SimulationLedger.cs) and [ledger invariant tests](tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs) |
 | Read the ledger API and structural neighborhood | [SimulationLedger API](docs/API/SimulationLedger.md) and [SimulationLedger UML](docs/UML/SimulationLedgerUML.md) |
-| Run tests | [Test project](tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj) and [workflow](.github/workflows/dotnet-tests.yml) |
+| Run tests and verify package contents | [Test project](tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj) and [CI workflow](.github/workflows/dotnet-tests.yml) |
+| Build the Pages site artifact without deployment | [Pages preview workflow](.github/workflows/pages-build.yml) |
 
 ## Status and authority
 

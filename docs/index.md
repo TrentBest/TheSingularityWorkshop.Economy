@@ -36,6 +36,7 @@ title: Economy Learning Center
 - [Domain tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs).
 - [Simulation ledger tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs).
 - [CI workflow](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/.github/workflows/dotnet-tests.yml).
+- [Pages preview workflow](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/.github/workflows/pages-build.yml) (builds the site artifact; does not deploy).
 
 ## Current maturity
 
