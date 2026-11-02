@@ -23,6 +23,8 @@ title: Economy Learning Center
 
 ## Explore the implementation
 
+- [API reference index](API/README.md) — public type inventory and per-type documentation coverage.
+- [UML coverage index](UML/README.md) — structural and behavioral view inventory.
 - [SimulationLedger API](API/SimulationLedger.md) — typed fictional currency, issuance, transfer, retirement, and derived balances.
 - [SimulationLedger UML](UML/SimulationLedgerUML.md) — target-centered type neighborhood and use cases.
 - [Gallery](GALLERY.md) — inspect the creator-shop composition proof and reproduce its tests.

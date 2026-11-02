@@ -18,6 +18,8 @@ The README is the public front door. These guides have different jobs; use the o
 | Inspect domain types | [Commerce](src/TheSingularityWorkshop.Economy/Commerce.cs), [EconomyShop](src/TheSingularityWorkshop.Economy/EconomyShop.cs), [Money](src/TheSingularityWorkshop.Economy/Money.cs), [Transfer](src/TheSingularityWorkshop.Economy/Transfer.cs), [Accounts](src/TheSingularityWorkshop.Economy/EconomyAccount.cs), [Fees](src/TheSingularityWorkshop.Economy/FeePolicy.cs), [Provider contract](src/TheSingularityWorkshop.Economy/FinancialProvider.cs), [Execution observation](src/TheSingularityWorkshop.Economy/EconomicExecutionResult.cs) |
 | Inspect access/audit vocabulary | [Access ledger contracts](src/TheSingularityWorkshop.Economy/AccessLedger.cs) |
 | Inspect typed fictional currency and simulated custody | [Simulation ledger](src/TheSingularityWorkshop.Economy/SimulationLedger.cs) and [ledger invariant tests](tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs) |
+| Browse public API type coverage | [API reference index](docs/API/README.md) |
+| Browse UML and evidence coverage | [UML inventory](docs/UML/README.md) |
 | Read the ledger API and structural neighborhood | [SimulationLedger API](docs/API/SimulationLedger.md) and [SimulationLedger UML](docs/UML/SimulationLedgerUML.md) |
 | Run tests and verify package contents | [Test project](tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj) and [CI workflow](.github/workflows/dotnet-tests.yml) |
 | Build the Pages site artifact without deployment | [Pages preview workflow](.github/workflows/pages-build.yml) |

@@ -74,7 +74,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 - [Getting started](docs/GETTING_STARTED.md) — create a first shop and understand exactly what the current API does and does not do.
 - [Economy theory learning path](docs/THEORY/README.md) — study value, scarcity, exchange, incentives, and the limits of economic models.
 - [Gallery](docs/GALLERY.md) — inspect the source-backed creator-shop composition proof and its boundaries.
-- [SimulationLedger API](docs/API/SimulationLedger.md) and [target-centered UML](docs/UML/SimulationLedgerUML.md) — inspect the first typed simulated-currency ledger contract.
+- [API reference index](docs/API/README.md) and [UML coverage index](docs/UML/README.md) — navigate the public type inventory and structural evidence.
 - [Documentation index](DOCUMENTATION_INDEX.md) — navigate the source, tests, and workflow by task.
 - [Domain tests](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) and [execution-result tests](tests/TheSingularityWorkshop.Economy.Tests/EconomicExecutionResultTests.cs) — inspect the invariants currently exercised.
 - [Build and test workflow](.github/workflows/dotnet-tests.yml) — see the automated restore, build, test, and package-content verification.
