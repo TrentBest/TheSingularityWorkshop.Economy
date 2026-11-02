@@ -112,6 +112,7 @@ public sealed class SimulationLedger
 {
     private readonly object _sync = new();
     private readonly Dictionary<Guid, SimulationAccount> _accounts = new();
+    private readonly Dictionary<Guid, decimal> _balances = new();
     private readonly Dictionary<SimulatedCurrencyId, SimulatedCurrency> _currencies = new();
     private readonly Dictionary<Guid, SimulationLedgerReceipt> _receipts = new();
     private readonly Dictionary<Guid, OperationFingerprint> _fingerprints = new();
@@ -139,6 +140,7 @@ public sealed class SimulationLedger
             }
 
             _accounts.Add(account.Id, account);
+            _balances.Add(account.Id, 0m);
         }
     }
 
@@ -305,8 +307,7 @@ public sealed class SimulationLedger
                 $"The amount exceeds the currency precision of {account.Currency.DecimalPlaces} decimal places.");
     }
 
-    private decimal GetBalanceCore(Guid accountId) =>
-        _entries.Where(entry => entry.AccountId == accountId).Sum(entry => entry.Delta);
+    private decimal GetBalanceCore(Guid accountId) => _balances[accountId];
 
     private bool TryReplay(
         Guid operationId,
@@ -332,9 +333,21 @@ public sealed class SimulationLedger
         OperationFingerprint fingerprint,
         params SimulationLedgerEntry[] entries)
     {
+        var nextBalances = new Dictionary<Guid, decimal>();
+        foreach (var group in entries.GroupBy(entry => entry.AccountId))
+        {
+            var delta = group.Sum(entry => entry.Delta);
+            var nextBalance = checked(GetBalanceCore(group.Key) + delta);
+            if (nextBalance < 0m)
+                throw new InvalidOperationException("A ledger operation cannot create a negative account balance.");
+            nextBalances.Add(group.Key, nextBalance);
+        }
+
         _fingerprints.Add(receipt.OperationId, fingerprint);
         _receipts.Add(receipt.OperationId, receipt);
         _entries.AddRange(entries);
+        foreach (var balance in nextBalances)
+            _balances[balance.Key] = balance.Value;
     }
 
     private readonly record struct OperationFingerprint(
