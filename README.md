@@ -1,4 +1,5 @@
-![The Singularity Workshop animated moniker](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Renderer/development/docs/assets/moniker.svg)
+<!-- The Singularity Workshop moniker -->
+<p align="center"><a href="https://github.com/TrentBest"><img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop animated moniker" width="720" /></a></p>
 
 # ✳️ 00 The Singularity Workshop — Economy
 
@@ -70,6 +71,9 @@ The example follows the shop/product composition covered by the [domain tests](t
 - [What is Economy?](docs/WHAT_IS_ECONOMY.md) — build the conceptual model and understand the intended boundary without starting from API details.
 - [Economy architecture](docs/ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
 - [Game store patterns](docs/GAME_STORE_PATTERNS.md) — current API examples and Experience-owned store rules.
+- [Getting started](docs/GETTING_STARTED.md) — create a first shop and understand exactly what the current API does and does not do.
+- [Economy theory learning path](docs/THEORY/README.md) — study value, scarcity, exchange, incentives, and the limits of economic models.
+- [Gallery](docs/GALLERY.md) — inspect the source-backed creator-shop composition proof and its boundaries.
 - [Documentation index](DOCUMENTATION_INDEX.md) — navigate the source, tests, and workflow by task.
 - [Domain tests](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) and [execution-result tests](tests/TheSingularityWorkshop.Economy.Tests/EconomicExecutionResultTests.cs) — inspect the invariants currently exercised.
 - [Build and test workflow](.github/workflows/dotnet-tests.yml) — see the automated restore, build, and test commands.
@@ -80,24 +84,14 @@ Economy should remain independently useful. Workshop experiences may compose it 
 
 **Current status: exploratory alpha.** The package does not provide a production storefront, cart, inventory system, ledger, payment processor, wallet, settlement service, live provider adapter, or compliance determination. Creator workflows and near-term revenue models remain hypotheses to validate, not implemented capabilities or promises of income. Real-money integration is deliberately separate from proving the simulated economy.
 
+
 ---
 
 <p align="center">
-  <a href="https://github.com/TrentBest">
-    <img src="https://avatars.githubusercontent.com/u/16405167?v=4" alt="Trent Best — The Singularity Workshop" width="64">
-  </a>
-  <br>
-  <a href="https://github.com/TrentBest">GitHub — The Singularity Workshop</a>
-  ·
   <a href="https://github.com/TrentBest/TheSingularityWorkshop.Economy">Economy source</a>
+  ·
+  <a href="https://github.com/TrentBest">The Singularity Workshop on GitHub</a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/TrentBest/WebPage" aria-label="Visit The Singularity Workshop">
-    <img src="https://raw.githubusercontent.com/TrentBest/WebPage/development/TheSingularityWorkshop/wwwroot/Images/TheSingularityWorkshopLivingAvatar.svg" alt="The Singularity Workshop living avatar — a digital vortex of information converging on its central eye" width="112">
-  </a>
-  <br>
-  <strong>The Singularity Workshop</strong>
-  <br>
-  <em>Tools for the curious, the bold, and the systemically inclined.</em>
-</p>
+<!-- THE SINGULARITY WORKSHOP FOOTER -->
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop avatar" width="200" /></p>
