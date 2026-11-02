@@ -207,6 +207,43 @@ public sealed class SimulationLedgerTests
     }
 
     [Fact]
+    public void BalanceProjectionMatchesTheSignedJournal()
+    {
+        var currency = Currency();
+        var source = Account(currency);
+        var destination = Account(currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(source);
+        ledger.RegisterAccount(destination);
+        ledger.Issue(Guid.NewGuid(), source.Id, Amount(80m, currency), Time);
+        ledger.Transfer(Guid.NewGuid(), source.Id, destination.Id, Amount(25m, currency), Time);
+        ledger.Retire(Guid.NewGuid(), destination.Id, Amount(5m, currency), Time);
+
+        Assert.Equal(ledger.GetEntries(source.Id).Sum(entry => entry.Delta), ledger.GetBalance(source.Id));
+        Assert.Equal(ledger.GetEntries(destination.Id).Sum(entry => entry.Delta), ledger.GetBalance(destination.Id));
+    }
+
+    [Fact]
+    public void ConcurrentTransfersRemainAtomicAndCannotOverdraw()
+    {
+        var currency = Currency();
+        var source = Account(currency);
+        var destination = Account(currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(source);
+        ledger.RegisterAccount(destination);
+        ledger.Issue(Guid.NewGuid(), source.Id, Amount(100m, currency), Time);
+
+        Parallel.For(0, 100, _ =>
+            ledger.Transfer(Guid.NewGuid(), source.Id, destination.Id, Amount(1m, currency), Time));
+
+        Assert.Equal(0m, ledger.GetBalance(source.Id));
+        Assert.Equal(100m, ledger.GetBalance(destination.Id));
+        Assert.Equal(0m, ledger.GetEntries(source.Id).Sum(entry => entry.Delta) - ledger.GetBalance(source.Id));
+        Assert.Equal(100m, ledger.GetEntries(destination.Id).Sum(entry => entry.Delta));
+    }
+
+    [Fact]
     public void JournalSnapshotCannotBeMutatedByCaller()
     {
         var currency = Currency();
