@@ -26,3 +26,14 @@ jobs:
         run: dotnet build src/TheSingularityWorkshop.Economy/TheSingularityWorkshop.Economy.csproj --configuration Release --no-restore
       - name: Test
         run: dotnet test tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj --configuration Release --no-restore
+      - name: Pack (without publishing)
+        run: dotnet pack src/TheSingularityWorkshop.Economy/TheSingularityWorkshop.Economy.csproj --configuration Release --no-build --no-restore --output artifacts
+      - name: Verify packaged documentation
+        run: |
+          package=$(find artifacts -maxdepth 1 -name '*.nupkg' -print -quit)
+          test -n "$package"
+          unzip -Z1 "$package" | grep -Fxq 'README.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/GETTING_STARTED.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/README.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/API/SimulationLedger.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/UML/SimulationLedgerUML.md'
