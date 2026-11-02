@@ -71,7 +71,7 @@ Expected console output:
 
     The Adventurer's Supply: 2 items
 
-The construction pattern is covered by [EconomyTests](../tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs). The creator-owned composition boundary is covered separately by [CreatorShopCompositionTests](../tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs).
+The construction pattern is covered by [EconomyTests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs). The creator-owned composition boundary is covered separately by [CreatorShopCompositionTests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs).
 
 **Evidence status:** source-checked against development source commit `06d2bc1202d226284e5ac6ef52d5b55699d33dd0`; the snippet is not a separately built sample project. Run the repository test project to verify the current implementation:
 

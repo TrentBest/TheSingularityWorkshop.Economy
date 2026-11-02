@@ -41,7 +41,7 @@ The first chapter maps these boundaries to the economic ideas they can—and can
 ## 05 — Choose your next step
 
 - Start with [Chapter 01: Value, scarcity, and exchange](01-VALUE-SCARCITY-AND-EXCHANGE.md).
-- For current code, see [Architecture](../ARCHITECTURE.md) and the [documentation index](../../DOCUMENTATION_INDEX.md).
+- For current code, see [Architecture](../ARCHITECTURE.md) and the [documentation index](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/DOCUMENTATION_INDEX.md).
 - For the intended authoritative fictional-currency slice, see [Singularity currency and casino contract](../SINGULARITY_CURRENCY_AND_CASINO.md).
 
 

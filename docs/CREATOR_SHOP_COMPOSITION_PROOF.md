@@ -2,7 +2,7 @@
 
 **Status: test-owned reference fixture, not a production storefront or WebPage integration.**
 
-The [CreatorShopCompositionTests](../tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs) exercise one important boundary for the planned creator workflow:
+The [CreatorShopCompositionTests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs) exercise one important boundary for the planned creator workflow:
 
 - Economy owns the canonical shop and its product identities.
 - An Experience owns where the shop is placed and how it is presented.

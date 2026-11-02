@@ -17,8 +17,8 @@ The exhibit is a consumer-owned test fixture. The test defines its own Experienc
 ## 04 — See it in a minute
 
 - [Creator shop composition proof](CREATOR_SHOP_COMPOSITION_PROOF.md)
-- [CreatorShopCompositionTests.cs](../tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs)
-- [EconomyShop.cs](../src/TheSingularityWorkshop.Economy/EconomyShop.cs)
+- [CreatorShopCompositionTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/CreatorShopCompositionTests.cs)
+- [EconomyShop.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/EconomyShop.cs)
 
 Reproduce it with:
 

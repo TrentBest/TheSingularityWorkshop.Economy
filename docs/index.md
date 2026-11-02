@@ -32,10 +32,10 @@ title: Economy Learning Center
 
 ## Verify claims
 
-- [Documentation index](../DOCUMENTATION_INDEX.md) — map guides to source, tests, and workflows.
-- [Domain tests](../tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs).
-- [Simulation ledger tests](../tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs).
-- [CI workflow](../.github/workflows/dotnet-tests.yml).
+- [Documentation index](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/DOCUMENTATION_INDEX.md) — map guides to source, tests, and workflows.
+- [Domain tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs).
+- [Simulation ledger tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs).
+- [CI workflow](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/.github/workflows/dotnet-tests.yml).
 
 ## Current maturity
 

@@ -67,4 +67,4 @@ The goal is to prepare clear concepts before making operational commitments. A d
 
 **Exploratory alpha.** The current code is useful as a starting point for shared vocabulary and creator-defined shop composition. It is not a production commerce or real-money platform.
 
-For exact contracts and the proposed implementation sequence, read [Economy architecture](ARCHITECTURE.md). For a map of the repository's guides, read [Documentation index](../DOCUMENTATION_INDEX.md).
+For exact contracts and the proposed implementation sequence, read [Economy architecture](ARCHITECTURE.md). For a map of the repository's guides, read [Documentation index](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/DOCUMENTATION_INDEX.md).

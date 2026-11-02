@@ -50,9 +50,9 @@ This is an in-memory idempotency boundary. It does not survive process restart a
 
 ### Source and evidence
 
-- Implementation: [SimulationLedger.cs](../../src/TheSingularityWorkshop.Economy/SimulationLedger.cs)
-- Tests: [SimulationLedgerTests.cs](../../tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs)
-- Related legacy vocabulary: [Money.cs](../../src/TheSingularityWorkshop.Economy/Money.cs), [EconomyAccount.cs](../../src/TheSingularityWorkshop.Economy/EconomyAccount.cs), and [Transfer.cs](../../src/TheSingularityWorkshop.Economy/Transfer.cs)
+- Implementation: [SimulationLedger.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/SimulationLedger.cs)
+- Tests: [SimulationLedgerTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs)
+- Related legacy vocabulary: [Money.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Money.cs), [EconomyAccount.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/EconomyAccount.cs), and [Transfer.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Transfer.cs)
 
 The tests exercise explicit issuance, transfer conservation, idempotent retry, conflicting operation IDs, insufficient funds, currency isolation, conflicting currency metadata, retirement, account registration, precision, and read-only journal snapshots.
 

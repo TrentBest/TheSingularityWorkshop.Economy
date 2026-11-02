@@ -121,7 +121,7 @@ Issuance and retirement are explicit exceptions to conservation across participa
 ## 05 — Choose your next step
 
 - Read the [SimulationLedger API contract](../API/SimulationLedger.md).
-- Inspect the [implementation](../../src/TheSingularityWorkshop.Economy/SimulationLedger.cs) and [tests](../../tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs).
+- Inspect the [implementation](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/SimulationLedger.cs) and [tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs).
 - Follow [issue #14](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/14) for durable records, casino custody, and wager accounting.
 
 

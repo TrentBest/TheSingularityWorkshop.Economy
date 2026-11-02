@@ -172,4 +172,4 @@ A future reusable game-commerce layer could add optional, game-neutral contracts
 - [Simulated economies and creator commerce](SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — Singularity City, reusable creator shops, adoption, and the first vertical slice.
 - [Economy architecture](ARCHITECTURE.md) — current types and explicit future boundaries.
 - [What is Economy?](WHAT_IS_ECONOMY.md) — the domain model in plain language.
-- [Domain tests](../tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) — current API invariants.
+- [Domain tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) — current API invariants.
