@@ -1,0 +1,10 @@
+title: The Singularity Workshop — Economy
+description: A source-grounded learning center for simulated economies, exchange, creator commerce, and the Economy domain.
+theme: minima
+markdown: kramdown
+permalink: pretty
+header_pages:
+  - GETTING_STARTED.md
+  - THEORY/README.md
+  - ARCHITECTURE.md
+  - GALLERY.md
