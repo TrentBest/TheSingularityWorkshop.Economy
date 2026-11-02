@@ -12,7 +12,7 @@ A class diagram alone cannot explain an economic operation. Type neighborhoods, 
 
 | View family | Required scope | Current status | Evidence / next action |
 |---|---|---|---|
-| Class/type diagrams | Each public declaration in source scope | Partial | [SimulationLedger neighborhood](SimulationLedgerUML.md); remaining 20 public declarations need companions |
+| Class/type diagrams | Each public declaration in source scope | Partial | [SimulationLedger neighborhood](SimulationLedgerUML.md); the other 27 declarations do not yet have their own focal neighborhoods |
 | Class neighborhoods | Consumers above, focal type centered, dependencies below, package references to the right | Partial | SimulationLedger target-centered view exists; other focal types planned |
 | Sequence diagrams | Important workflows and failure paths | Planned | Add issue, transfer, retirement, retry, and rejection traces from source/tests |
 | Activity/control-flow diagrams | Nontrivial branches, validation, loops, and exceptions | Planned | Begin with transfer validation and atomic commit path |
