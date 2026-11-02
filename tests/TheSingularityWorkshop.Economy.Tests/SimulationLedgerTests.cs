@@ -190,6 +190,23 @@ public sealed class SimulationLedgerTests
     }
 
     [Fact]
+    public void LedgerRejectsAmountsBeyondCurrencyPrecisionWithoutSideEffects()
+    {
+        var currency = Currency();
+        var account = Account(currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(account);
+        var operationId = Guid.NewGuid();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            ledger.Issue(operationId, account.Id, Amount(1.001m, currency), Time));
+
+        Assert.Equal(0m, ledger.GetBalance(account.Id));
+        Assert.Null(ledger.GetReceipt(operationId));
+        Assert.Empty(ledger.GetEntries(account.Id));
+    }
+
+    [Fact]
     public void JournalSnapshotCannotBeMutatedByCaller()
     {
         var currency = Currency();
