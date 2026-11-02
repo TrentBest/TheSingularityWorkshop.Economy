@@ -1,0 +1,33 @@
+name: Build Economy Pages preview
+
+on:
+  push:
+    branches: [development]
+  pull_request:
+    branches: [development]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: economy-pages-preview
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out Economy
+        uses: actions/checkout@v4
+
+      - name: Build the documentation site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./docs
+          destination: ./_site
+
+      - name: Upload the Pages artifact without deploying
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./_site
