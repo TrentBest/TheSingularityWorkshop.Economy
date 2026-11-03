@@ -20,12 +20,12 @@ Read the chapters in order. Each chapter distinguishes conceptual theory, assump
 |---|---|---|---|
 | 01 | [Value, scarcity, and exchange](01-VALUE-SCARCITY-AND-EXCHANGE.md) | Understand choice, opportunity cost, exchange, price, and the limits of a shared unit of account | Initial chapter |
 | 02 | [Prediction markets and simulated wagering](02-PREDICTION-MARKETS-AND-WAGERING.md) | Separate events, markets, selections, odds, accepted bets, results, and settlement; design a provider-neutral sports-first wagering domain | Design chapter; proposed components not implemented |
-| 03 | Money, units, and currency identity | Distinguish a numeric amount, a unit code, a currency system, and a claim on value | Planned |
-| 04 | Accounts, transfers, and double-entry reasoning | Understand custody, conservation, issuance, sinks, and auditable records | Planned; implementation prerequisite |
-| 05 | Markets, prices, supply, and demand | Explore price formation and why a listing is not proof of available stock | Planned |
-| 06 | Labor, wages, and household choice | Model work, compensation, needs, and budget-constrained purchases | Planned |
-| 07 | Businesses, costs, revenue, and contribution | Separate gross receipts, costs, margins, and policy calculations | Planned |
-| 08 | Simulation, measurement, and emergent behavior | Design reproducible agents and evaluate scale without confusing activity with economic validity | Planned |
+| 03 | [Teams, leagues, tournaments, and organized play](03-TEAMS-LEAGUES-AND-TOURNAMENTS.md) | Separate competitor identity, team rosters, competition administration, tournament formats, and activity rules | Initial implementation + theory |
+| 04 | Money, units, and currency identity | Distinguish a numeric amount, a unit code, a currency system, and a claim on value | Planned |\n| 05 | Accounts, transfers, and double-entry reasoning | Understand custody, conservation, issuance, sinks, and auditable records | Planned; implementation prerequisite |
+| 06 | Markets, prices, supply, and demand | Explore price formation and why a listing is not proof of available stock | Planned |
+| 07 | Labor, wages, and household choice | Model work, compensation, needs, and budget-constrained purchases | Planned |
+| 08 | Businesses, costs, revenue, and contribution | Separate gross receipts, costs, margins, and policy calculations | Planned |
+| 09 | Simulation, measurement, and emergent behavior | Design reproducible agents and evaluate scale without confusing activity with economic validity | Planned |
 
 ## 04 — See it in a minute
 
@@ -36,7 +36,7 @@ The current source is a deliberately small starting point:
 - EconomyTransfer validates an intended movement between accounts, but does not move value.
 - EconomicExecutionResult records a reported environment and status, but does not prove settlement or maintain a ledger.
 
-The first chapter maps these boundaries to the economic ideas they can—and cannot—represent. The prediction-market chapter defines a future sports-first vertical slice while clearly separating proposed architecture from the current blackjack and ledger implementation.
+The first chapter maps these boundaries to the economic ideas they can—and cannot—represent. The prediction-market chapter defines a future sports-first vertical slice while clearly separating proposed architecture from the current blackjack and ledger implementation. The organized-play chapter documents the implemented team/competition primitives and the still-planned tournament and fantasy systems.
 
 ## 05 — Choose your next step
 
