@@ -6,7 +6,7 @@ The README is the public front door. These guides have different jobs; use the o
 |---|---|
 | Understand the concept without starting from code | [What is Economy?](docs/WHAT_IS_ECONOMY.md) |
 | Build and run a first shop example | [Getting started](docs/GETTING_STARTED.md) |
-| Study the economic concepts in a modular textbook path, including the sports-first prediction and wagering domain | [Economy theory index](docs/THEORY/README.md) and [prediction markets chapter](docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md) |
+| Study the economic concepts in a modular textbook path, including sports prediction, teams, leagues, tournaments, and organized play | [Economy theory index](docs/THEORY/README.md), [prediction markets chapter](docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md), and [teams/tournaments chapter](docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md) |
 | See a source-backed example and its limits | [Gallery](docs/GALLERY.md) |
 | Explore the casino, simulated stock exchange, business, auction, work, and supply-chain playground roadmap | [Markets and economic playgrounds](docs/MARKETS_AND_PLAYGROUNDS.md) |
 | Define Singularity currency, casino chips, buy-in/cash-out, house accounting, and the staged casino vertical slice | [Singularity currency and casino contract](docs/SINGULARITY_CURRENCY_AND_CASINO.md) |
@@ -19,7 +19,7 @@ The README is the public front door. These guides have different jobs; use the o
 | Inspect domain types | [Commerce](src/TheSingularityWorkshop.Economy/Commerce.cs), [EconomyShop](src/TheSingularityWorkshop.Economy/EconomyShop.cs), [Money](src/TheSingularityWorkshop.Economy/Money.cs), [Transfer](src/TheSingularityWorkshop.Economy/Transfer.cs), [Accounts](src/TheSingularityWorkshop.Economy/EconomyAccount.cs), [Fees](src/TheSingularityWorkshop.Economy/FeePolicy.cs), [Provider contract](src/TheSingularityWorkshop.Economy/FinancialProvider.cs), [Execution observation](src/TheSingularityWorkshop.Economy/EconomicExecutionResult.cs) |
 | Inspect access/audit vocabulary | [Access ledger contracts](src/TheSingularityWorkshop.Economy/AccessLedger.cs) |
 | Inspect typed fictional currency and simulated custody | [Simulation ledger](src/TheSingularityWorkshop.Economy/SimulationLedger.cs) and [ledger invariant tests](tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs) |
-| Browse public API type coverage | [API reference index](docs/API/README.md) |
+| Understand the implemented team, competitor, and competition lifecycle primitives | [Competition/team UML](docs/UML/CompetitionUML.md) and [tests](tests/TheSingularityWorkshop.Economy.Tests/CompetitionTests.cs) |\n| Browse public API type coverage | [API reference index](docs/API/README.md) |
 | Browse UML and evidence coverage | [UML inventory](docs/UML/README.md) |
 | Read the ledger API and structural neighborhood | [SimulationLedger API](docs/API/SimulationLedger.md) and [SimulationLedger UML](docs/UML/SimulationLedgerUML.md) |
 | Run tests and verify package contents | [Test project](tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj) and [CI workflow](.github/workflows/dotnet-tests.yml) |
