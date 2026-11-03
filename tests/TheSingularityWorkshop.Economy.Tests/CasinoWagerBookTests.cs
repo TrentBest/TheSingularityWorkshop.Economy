@@ -164,6 +164,29 @@ public sealed class CasinoWagerBookTests
     }
 
     [Fact]
+    public void OperationIdsCannotAliasDifferentWagersOrLifecyclePhases()
+    {
+        var (ledger, currency, player, _, escrow, _, book) = Create();
+        var placeOperationId = Guid.NewGuid();
+        var firstWagerId = Guid.NewGuid();
+        book.PlaceWager(placeOperationId, firstWagerId, player.Id,
+            new SimulatedAmount(10m, currency.Id), Time);
+
+        var secondWagerId = Guid.NewGuid();
+        Assert.Throws<InvalidOperationException>(() => book.PlaceWager(
+            placeOperationId, secondWagerId, player.Id,
+            new SimulatedAmount(10m, currency.Id), Time));
+        Assert.Throws<InvalidOperationException>(() => book.ResolveWager(
+            placeOperationId, firstWagerId, CasinoWagerOutcome.Loss,
+            new SimulatedAmount(0m, currency.Id), Time));
+
+        Assert.Null(book.GetWager(secondWagerId));
+        Assert.Null(book.GetWager(firstWagerId)!.Outcome);
+        Assert.Equal(990m, ledger.GetBalance(player.Id));
+        Assert.Equal(10m, ledger.GetBalance(escrow.Id));
+    }
+
+    [Fact]
     public void ConflictingWagerIdentityAndPayoutRequestsAreRejected()
     {
         var (_, currency, player, _, _, _, book) = Create();
