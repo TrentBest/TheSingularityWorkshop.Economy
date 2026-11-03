@@ -32,6 +32,29 @@ public sealed class CasinoWagerBookTests
     }
 
     [Fact]
+    public void CashierBuyInAndCashOutMoveValueOneForOneWithoutIssuance()
+    {
+        var currency = new SimulatedCurrency(
+            SimulatedCurrencyId.New(), "Singularity Denomination", "SD", 2);
+        var wallet = new SimulationAccount(Guid.NewGuid(), EconomyEntityId.New(), currency);
+        var chips = new SimulationAccount(Guid.NewGuid(), EconomyEntityId.New(), currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(wallet);
+        ledger.RegisterAccount(chips);
+        ledger.Issue(Guid.NewGuid(), wallet.Id, new SimulatedAmount(100m, currency.Id), Time);
+        var cashier = new CasinoCashier(ledger);
+
+        cashier.BuyIn(Guid.NewGuid(), wallet.Id, chips.Id, new SimulatedAmount(40m, currency.Id), Time);
+        Assert.Equal(60m, ledger.GetBalance(wallet.Id));
+        Assert.Equal(40m, ledger.GetBalance(chips.Id));
+
+        cashier.CashOut(Guid.NewGuid(), chips.Id, wallet.Id, new SimulatedAmount(15m, currency.Id), Time);
+        Assert.Equal(75m, ledger.GetBalance(wallet.Id));
+        Assert.Equal(25m, ledger.GetBalance(chips.Id));
+        Assert.Equal(100m, ledger.GetBalance(wallet.Id) + ledger.GetBalance(chips.Id));
+    }
+
+    [Fact]
     public void WagerMovesStakeIntoEscrowThenLossSettlesToHouse()
     {
         var (ledger, currency, player, house, escrow, payoutsOwed, book) = Create();
