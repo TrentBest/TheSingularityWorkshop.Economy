@@ -4,7 +4,7 @@
 
 Session opening is the host-owned boundary that turns a proposed blackjack round into a wager-backed session. It must coordinate two independent process-local resources: the ordered shoe and the simulated-currency ledger/wager book.
 
-This document defines the safe opening protocol and its current guarantees. It does not claim a distributed transaction across the shoe and ledger.
+This document describes the implemented staged opening protocol and its tested guarantees. It does not claim a distributed transaction across the shoe and ledger.
 
 ## 02 — Why
 
@@ -68,17 +68,15 @@ This opening protocol does not add random shuffling, shoe persistence, durable s
 
 ## 04 — See it in a minute
 
-The current `BlackjackSession` constructor binds an already-created round and already-placed wager. It detects mismatched or externally changed wager state, but does not own opening or repair a failed host composition.
+`BlackjackSession.Open(...)` now owns this staged sequence. `BlackjackShoe` provides an exclusive initial-deal reservation; normal draws and competing reservations are rejected until commit or release. `BlackjackRound` can be prepared from the reserved cards without advancing the shoe cursor. The factory releases the reservation if preparation or wager placement fails, binds the session, and commits the four cards only after construction succeeds.
 
-The staged protocol above is the implementation target. Until the reservation and opening API exist, hosts must treat wager placement followed by round/session construction as a failure-sensitive sequence and explicitly reconcile any orphaned unresolved wager.
+`BlackjackSession` exposes immutable player/dealer card snapshots alongside the wager and round state. Tests cover successful binding, exact four-card consumption, invalid arguments, and failed wager placement preserving the shoe cursor. This is tested in-process behavior, not durable recovery.
 
 ## 05 — Choose your next step
 
-- Implement exclusive shoe deal reservations with commit/release semantics.
-- Add one host-facing session-opening factory that prepares the round before moving the stake.
-- Add failure-injection tests proving a failed wager placement leaves the shoe cursor unchanged.
-- Define an explicit idempotent wager cancellation/reversal contract before claiming recovery from failures after value movement.
-- Add durable transaction coordination only when persistence is introduced; do not simulate durability with in-memory flags.
+- Add explicit idempotent wager cancellation/reversal semantics for failures after value movement.
+- Add durable transaction coordination and recovery only when persistence is introduced; do not simulate durability with in-memory flags.
+- Expand concurrency and fault-injection tests around simultaneous reservation, draw, commit, and release.
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
 <p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
