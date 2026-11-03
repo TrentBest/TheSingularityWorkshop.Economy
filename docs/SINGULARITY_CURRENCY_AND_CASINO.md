@@ -1,6 +1,6 @@
 # Singularity Currency and Casino Contract
 
-**Status: product/domain contract and staged implementation plan.** This document records the intended Economy behavior for Singularity City. A first process-local typed simulation ledger now supports explicit issuance, two-account transfers, balanced atomic multi-account postings, retirement, and derived balances. This does not yet provide persistent wallet state, casino custody/wager accounting, complete game rules, real-money service, or a legally reviewed currency.
+**Status: product/domain contract with a first ledger-backed casino accounting slice implemented.** The process-local typed simulation ledger supports issuance, transfers, balanced atomic multi-account postings, retirement, and derived balances. `CasinoCashier` now models one-for-one in-world buy-in/cash-out transfers; `CasinoWagerBook` models stake escrow, loss/push/win settlement, a separate payouts-owed account, and explicit payout claims. This remains volatile process-local state: durable wallet state, crash recovery, deterministic game rules/outcome generation, venue/station integration, and browser integration are not implemented.
 
 ## Product intent
 
@@ -53,7 +53,7 @@ The intended capabilities are staged:
 
 1. **Venue and station identity:** cashier cage, blackjack, poker, roulette, slot machines, and future games are individually selectable stations with stable IDs, rules, capacity, staffing, and operating status.
 2. **Chip custody:** buy-in transfers in-world currency into casino custody and issues the corresponding chip balance; cash-out reverses that simulated relationship exactly once. Casino-held chips and player-held chips must be distinguishable.
-3. **Wager lifecycle:** a wager is proposed, validated against balance and limits, committed, resolved under a declared rule, and recorded. Invalid wagers have no economic effect.
+3. **Wager lifecycle:** a wager is proposed, validated against balance and limits, committed, resolved under a declared rule, and recorded. Invalid wagers have no economic effect. The first `CasinoWagerBook` slice now transfers player chips into escrow, resolves losses to the house reserve, and routes pushes/win gross payouts through a separate payouts-owed account before the player claims them.
 4. **Game rules:** each game declares its rules, payout table, limits, randomness policy, and expected-value/variance information. Seeded or scripted outcomes support deterministic tests. A decorative spin or sample card must never be reported as a resolved game.
 5. **House accounting:** track stakes held, unsettled wagers, payouts owed, returned stakes, net gaming result, and simulated operating costs. Do not label a simple event count as profit or a display counter as a ledger.
 6. **Workers and payroll:** casino jobs include dealers, hosts, cleaners, security, maintenance, and management. Shifts, wage rules, attendance, and payroll are explicit simulation events.
@@ -63,6 +63,23 @@ The intended capabilities are staged:
 10. **Accessibility and responsible presentation:** disclose simulated status, rules, wager cost, and outcome clearly. Offer non-gambling city activities; do not pressure participation or hide losses in animation.
 
 The initial playable slice should be small but honest: one participant, one cashier, one table game with a declared and testable rule set, one authoritative simulated transaction journal, and reproducible tests. Add game families only after the balance and wager invariants hold.
+
+## Implemented accounting slice (development branch)
+
+`CasinoCashier` performs one-for-one `SimulationLedger.Transfer` operations between a participant wallet and that participant's chip account. It does not issue currency, create a conversion rate, or interact with an external payment provider.
+
+`CasinoWagerBook` coordinates the following accounts in one typed simulated currency:
+
+| Account | Meaning | Movement |
+|---|---|---|
+| Participant chip account | Chips available to the participant | Buy-in credits; wager placement debits; payout claim credits |
+| Wager escrow | Stakes committed to unresolved wagers | Placement credits; resolution debits |
+| House reserve | Simulated funds available to cover winnings | Losing stakes credit it; winning profit debits it |
+| Payouts owed | Resolved gross amounts not yet claimed | Pushes and wins credit it; player claim debits it |
+
+A win's **gross payout includes the original stake**. For example, a 25-unit stake and 50-unit gross payout return 25 units of stake and award 25 units of winnings; the house reserve funds only the 25-unit net winnings. A push returns exactly the stake. A loss has zero payout. Every resolution is a balanced atomic `SimulationLedger.Post`; the subsequent claim is a separate idempotent transfer from payouts owed to the player chip account. A rejected settlement leaves both ledger and wager snapshot unchanged.
+
+Wager placement, resolution, and claim have caller-supplied operation IDs; wager IDs are separately unique within the book. Exact in-process retries replay the original receipt, while conflicting reuse is rejected. The book serializes its own state transitions, but it is not a durable transaction coordinator. Restart recovery, external concurrent writers, game outcome generation, betting limits, and a full custody audit remain follow-up work. Player chip accounts are still the same fictional currency as wallets; there is no separate chip token or real-world value.
 
 ## Shared responsibilities
 
@@ -92,4 +109,4 @@ Do not make the Economy package depend upward on WebPage, a particular renderer,
 
 The existing Economy alpha has reusable commerce vocabulary and design documentation. The WebPage casino page is currently an illustrative client-side experience: its buy-in, wager, payout, and event counters are local demo state; roulette and slots explicitly have no connected odds model, and the journal is not a production ledger. These are useful presentation scaffolds, not proof of an authoritative casino economy.
 
-The multi-account settlement primitive is implemented and has focused tests, but must still pass repository CI before it is treated as verified. The next milestone is to model casino custody and the wager lifecycle on top of this primitive, then connect a small visible interaction to canonical simulation state. The ledger remains process-local; durable persistence and crash recovery are separate work.
+The multi-account settlement primitive passed repository CI on development commit `e8993166e818a2f5a70db43420433ce8443cb7d7` (42 tests; build 0 warnings/errors). The initial cashier and wager accounting slice is now implemented with focused tests, but its new commit set still requires CI verification. The next milestone is to add a deterministic, declared table-game rule/outcome source and connect one visible interaction to canonical simulation state. The ledger and wager book remain process-local; durable persistence and crash recovery are separate work.
