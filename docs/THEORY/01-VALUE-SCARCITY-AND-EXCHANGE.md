@@ -89,6 +89,10 @@ Economic models depend on assumptions about actor knowledge, preferences, constr
 
 A game outcome and an economic posting are different facts. The blackjack round engine consumes an explicitly ordered shoe and applies declared action rules; it does not choose a random sequence or move simulated currency. The resulting decision describes whether the wager won, lost, or pushed and what gross payout the rules specify. A separate wager-book operation moves value through escrow and payouts owed. This separation makes the outcome reproducible and prevents a visual game action from becoming an unreviewed balance mutation. A complete production system would still need a trusted source of shuffled shoe order, durable round history, auditability, and clear disclosure of the rules.
 
+### Session ownership: bind game state to economic state
+
+The blackjack implementation now adds a process-local session coordinator above the deterministic round and wager book. It binds a current unresolved wager to a round with the exact same typed stake, exposes the round's player actions, and settles only the decision produced by that round. This is an application-level ownership boundary: the round does not move value, and the wager book does not invent game outcomes. The host still owns initial composition (placing the wager and starting a dedicated shoe before creating the session), and must handle a failure between those steps. Session state is volatile; durable recovery and multiplayer authority remain separate design problems.
+
 ## 04 — See it in a minute
 
 Try the reasoning exercise before reading the answer:
