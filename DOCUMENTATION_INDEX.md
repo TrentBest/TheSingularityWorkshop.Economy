@@ -8,6 +8,7 @@ The README is the public front door. These guides have different jobs; use the o
 | Build and run a first shop example | [Getting started](docs/GETTING_STARTED.md) |
 | Study the economic concepts in a modular textbook path | [Economy theory index](docs/THEORY/README.md) |
 | See a source-backed example and its limits | [Gallery](docs/GALLERY.md) |
+| Explore the casino, simulated stock exchange, business, auction, work, and supply-chain playground roadmap | [Markets and economic playgrounds](docs/MARKETS_AND_PLAYGROUNDS.md) |
 | Define Singularity currency, casino chips, buy-in/cash-out, house accounting, and the staged casino vertical slice | [Singularity currency and casino contract](docs/SINGULARITY_CURRENCY_AND_CASINO.md) |
 | Explore casino back-of-house encounters, simulated security cameras, courtesy bankroll, free city transit and paid driver roles, and multiplayer building construction | [Exploratory Economy Experiences](docs/EXPLORATORY_ECONOMY_EXPERIENCES.md) |
 | Plan the Singularity City simulation, Digiten-scale measurements, reusable/reskinnable creator shops, adoption, and a first vertical slice | [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) |
@@ -32,7 +33,6 @@ The README is the public front door. These guides have different jobs; use the o
 - A source-checked example is not the same as a separately built or run example.
 - This package does not execute real payments or certify legal, tax, security, or compliance readiness.
 - Publishing or enabling any operational financial capability remains a separate, explicitly authorized activity.
-
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
 <p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop avatar" width="200" /></p>
