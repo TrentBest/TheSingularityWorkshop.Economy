@@ -356,6 +356,46 @@ public sealed class SimulationLedgerTests
     }
 
     [Fact]
+    public void PostRejectsAggregateReceiptAmountOverflowWithoutAnyPartialCommit()
+    {
+        var currency = Currency();
+        var creditOne = new SimulationAccount(
+            new Guid("00000000-0000-0000-0000-000000000001"), EconomyEntityId.New(), currency);
+        var debitOne = new SimulationAccount(
+            new Guid("00000000-0000-0000-0000-000000000002"), EconomyEntityId.New(), currency);
+        var creditTwo = new SimulationAccount(
+            new Guid("00000000-0000-0000-0000-000000000003"), EconomyEntityId.New(), currency);
+        var debitTwo = new SimulationAccount(
+            new Guid("00000000-0000-0000-0000-000000000004"), EconomyEntityId.New(), currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(creditOne);
+        ledger.RegisterAccount(debitOne);
+        ledger.RegisterAccount(creditTwo);
+        ledger.RegisterAccount(debitTwo);
+        ledger.Issue(Guid.NewGuid(), debitOne.Id, Amount(decimal.MaxValue, currency), Time);
+        ledger.Issue(Guid.NewGuid(), debitTwo.Id, Amount(decimal.MaxValue, currency), Time);
+        var operationId = Guid.NewGuid();
+
+        Assert.Throws<OverflowException>(() => ledger.Post(operationId, new[]
+        {
+            new SimulationLedgerPosting(creditOne.Id, currency.Id, decimal.MaxValue),
+            new SimulationLedgerPosting(debitOne.Id, currency.Id, -decimal.MaxValue),
+            new SimulationLedgerPosting(creditTwo.Id, currency.Id, decimal.MaxValue),
+            new SimulationLedgerPosting(debitTwo.Id, currency.Id, -decimal.MaxValue)
+        }, Time));
+
+        Assert.Equal(0m, ledger.GetBalance(creditOne.Id));
+        Assert.Equal(decimal.MaxValue, ledger.GetBalance(debitOne.Id));
+        Assert.Equal(0m, ledger.GetBalance(creditTwo.Id));
+        Assert.Equal(decimal.MaxValue, ledger.GetBalance(debitTwo.Id));
+        Assert.Null(ledger.GetReceipt(operationId));
+        Assert.Empty(ledger.GetEntries(creditOne.Id));
+        Assert.Single(ledger.GetEntries(debitOne.Id));
+        Assert.Empty(ledger.GetEntries(creditTwo.Id));
+        Assert.Single(ledger.GetEntries(debitTwo.Id));
+    }
+
+    [Fact]
     public void PostRequiresBalancedSameCurrencyPrecisionValidUniqueAccountPostings()
     {
         var currency = Currency();
