@@ -74,14 +74,14 @@ public sealed class BlackjackWagerIntegrationTests
 
         Assert.True(replay.ResolutionReceipt!.IsReplay);
         Assert.Equal(20m, setup.Ledger.GetBalance(setup.PayoutsOwed.Id));
-        Assert.Equal(90m, setup.Ledger.GetBalance(setup.Chips.Id));
-        Assert.Equal(90m, setup.Ledger.GetBalance(setup.Wallet.Id));
+        Assert.Equal(10m, setup.Ledger.GetBalance(setup.Chips.Id));
+        Assert.Equal(80m, setup.Ledger.GetBalance(setup.Wallet.Id));
         Assert.Equal(90m, setup.Ledger.GetBalance(setup.House.Id));
         Assert.Equal(0m, setup.Ledger.GetBalance(setup.Escrow.Id));
 
         var claimed = setup.Wagers.ClaimPayout(Guid.NewGuid(), wagerId, Time);
         Assert.True(claimed.IsPayoutClaimed);
-        Assert.Equal(110m, setup.Ledger.GetBalance(setup.Chips.Id));
+        Assert.Equal(30m, setup.Ledger.GetBalance(setup.Chips.Id));
         Assert.Equal(0m, setup.Ledger.GetBalance(setup.PayoutsOwed.Id));
         Assert.Equal(200m,
             setup.Ledger.GetBalance(setup.Wallet.Id) +
@@ -96,12 +96,10 @@ public sealed class BlackjackWagerIntegrationTests
     {
         var setup = Create();
         var stake = new SimulatedAmount(10m, setup.Currency.Id);
-        setup.Wagers.PlaceWager(Guid.NewGuid(), Guid.NewGuid(), setup.Chips.Id, stake, Time);
-        var wager = setup.Wagers.GetWager(setup.Wagers.GetWager(Guid.Empty)?.WagerId ?? Guid.Empty);
-        Assert.Null(wager);
-
-        var wagerId = setup.Wagers.GetWager(Guid.Empty)?.WagerId ?? Guid.NewGuid();
-        var actualWager = setup.Wagers.PlaceWager(Guid.NewGuid(), wagerId, setup.Chips.Id, stake, Time);
+        setup.Cashier.BuyIn(Guid.NewGuid(), setup.Wallet.Id, setup.Chips.Id,
+            new SimulatedAmount(20m, setup.Currency.Id), Time);
+        var wager = setup.Wagers.PlaceWager(Guid.NewGuid(), Guid.NewGuid(),
+            setup.Chips.Id, stake, Time);
         var round = BlackjackRound.Start(new BlackjackShoe(new[]
         {
             C(BlackjackRank.Ten, BlackjackSuit.Clubs),
@@ -116,14 +114,14 @@ public sealed class BlackjackWagerIntegrationTests
         Assert.Equal(CasinoWagerOutcome.Loss, decision.Outcome);
         Assert.Equal(0m, decision.GrossPayout.Value);
         var resolved = setup.Wagers.ResolveWager(
-            Guid.NewGuid(), actualWager.WagerId, decision.Outcome, decision.GrossPayout, Time);
+            Guid.NewGuid(), wager.WagerId, decision.Outcome, decision.GrossPayout, Time);
 
         Assert.Equal(CasinoWagerOutcome.Loss, resolved.Outcome);
         Assert.Equal(110m, setup.Ledger.GetBalance(setup.House.Id));
         Assert.Equal(0m, setup.Ledger.GetBalance(setup.Escrow.Id));
         Assert.Equal(0m, setup.Ledger.GetBalance(setup.PayoutsOwed.Id));
         Assert.Throws<InvalidOperationException>(() =>
-            setup.Wagers.ClaimPayout(Guid.NewGuid(), actualWager.WagerId, Time));
+            setup.Wagers.ClaimPayout(Guid.NewGuid(), wager.WagerId, Time));
     }
 
     [Fact]
@@ -131,6 +129,8 @@ public sealed class BlackjackWagerIntegrationTests
     {
         var setup = Create();
         var stake = new SimulatedAmount(10m, setup.Currency.Id);
+        setup.Cashier.BuyIn(Guid.NewGuid(), setup.Wallet.Id, setup.Chips.Id,
+            new SimulatedAmount(20m, setup.Currency.Id), Time);
         var wager = setup.Wagers.PlaceWager(Guid.NewGuid(), Guid.NewGuid(),
             setup.Chips.Id, stake, Time);
         var round = BlackjackRound.Start(new BlackjackShoe(new[]
@@ -151,7 +151,7 @@ public sealed class BlackjackWagerIntegrationTests
         Assert.Equal(10m, setup.Ledger.GetBalance(setup.PayoutsOwed.Id));
 
         setup.Wagers.ClaimPayout(Guid.NewGuid(), wager.WagerId, Time);
-        Assert.Equal(100m, setup.Ledger.GetBalance(setup.Chips.Id));
+        Assert.Equal(20m, setup.Ledger.GetBalance(setup.Chips.Id));
         Assert.Equal(0m, setup.Ledger.GetBalance(setup.PayoutsOwed.Id));
         Assert.Equal(100m, setup.Ledger.GetBalance(setup.House.Id));
     }
