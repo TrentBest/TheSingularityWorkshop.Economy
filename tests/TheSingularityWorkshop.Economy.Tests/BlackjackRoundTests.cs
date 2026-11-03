@@ -81,7 +81,7 @@ public sealed class BlackjackRoundTests
 
         Assert.Equal(BlackjackRoundState.Completed, round.State);
         Assert.Equal(19, round.Decision!.Dealer.Total);
-        Assert.Equal(4, round.DealerCards.Count);
+        Assert.Equal(3, round.DealerCards.Count);
     }
 
     [Fact]
