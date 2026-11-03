@@ -237,6 +237,8 @@ public sealed class SimulationLedger
         ArgumentNullException.ThrowIfNull(postings);
 
         var requestedPostings = postings.ToArray();
+        if (requestedPostings.Any(posting => posting is null))
+            throw new ArgumentException("A posting collection cannot contain null entries.", nameof(postings));
         if (requestedPostings.Length < 2)
             throw new ArgumentException("A balanced transfer requires at least two postings.", nameof(postings));
         if (requestedPostings.Any(posting => posting.AccountId == Guid.Empty))
