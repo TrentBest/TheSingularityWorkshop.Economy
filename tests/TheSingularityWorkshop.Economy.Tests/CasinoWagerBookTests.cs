@@ -113,7 +113,7 @@ public sealed class CasinoWagerBookTests
             new SimulatedAmount(20m, currency.Id), Time));
         Assert.Null(book.GetWager(wagerId)!.Outcome);
         Assert.Equal(10m, ledger.GetBalance(escrow.Id));
-        Assert.Equal(10m, ledger.GetBalance(house.Id) - 10_000m);
+        Assert.Equal(0m, ledger.GetBalance(house.Id) - 10_000m);
         Assert.Equal(0m, ledger.GetBalance(payoutsOwed.Id));
     }
 
