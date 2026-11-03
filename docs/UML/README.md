@@ -12,7 +12,7 @@ A class diagram alone cannot explain an economic operation. Type neighborhoods, 
 
 | View family | Required scope | Current status | Evidence / next action |
 |---|---|---|---|
-| Class/type diagrams | Each public declaration in source scope | Partial | [SimulationLedger neighborhood](SimulationLedgerUML.md); [casino custody and wager lifecycle](CasinoWagerBookUML.md); [deterministic blackjack evaluation](BlackjackRulesUML.md); [blackjack round lifecycle](BlackjackRoundUML.md); CasinoWagerBook is the second focal neighborhood, BlackjackRules the third, and BlackjackRound the fourth; the other 33 declarations do not yet have dedicated focal neighborhoods |
+| Class/type diagrams | Each public declaration in source scope | Partial | [SimulationLedger neighborhood](SimulationLedgerUML.md); [casino custody and wager lifecycle](CasinoWagerBookUML.md); [deterministic blackjack evaluation](BlackjackRulesUML.md); [blackjack round lifecycle](BlackjackRoundUML.md); CasinoWagerBook is the second focal neighborhood, BlackjackRules the third, and BlackjackRound the fourth; the other 38 declarations do not yet have dedicated focal neighborhoods |
 | Class neighborhoods | Consumers above, focal type centered, dependencies below, package references to the right | Partial | SimulationLedger, CasinoWagerBook, BlackjackRules, and BlackjackRound focal views exist; remaining focal types are planned |
 | Sequence diagrams | Important workflows and failure paths | Planned | Add ledger posting and casino wager settlement sequences from source/tests |
 | Activity/control-flow diagrams | Nontrivial branches, validation, loops, and exceptions | Planned | Begin with transfer validation and atomic commit path |
