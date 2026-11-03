@@ -42,3 +42,4 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackRoundUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackWagerIntegrationUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackSessionUML.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackSessionOpeningUML.md'
