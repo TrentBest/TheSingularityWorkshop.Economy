@@ -68,11 +68,12 @@ public sealed class BlackjackSessionOpeningTests
         {
             C(BlackjackRank.Ten, BlackjackSuit.Clubs),
             C(BlackjackRank.Nine, BlackjackSuit.Diamonds)
-        }, session.RoundState == BlackjackRoundState.PlayerTurn
-            ? session.Wager.Stake.Value == 10m
-                ? new[] { C(BlackjackRank.Ten, BlackjackSuit.Clubs), C(BlackjackRank.Nine, BlackjackSuit.Diamonds) }
-                : Array.Empty<BlackjackCard>()
-            : Array.Empty<BlackjackCard>());
+        }, session.PlayerCards);
+        Assert.Equal(new[]
+        {
+            C(BlackjackRank.Ten, BlackjackSuit.Spades),
+            C(BlackjackRank.Six, BlackjackSuit.Hearts)
+        }, session.DealerCards);
     }
 
     [Fact]
