@@ -14,7 +14,7 @@ A class diagram alone cannot explain an economic operation. Type neighborhoods, 
 |---|---|---|---|
 | Class/type diagrams | Each public declaration in source scope | Partial | [SimulationLedger neighborhood](SimulationLedgerUML.md); [casino custody and wager lifecycle](CasinoWagerBookUML.md); [deterministic blackjack evaluation](BlackjackRulesUML.md); [blackjack round lifecycle](BlackjackRoundUML.md); CasinoWagerBook is the second focal neighborhood, BlackjackRules the third, and BlackjackRound the fourth; the other 38 declarations do not yet have dedicated focal neighborhoods |
 | Class neighborhoods | Consumers above, focal type centered, dependencies below, package references to the right | Partial | SimulationLedger, CasinoWagerBook, BlackjackRules, and BlackjackRound focal views exist; remaining focal types are planned |
-| Sequence diagrams | Important workflows and failure paths | Planned | Add ledger posting and casino wager settlement sequences from source/tests |
+| Sequence diagrams | Important workflows and failure paths | Partial | [Blackjack host settlement sequence](BlackjackWagerIntegrationUML.md) covers the tested decision-to-ledger path; add lower-level ledger posting and wager failure sequences |
 | Activity/control-flow diagrams | Nontrivial branches, validation, loops, and exceptions | Planned | Begin with transfer validation and atomic commit path |
 | State/lifecycle diagrams | Stateful domain lifecycles | Planned / applicability review | Casino wager lifecycle is documented and process-local; durable lifecycle recovery remains absent |
 | Use cases | Actor goals, preconditions, success, alternatives, evidence | Partial | SimulationLedger and casino wager use cases documented; remaining public types need use cases where meaningful |
@@ -37,7 +37,7 @@ No Roslyn-based repository-wide UML generator, reflection inventory, relationshi
 
 ## 04 — See it in a minute
 
-The [SimulationLedger neighborhood](SimulationLedgerUML.md), [casino custody/wager lifecycle](CasinoWagerBookUML.md), [deterministic blackjack rules](BlackjackRulesUML.md), and [round lifecycle](BlackjackRoundUML.md) are the first four focal views. The blackjack diagram distinguishes pure hand evaluation from caller-owned card acquisition and ledger settlement. The casino view distinguishes implemented accounting transitions from game rules, persistence, and runtime integration that remain future work.
+The [SimulationLedger neighborhood](SimulationLedgerUML.md), [casino custody/wager lifecycle](CasinoWagerBookUML.md), [deterministic blackjack rules](BlackjackRulesUML.md), and [round lifecycle](BlackjackRoundUML.md) are the first four focal views. The [host settlement sequence](BlackjackWagerIntegrationUML.md) traces the integration test from buy-in through payout claim. The blackjack diagram distinguishes pure hand evaluation from caller-owned card acquisition and ledger settlement. The casino view distinguishes implemented accounting transitions from game rules, persistence, and runtime integration that remain future work.
 
 ## 05 — Choose your next step
 
