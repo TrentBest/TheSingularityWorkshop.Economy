@@ -28,6 +28,20 @@ public sealed class CapabilityCompositionTests
     }
 
     [Fact]
+    public void CatalogRejectsUnresolvedDependencyAndConflictReferences()
+    {
+        var missing = new CapabilityId("missing");
+        Assert.Throws<ArgumentException>(() => new CapabilityCatalog(new[]
+        {
+            Capability("shops", new[] { missing })
+        }));
+        Assert.Throws<ArgumentException>(() => new CapabilityCatalog(new[]
+        {
+            Capability("simulation", conflicts: new[] { missing })
+        }));
+    }
+
+    [Fact]
     public void CompositionCanSelectNoCapabilitiesOrOnlyOneOptionalCapability()
     {
         var ledger = Capability("ledger");

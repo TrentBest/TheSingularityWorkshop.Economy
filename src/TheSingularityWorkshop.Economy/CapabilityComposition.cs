@@ -172,8 +172,18 @@ public sealed class CapabilityCatalog
         if (snapshot.Select(descriptor => descriptor.Id).Distinct().Count() != snapshot.Length)
             throw new ArgumentException("Capability identifiers must be unique in a catalog.", nameof(descriptors));
 
-        _descriptors = new System.Collections.ObjectModel.ReadOnlyDictionary<CapabilityId, CapabilityDescriptor>(
-            snapshot.ToDictionary(descriptor => descriptor.Id));
+        var byId = snapshot.ToDictionary(descriptor => descriptor.Id);
+        foreach (var descriptor in snapshot)
+        {
+            var unresolved = descriptor.Dependencies.Concat(descriptor.Conflicts)
+                .FirstOrDefault(reference => !byId.ContainsKey(reference));
+            if (!string.IsNullOrWhiteSpace(unresolved.Value))
+                throw new ArgumentException(
+                    $"Capability '{descriptor.Id}' references '{unresolved}', which is not present in this catalog.",
+                    nameof(descriptors));
+        }
+
+        _descriptors = new System.Collections.ObjectModel.ReadOnlyDictionary<CapabilityId, CapabilityDescriptor>(byId);
     }
 
     public IReadOnlyCollection<CapabilityDescriptor> Descriptors => _descriptors.Values.ToArray();
