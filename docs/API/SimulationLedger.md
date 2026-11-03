@@ -14,7 +14,8 @@ The supporting public types are:
 | SimulationAccount | Account identity, owner, and currency |
 | SimulationLedgerOperationKind | Issuance, transfer, or retirement classification |
 | SimulationLedgerEntry | Signed account posting |
-| SimulationLedgerReceipt | Applied-operation receipt, including replay indication |
+| SimulationLedgerPosting | Caller-supplied signed posting for a balanced multi-account transfer |
+| SimulationLedgerReceipt | Applied-operation receipt, including replay indication and immutable multi-account posting snapshot |
 | SimulationLedger | Registration, posting, balance, journal snapshot, and receipt lookup |
 
 ## 02 — Why
@@ -35,6 +36,7 @@ The same currency ID cannot be registered with conflicting metadata inside one l
 
 - Issue credits an account and records an explicit issuance posting.
 - Transfer validates both accounts and the currency, checks available funds, then records a debit and credit while holding the ledger lock.
+- Post applies a balanced transfer across two or more accounts. Each account appears once; every posting uses the same registered currency and valid precision; signed deltas total exactly zero. All resulting balances are checked before any state changes.
 - Retire debits an account and records an explicit retirement posting.
 - GetBalance sums the account's signed journal entries.
 - GetEntries returns a read-only snapshot for the selected account.
@@ -44,7 +46,7 @@ Every operation requires a non-empty caller-supplied operation ID, a positive am
 
 ### Retry semantics
 
-An exact retry with the same operation ID, operation kind, account identities, amount, and currency returns the original receipt with IsReplay set to true. The original timestamp remains authoritative. Reusing an operation ID for a different request throws InvalidOperationException.
+An exact retry with the same operation ID and normalized request returns the original receipt with IsReplay set to true. For Post, posting order does not affect the fingerprint; account IDs, currency IDs, and signed amounts do. The original timestamp remains authoritative. Reusing an operation ID for a different request throws InvalidOperationException.
 
 This is an in-memory idempotency boundary. It does not survive process restart and is not a distributed idempotency guarantee.
 
@@ -54,7 +56,7 @@ This is an in-memory idempotency boundary. It does not survive process restart a
 - Tests: [SimulationLedgerTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs)
 - Related legacy vocabulary: [Money.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Money.cs), [EconomyAccount.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/EconomyAccount.cs), and [Transfer.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Transfer.cs)
 
-The tests exercise explicit issuance, transfer conservation, idempotent retry, conflicting operation IDs, insufficient funds, currency isolation, conflicting currency metadata, retirement, account registration, precision, and read-only journal snapshots.
+The tests exercise explicit issuance, two-account transfer conservation, three-account atomic settlement, late insufficient-funds rejection, overflow rejection, balanced totals, currency and precision validation, exact and conflicting retries, concurrent competing settlements, retirement, account registration, and read-only journal/receipt snapshots.
 
 ## 04 — See it in a minute
 
@@ -77,6 +79,21 @@ The tests exercise explicit issuance, transfer conservation, idempotent retry, c
         DateTimeOffset.UtcNow);
 
     var balance = ledger.GetBalance(account.Id); // 100
+
+    var house = new SimulationAccount(Guid.NewGuid(), EconomyEntityId.New(), currency);
+    var escrow = new SimulationAccount(Guid.NewGuid(), EconomyEntityId.New(), currency);
+    ledger.RegisterAccount(house);
+    ledger.RegisterAccount(escrow);
+
+    ledger.Post(
+        Guid.NewGuid(),
+        new[]
+        {
+            new SimulationLedgerPosting(account.Id, currency.Id, -30m),
+            new SimulationLedgerPosting(house.Id, currency.Id, 10m),
+            new SimulationLedgerPosting(escrow.Id, currency.Id, 20m)
+        },
+        DateTimeOffset.UtcNow);
 
 This example is illustrative source usage; the automated test suite is the executable verification. The ledger is process-local and volatile.
 
