@@ -70,6 +70,12 @@ The tests exercise explicit issuance, two-account transfer conservation, three-a
 
 Every transition has a caller-supplied operation ID, and every wager has its own stable wager ID. This coordinator is process-local and volatile; it does not generate random outcomes, enforce table limits, persist state, or recover after a crash. A future game engine must supply deterministic/reproducible outcomes and explicit rules rather than asking this accounting component to invent them.
 
+### Blackjack round lifecycle
+
+`BlackjackShoe` consumes a caller-supplied ordered sequence without shuffling. `BlackjackRound.Start` deals player/dealer/player/dealer and exposes PlayerTurn, DealerTurn, and Completed states. Hit draws one player card and completes a bust immediately. Stand runs the dealer under an explicit hit-soft-17 (H17) policy. A natural on either initial hand completes immediately. The round returns a `BlackjackDecision` but never mutates the ledger; the host must explicitly pass that decision to `CasinoWagerBook.ResolveWager`. The shoe and round are process-local. The first shoe rejects duplicate physical rank/suit identities and therefore models one deck; multi-deck support requires deck-instance identity. If the dealer exhausts the shoe during play, the state remains DealerTurn with already drawn cards preserved.
+
+Source: [BlackjackRound.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/BlackjackRound.cs). Tests: [BlackjackRoundTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/BlackjackRoundTests.cs). UML: [BlackjackRound UML](../UML/BlackjackRoundUML.md).
+
 ### Blackjack rules
 
 The pure BlackjackRules evaluator accepts fully supplied player/dealer card lists and a positive typed stake. EvaluateHand calculates the best hand total, soft-ace status, bust status, and two-card natural status. Resolve validates a completed round (at least two cards per hand, no duplicate physical card across the round) and returns a BlackjackDecision containing both hand values, CasinoWagerOutcome, and gross payout.
