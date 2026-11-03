@@ -17,6 +17,10 @@ The supporting public types are:
 | SimulationLedgerPosting | Caller-supplied signed posting for a balanced multi-account transfer |
 | SimulationLedgerReceipt | Applied-operation receipt, including replay indication and immutable multi-account posting snapshot |
 | SimulationLedger | Registration, posting, balance, journal snapshot, and receipt lookup |
+| CasinoCashier | One-for-one simulated wallet/chip buy-in and cash-out transfers |
+| CasinoWagerOutcome | Loss, push, and win classifications |
+| CasinoWager | Immutable wager state and operation receipts |
+| CasinoWagerBook | Escrow, atomic resolution, payouts owed, and payout claim coordination |
 
 ## 02 — Why
 
@@ -57,6 +61,14 @@ This is an in-memory idempotency boundary. It does not survive process restart a
 - Related legacy vocabulary: [Money.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Money.cs), [EconomyAccount.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/EconomyAccount.cs), and [Transfer.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Transfer.cs)
 
 The tests exercise explicit issuance, two-account transfer conservation, three-account atomic settlement, late insufficient-funds rejection, account-balance overflow and aggregate receipt-amount overflow rejection, balanced totals, currency and precision validation, exact and conflicting retries, concurrent competing settlements, retirement, account registration, and read-only journal/receipt snapshots.
+
+### Casino custody and wager lifecycle
+
+`CasinoCashier.BuyIn` transfers from the participant wallet account to the participant chip account; `CashOut` reverses that transfer. Both are ordinary same-currency ledger transfers and cannot create value.
+
+`CasinoWagerBook` is composed with registered house-reserve, wager-escrow, and payouts-owed accounts. `PlaceWager` transfers a positive stake from the player's chip account into escrow. `ResolveWager` accepts an explicit outcome and gross payout: loss requires zero, push returns exactly the stake, and win requires a gross payout greater than the stake. Win settlement debits the house reserve by net winnings and credits payouts owed by the gross payout, while debiting escrow by the original stake. `ClaimPayout` transfers the payable amount to the player's chip account once.
+
+Every transition has a caller-supplied operation ID, and every wager has its own stable wager ID. This coordinator is process-local and volatile; it does not generate random outcomes, enforce table limits, persist state, or recover after a crash. A future game engine must supply deterministic/reproducible outcomes and explicit rules rather than asking this accounting component to invent them.
 
 ## 04 — See it in a minute
 
