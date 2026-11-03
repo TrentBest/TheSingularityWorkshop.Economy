@@ -101,6 +101,7 @@ public sealed class CasinoWagerBook
 
         lock (_sync)
         {
+            EnsureOperationIdNotUsedByAnotherWager(operationId, wagerId);
             if (_wagers.TryGetValue(wagerId, out var existing))
             {
                 if (existing.PlaceOperationId != operationId ||
@@ -141,7 +142,10 @@ public sealed class CasinoWagerBook
 
         lock (_sync)
         {
+            EnsureOperationIdNotUsedByAnotherWager(operationId, wagerId);
             var wager = RequireWager(wagerId);
+            if (wager.PlaceOperationId == operationId || wager.ClaimOperationId == operationId)
+                throw new InvalidOperationException("An operation identifier cannot be reused across wager lifecycle phases.");
             if (wager.ResolutionOperationId is not null)
             {
                 if (wager.ResolutionOperationId != operationId ||
@@ -208,7 +212,10 @@ public sealed class CasinoWagerBook
 
         lock (_sync)
         {
+            EnsureOperationIdNotUsedByAnotherWager(operationId, wagerId);
             var wager = RequireWager(wagerId);
+            if (wager.PlaceOperationId == operationId || wager.ResolutionOperationId == operationId)
+                throw new InvalidOperationException("An operation identifier cannot be reused across wager lifecycle phases.");
             if (wager.ResolutionOperationId is null || wager.GrossPayout is null)
                 throw new InvalidOperationException("An unresolved wager has no payable balance.");
             if (wager.GrossPayout.Value.Value == 0m)
@@ -241,6 +248,16 @@ public sealed class CasinoWagerBook
     {
         lock (_sync)
             return _wagers.GetValueOrDefault(wagerId);
+    }
+
+    private void EnsureOperationIdNotUsedByAnotherWager(Guid operationId, Guid wagerId)
+    {
+        if (_wagers.Values.Any(wager =>
+                wager.WagerId != wagerId &&
+                (wager.PlaceOperationId == operationId ||
+                 wager.ResolutionOperationId == operationId ||
+                 wager.ClaimOperationId == operationId)))
+            throw new InvalidOperationException("An operation identifier is already assigned to another wager.");
     }
 
     private CasinoWager RequireWager(Guid wagerId) =>
