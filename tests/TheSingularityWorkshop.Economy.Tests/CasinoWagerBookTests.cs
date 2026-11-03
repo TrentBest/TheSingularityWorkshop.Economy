@@ -26,7 +26,8 @@ public sealed class CasinoWagerBookTests
         foreach (var account in new[] { player, house, escrow, payoutsOwed })
             ledger.RegisterAccount(account);
         ledger.Issue(Guid.NewGuid(), player.Id, new SimulatedAmount(playerBalance, currency.Id), Time);
-        ledger.Issue(Guid.NewGuid(), house.Id, new SimulatedAmount(houseBalance, currency.Id), Time);
+        if (houseBalance > 0m)
+            ledger.Issue(Guid.NewGuid(), house.Id, new SimulatedAmount(houseBalance, currency.Id), Time);
         var book = new CasinoWagerBook(ledger, house.Id, escrow.Id, payoutsOwed.Id);
         return (ledger, currency, player, house, escrow, payoutsOwed, book);
     }
@@ -196,6 +197,8 @@ public sealed class CasinoWagerBookTests
 
         Assert.Throws<InvalidOperationException>(() => book.PlaceWager(
             Guid.NewGuid(), wagerId, player.Id, new SimulatedAmount(10m, currency.Id), Time));
+        book.ResolveWager(Guid.NewGuid(), wagerId, CasinoWagerOutcome.Loss,
+            new SimulatedAmount(0m, currency.Id), Time);
         Assert.Throws<InvalidOperationException>(() => book.ResolveWager(
             Guid.NewGuid(), wagerId, CasinoWagerOutcome.Loss,
             new SimulatedAmount(0m, currency.Id), Time));
