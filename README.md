@@ -65,6 +65,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 ## 🟪 05 Available documentation and theory
 
+- [Markets and economic playgrounds](docs/MARKETS_AND_PLAYGROUNDS.md) — casino, simulated stock exchange, businesses, auctions, jobs, and supply-chain experiments.
 - [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — Singularity City, Digiten-scale measurement, reusable/reskinnable creator shops, adoption, and the first vertical slice.
 - [Singularity currency and casino contract](docs/SINGULARITY_CURRENCY_AND_CASINO.md) — non-redeemable in-world currency, casino chip custody, wager lifecycle, house accounting, and the first authoritative simulation slice.
 - [Exploratory Economy Experiences](docs/EXPLORATORY_ECONOMY_EXPERIENCES.md) — casino back-of-house exploration, simulated camera feeds, courtesy bankroll, free transit and paid transport jobs, and multiplayer building construction.
@@ -85,7 +86,6 @@ The example follows the shop/product composition covered by the [domain tests](t
 Economy should remain independently useful. Workshop experiences may compose it with other contracts, but no Workshop package is required just to describe a shop or an economic concept. The Experience owns its UI, inventory, gameplay rules, and execution policy.
 
 **Current status: exploratory alpha.** The package does not provide a production storefront, cart, inventory system, durable or distributed ledger, payment processor, wallet, settlement service, live provider adapter, or compliance determination. The current SimulationLedger is an in-memory, process-local journal for explicit fictional-currency issuance, transfers, and retirement; it is not persistent casino custody or a production transaction service. Creator workflows and near-term revenue models remain hypotheses to validate, not implemented capabilities or promises of income. Real-money integration is deliberately separate from proving the simulated economy.
-
 
 ---
 
