@@ -14,9 +14,16 @@ public sealed class ReferenceExperienceCompositionTests
     private static readonly CapabilityDescriptor Registration = Descriptor("competition.registration", "Competition", "Competitor registration and eligibility.");
     private static readonly CapabilityDescriptor ScoreSubmissions = Descriptor("competition.scores", "Competition", "Validated score submissions with provenance.", new[] { Registration.Id });
     private static readonly CapabilityDescriptor RegionalAggregation = Descriptor("competition.regions", "Competition", "Aggregation of eligible scores by an Experience-assigned region.", new[] { ScoreSubmissions.Id });
+    private static readonly CapabilityDescriptor Employment = Descriptor("society.employment", "Society", "Occupations, employment agreements, skills, and wage obligations.", new[] { Treasury.Id });
+    private static readonly CapabilityDescriptor PropertyTitle = Descriptor("society.property-title", "Society", "Asset identity, title records, ownership interests, and transfer history.");
+    private static readonly CapabilityDescriptor IncidentRecords = Descriptor("society.incidents", "Society", "Reports and provenance for alleged theft, fraud, and other incidents.");
+    private static readonly CapabilityDescriptor JusticeCases = Descriptor("society.justice", "Society", "Evidence references, investigations, findings, appeals, and remedies.", new[] { IncidentRecords.Id });
+    private static readonly CapabilityDescriptor InstitutionalIntegrity = Descriptor("society.integrity", "Society", "Bribery, conflicts of interest, favoritism, and oversight policy.", new[] { JusticeCases.Id });
+    private static readonly CapabilityDescriptor CivicRegistry = Descriptor("society.civic-registry", "Society", "Public registries, permits, and civic records.");
     private static readonly CapabilityCatalog Catalog = new(new[]
     {
-        Treasury, Shops, Production, Training, Taxation, Registration, ScoreSubmissions, RegionalAggregation
+        Treasury, Shops, Production, Training, Taxation, Registration, ScoreSubmissions, RegionalAggregation,
+        Employment, PropertyTitle, IncidentRecords, JusticeCases, InstitutionalIntegrity, CivicRegistry
     });
 
     [Fact]
@@ -66,6 +73,42 @@ public sealed class ReferenceExperienceCompositionTests
             competition.Selections.Select(x => x.CapabilityId).ToHashSet());
     }
 
+    [Fact]
+    public void FeudalKingdomCanComposeHereditaryPropertyAndCorruptCourt()
+    {
+        var feudalKingdom = new ExperienceCapabilityComposition(new[]
+        {
+            new CapabilitySelection(PropertyTitle.Id),
+            new CapabilitySelection(IncidentRecords.Id),
+            new CapabilitySelection(JusticeCases.Id),
+            new CapabilitySelection(InstitutionalIntegrity.Id)
+        });
+
+        Assert.True(feudalKingdom.Validate(Catalog).IsValid);
+        Assert.Contains(feudalKingdom.Selections, item => item.CapabilityId == PropertyTitle.Id);
+        Assert.Contains(feudalKingdom.Selections, item => item.CapabilityId == InstitutionalIntegrity.Id);
+        Assert.DoesNotContain(feudalKingdom.Selections, item => item.CapabilityId == Employment.Id);
+    }
+
+    [Fact]
+    public void ModernCityCanComposeEmploymentPropertyRegistryAndOversight()
+    {
+        var modernCity = new ExperienceCapabilityComposition(new[]
+        {
+            new CapabilitySelection(Treasury.Id),
+            new CapabilitySelection(Employment.Id),
+            new CapabilitySelection(PropertyTitle.Id),
+            new CapabilitySelection(CivicRegistry.Id),
+            new CapabilitySelection(IncidentRecords.Id),
+            new CapabilitySelection(JusticeCases.Id),
+            new CapabilitySelection(InstitutionalIntegrity.Id)
+        });
+
+        Assert.True(modernCity.Validate(Catalog).IsValid);
+        Assert.Contains(modernCity.Selections, item => item.CapabilityId == Employment.Id);
+        Assert.Contains(modernCity.Selections, item => item.CapabilityId == CivicRegistry.Id);
+        Assert.DoesNotContain(modernCity.Selections, item => item.CapabilityId == Shops.Id);
+    }
     private static CapabilityDescriptor Descriptor(string id, string category, string description,
         IEnumerable<CapabilityId>? dependencies = null) =>
         new(new CapabilityId(id), id, category, description, "1.0",

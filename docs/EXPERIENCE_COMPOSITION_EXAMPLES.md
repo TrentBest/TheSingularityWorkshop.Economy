@@ -56,11 +56,20 @@ if (!validation.IsValid)
 }
 ```
 
+## Society compositions (metadata fixtures)
+
+The same catalog can describe civic systems without making them mandatory:
+
+- **Feudal kingdom:** property/title, incident records, justice cases, and institutional integrity. This can represent hereditary land grants, contested succession, theft allegations, and a compromised court.
+- **Modern city:** treasury, employment, property/title, civic registry, incident records, justice cases, and institutional integrity. This can represent jobs and wages, parcel ownership, permits, oversight, and appeals.
+
+These are currently descriptor fixtures and composition tests, not working employment, registry, theft-detection, corruption, or justice engines. See [issue #23](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/23) for the implementation plan.
+
 ## Executable evidence
 
-[`ReferenceExperienceCompositionTests.cs`](../tests/TheSingularityWorkshop.Economy.Tests/ReferenceExperienceCompositionTests.cs) verifies that both compositions validate against one shared catalog, and that neither Experience is forced to select the other's capabilities.
+[`ReferenceExperienceCompositionTests.cs`](../tests/TheSingularityWorkshop.Economy.Tests/ReferenceExperienceCompositionTests.cs) verifies that the RPG kingdom, global score competition, feudal kingdom, and modern city can select distinct subsets from one shared catalog.
 
-The descriptors in that test are deliberately lightweight fixtures. They establish the shape of composition, not the existence of production implementations for every named capability. Production, training, taxation, score-submission, and regional-aggregation engines remain future work.
+The descriptors in that test are deliberately lightweight fixtures. They establish the shape of composition, not the existence of production implementations for every named capability. Production, training, taxation, score-submission, regional-aggregation, employment, property/title, incident, justice, and institutional-integrity engines remain future work.
 
 ## Boundary
 

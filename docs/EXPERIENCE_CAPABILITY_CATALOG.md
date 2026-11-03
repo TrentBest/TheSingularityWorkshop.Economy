@@ -73,6 +73,25 @@ These are policies and workflows over shared typed parties, accounts, value unit
 
 Do not collapse offer, intent, authorization, execution, and outcome into one method or status. Production may create value because an explicitly modeled process created goods; that is not permission to fabricate account balances. Every source and use must be named and traceable.
 
+## Society capabilities: work, property, crime, and governance
+
+A world may also select civic and social systems independently. These are not one mandatory "society" package:
+
+| Capability family | Example contracts and behavior |
+|---|---|
+| Work and livelihoods | Occupations, skills, vacancies, hiring, employment agreements, wages, shifts, training, promotion, unemployment, and labor disputes |
+| Property and title | Asset identity, parcels, ownership interests, title/deed provenance, leases, liens, transfers, inheritance, easements, zoning, and competing claims |
+| Theft and fraud | Incident reports, alleged unauthorized taking, burglary, embezzlement, forgery, scams, stolen-goods provenance, recovery, and restitution |
+| Corruption and integrity | Bribery, conflicts of interest, favoritism, procurement fraud, abuse of office, oversight, exposure, findings, and sanctions |
+| Justice and enforcement | Investigations, evidence references, hearings, findings, appeals, penalties, restitution, rehabilitation, and case closure |
+| Civic administration | Registries, permits, public works, district rules, legislation, and administrative decisions |
+
+Keep **incident, evidence, finding, and consequence** separate. An allegation is not a conviction; evidence is not adjudication. Likewise, a deed is a provenance record, not automatic proof that a transfer was authorized. Employment agreements define obligations, but wage payment remains an explicit ledger operation.
+
+The ledger should not disguise theft as a valid authorized transfer or silently rewrite title history. Record an incident and its provenance separately, then represent recovery, restitution, or correction as an explicit, authorized operation. Corruption may distort a simulated decision, but it must not mutate accounting history behind the scenes.
+
+These capabilities are optional and Experience-configured. A feudal kingdom might use hereditary title conventions, guild labor, a corrupt court, and weak enforcement. A modern city might use employment contracts, a parcel registry, permits, independent oversight, and formal appeals. A whimsical arcade world may use none of them. Economy provides fictional simulation contracts, not real-world legal registries, employment services, law enforcement, or legal advice.
+
 ## Narrative economies are explicit scenario policy
 
 A story may need an economy that was prosperous and is now under strain. The framework should make that easy to author without falsifying its records.
@@ -101,6 +120,8 @@ A capability is easier to understand when the developer can see it in context. P
 | Cantina / casino | cashier, fictional chips, blackjack, poker adapter, tournament administration |
 | Arena | competitor registration, match rules adapter, validated results, bracket, fictional rewards |
 | Creator challenge | competition registration, score submissions, anti-cheat/provenance adapter, leaderboard |
+| Feudal kingdom | property/title, incidents, justice, institutional integrity, guild work (optional) |
+| Modern city | employment, property/title, civic registry, incidents, justice, institutional integrity |
 
 These are composition examples and roadmap scenarios, not a declaration that all listed capabilities exist.
 
@@ -123,7 +144,7 @@ Do not put a globe renderer in Economy. Do not infer a player's precise location
 
 Already implemented in the repository are reusable shop and commerce primitives, a process-local typed fictional-currency ledger, creator-shop composition contract tests, casino wager accounting and deterministic blackjack lifecycle, plus generic competitor/team/competition and single-elimination bracket foundations.
 
-The creator-shop composition proof is a test-owned fixture, not a production editor or runtime catalog. Tournament brackets are not yet a full tournament administration service. Poker, fantasy roster policy, production/training workflows, scenario presets, capability discovery/activation, regional aggregation, and globe visualization are not implemented by this document.
+The creator-shop composition proof is a test-owned fixture, not a production editor or runtime catalog. Tournament brackets are not yet a full tournament administration service. Poker, fantasy roster policy, production/training workflows, scenario presets, capability discovery/activation, regional aggregation, globe visualization, and the society capability families are not implemented by this document. The society entries in the reference composition tests are metadata fixtures only.
 
 ## Implementation sequence
 
@@ -134,5 +155,6 @@ The creator-shop composition proof is a test-owned fixture, not a production edi
 5. Add explicit scenario configuration and event history for narrative economic distortion.
 6. Add region assignment and aggregation to competition results; leave globe rendering to the Experience/Visualize layer.
 7. Add activity adapters (poker, sports, gladiators, creator challenges) independently of the shared transaction core.
+8. Build society vertical slices under [issue #23](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/23), beginning with title provenance and employment agreements before incident/adjudication workflows.
 
 All simulation value remains fictional and non-redeemable. This architecture does not authorize real-money wagering, prizes, payments, redemption, or donation-to-game-credit conversion.
