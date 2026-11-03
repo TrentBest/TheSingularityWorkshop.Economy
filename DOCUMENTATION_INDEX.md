@@ -7,7 +7,7 @@ The README is the public front door. These guides have different jobs; use the o
 | Understand the concept without starting from code | [What is Economy?](docs/WHAT_IS_ECONOMY.md) |
 | Build and run a first shop example | [Getting started](docs/GETTING_STARTED.md) |
 | Study the economic concepts in a modular textbook path, including sports prediction, teams, leagues, tournaments, and organized play | [Economy theory index](docs/THEORY/README.md), [prediction markets chapter](docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md), and [teams/tournaments chapter](docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md) |
-| Understand the toy-store catalog model, optional Experience composition, narrative economies, and regional competition data | [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) and [capability composition contracts](docs/UML/CapabilityCompositionUML.md) |
+| Understand the toy-store catalog model, optional Experience composition, narrative economies, and regional competition data | [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md), [RPG kingdom and global score reference compositions](docs/EXPERIENCE_COMPOSITION_EXAMPLES.md), and [capability composition contracts](docs/UML/CapabilityCompositionUML.md) |
 | See a source-backed example and its limits | [Gallery](docs/GALLERY.md) |
 | Explore the casino, simulated stock exchange, business, auction, work, and supply-chain playground roadmap | [Markets and economic playgrounds](docs/MARKETS_AND_PLAYGROUNDS.md) |
 | Define Singularity currency, casino chips, buy-in/cash-out, house accounting, and the staged casino vertical slice | [Singularity currency and casino contract](docs/SINGULARITY_CURRENCY_AND_CASINO.md) |
