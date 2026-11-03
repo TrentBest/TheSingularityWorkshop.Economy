@@ -34,6 +34,7 @@ jobs:
           test -n "$package"
           unzip -Z1 "$package" | grep -Fxq 'README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/GETTING_STARTED.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/EXPERIENCE_CAPABILITY_CATALOG.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md'

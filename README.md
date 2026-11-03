@@ -20,6 +20,8 @@ Economy gives an Experience shared concepts for money-like values, products, sho
 
 The first major proving ground is **Singularity City**: a simulated economy populated by Digitens, with businesses and creator-owned shops that can eventually be reused, reskinned, and composed into different Experiences. In-world economic behavior must be testable without a real-money provider.
 
+The broader product direction is a **discoverable catalog of optional capabilities**. Developers should be able to browse the possibilities, experiment with examples, and compose only what their Experience needs—rather than adopting one giant economy. See the [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) design.
+
 ## 🟣 02 Why
 
 Each application can invent its own shop and offer models, but those models are harder to reuse together. Economy explores a small shared language so an Experience can describe an economic concept once and retain control over its own rules and presentation.
@@ -65,10 +67,11 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 ## 🟪 05 Available documentation and theory
 
+- [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) — the toy-store model, optional capability selection, narrative economies, shared transaction workflows, and regional competition data.
 - [Markets and economic playgrounds](docs/MARKETS_AND_PLAYGROUNDS.md) — casino, simulated stock exchange, businesses, auctions, jobs, and supply-chain experiments.
 - [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — Singularity City, Digiten-scale measurement, reusable/reskinnable creator shops, adoption, and the first vertical slice.
 - [Singularity currency and casino contract](docs/SINGULARITY_CURRENCY_AND_CASINO.md) — non-redeemable in-world currency, casino chip custody, wager lifecycle, house accounting, and the first authoritative simulation slice.
-- [Exploratory Economy Experiences](docs/EXPLORATORY_ECONOMY_EXPERIENCES.md) — casino back-of-house exploration, simulated camera feeds, courtesy bankroll, free transit and paid transport jobs, and multiplayer building construction.
+- [Exploratory Economy Experiences](docs/EXPLORATORY_ECONOMY_EXPERIENCES.md) — casino back-of-house encounters, simulated camera feeds, courtesy bankroll, free transit and paid driver roles, and multiplayer building construction.
 - [What is Economy?](docs/WHAT_IS_ECONOMY.md) — build the conceptual model and understand the intended boundary without starting from API details.
 - [Economy architecture](docs/ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
 - [Game store patterns](docs/GAME_STORE_PATTERNS.md) — current API examples and Experience-owned store rules.
