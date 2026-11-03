@@ -31,14 +31,16 @@ The current source scope is the 17 C# files under src/TheSingularityWorkshop.Eco
 | BlackjackRules.cs | BlackjackSuit, BlackjackRank, BlackjackCard, BlackjackHandValue, BlackjackRules, BlackjackDecision | [Blackjack rules API](SimulationLedger.md#blackjack-rules) | [Blackjack rules UML](../UML/BlackjackRulesUML.md) |
 | BlackjackRound.cs | BlackjackShoe, BlackjackRoundState, BlackjackRound | [Blackjack round API](SimulationLedger.md#blackjack-round-lifecycle) | [Blackjack round UML](../UML/BlackjackRoundUML.md) |
 | BlackjackSession.cs | BlackjackSession | [Blackjack session API](SimulationLedger.md#blackjack-session-coordination) | [Blackjack session UML](../UML/BlackjackSessionUML.md); [opening protocol](../UML/BlackjackSessionOpeningUML.md) |
-| Competition.cs | CompetitionId, CompetitorId, TeamMembershipId, CompetitorKind, CompetitionFormat, CompetitionStatus, Competitor, TeamMember, Team, Competition | [Competition and team contracts](../UML/CompetitionUML.md) | [Competition and team UML](../UML/CompetitionUML.md) |\n| TournamentBracket.cs | TournamentMatchId, TournamentMatchStatus, TournamentMatch, SingleEliminationBracket | [Single-elimination bracket contract](../UML/TournamentBracketUML.md) | [Tournament bracket UML](../UML/TournamentBracketUML.md) |
+| Competition.cs | CompetitionId, CompetitorId, TeamMembershipId, CompetitorKind, CompetitionFormat, CompetitionStatus, Competitor, TeamMember, Team, Competition | [Competition and team contracts](../UML/CompetitionUML.md) | [Competition and team UML](../UML/CompetitionUML.md) |
+| TournamentBracket.cs | TournamentMatchId, TournamentMatchStatus, TournamentMatch, SingleEliminationBracket | [Single-elimination bracket contract](../UML/TournamentBracketUML.md) | [Tournament bracket UML](../UML/TournamentBracketUML.md) |
 
 **Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 48 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 57 public declarations. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
 - [SimulationLedger API](SimulationLedger.md) — typed simulated currency, wager accounting, blackjack rules, round lifecycle, and the host session/settlement seam.
-- [Competition and team contracts](../UML/CompetitionUML.md) — competitor identity, immutable team rosters, competition registration, capacity, and lifecycle.\n- [Tournament bracket contract](../UML/TournamentBracketUML.md) — deterministic single-elimination seeding, byes, validated winner advancement, and immutable bracket snapshots.
+- [Competition and team contracts](../UML/CompetitionUML.md) — competitor identity, immutable team rosters, competition registration, capacity, and lifecycle.
+- [Tournament bracket contract](../UML/TournamentBracketUML.md) — deterministic single-elimination seeding, byes, validated winner advancement, and immutable bracket snapshots.
 - [Economy architecture](../ARCHITECTURE.md) — responsibility boundaries and maturity.
 - [Getting started](../GETTING_STARTED.md) — first shop construction.
 - [Theory learning path](../THEORY/README.md) — domain reasoning independent of the API.
