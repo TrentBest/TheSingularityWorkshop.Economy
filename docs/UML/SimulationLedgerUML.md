@@ -29,6 +29,7 @@ flowchart TB
     C["SimulatedCurrency"]
     M["SimulatedAmount"]
     E["SimulationLedgerEntry"]
+    Q["SimulationLedgerPosting"]
     R["SimulationLedgerReceipt"]
     K["SimulationLedgerOperationKind"]
   end
@@ -40,6 +41,7 @@ flowchart TB
   A -->|"owns currency identity"| C
   L -->|"accepts operation quantity"| M
   L -->|"appends signed postings"| E
+  L -->|"accepts balanced posting sets"| Q
   L -->|"returns operation receipt"| R
   L -->|"classifies journal operation"| K
   L -->|"compiled in"| P
@@ -53,11 +55,13 @@ flowchart TB
 | SimulationLedger registers SimulationAccount | RegisterAccount and account lookup |
 | SimulationAccount references SimulatedCurrency | SimulationAccount constructor and Currency property |
 | SimulationLedger validates SimulatedAmount against account currency and precision | EnsureCurrency |
-| SimulationLedger appends SimulationLedgerEntry records | Commit |
+| SimulationLedger appends SimulationLedgerEntry records | Commit and Post |
+| SimulationLedger accepts signed SimulationLedgerPosting sets | Post validates unique accounts, same currency, precision, zero-sum totals, and resulting balances before commit |
+| SimulationLedgerReceipt exposes a read-only posting snapshot for multi-account operations | Post receipt construction |
 | SimulationLedger returns SimulationLedgerReceipt records | Issue, Transfer, Retire, and GetReceipt |
 | SimulationLedgerOperationKind classifies entries and receipts | Public enum and operation methods |
 
-Private implementation detail: OperationFingerprint stores the operation kind, account IDs, and amount used to distinguish an exact retry from conflicting reuse of an operation ID. It is not public API.
+Private implementation detail: OperationFingerprint stores the operation kind, account IDs, amount, and a canonical posting fingerprint used to distinguish an exact retry from conflicting reuse of an operation ID. Posting order is normalized before fingerprinting. It is not public API.
 
 ### Use cases
 
@@ -106,9 +110,20 @@ Private implementation detail: OperationFingerprint stores the operation kind, a
 - Alternatives: same operation ID with a different request is rejected.
 - Evidence: idempotency tests.
 
+**UC-06 — Settle a balanced multi-account operation**
+
+- Actor: simulation service (for example, a cashier, game settlement, or market matcher).
+- Goal: move value across several accounts as one indivisible in-memory operation.
+- Preconditions: at least two unique registered accounts; one shared typed currency; non-zero postings within currency precision; signed deltas sum exactly to zero; every resulting balance is non-negative and representable.
+- Success: all signed journal entries, the immutable receipt snapshot, operation fingerprint, and balance projections commit under one ledger lock.
+- Alternatives: any invalid account, currency, precision, unbalanced total, insufficient balance, or decimal overflow rejects the entire operation without entries, receipt, or balance changes. An exact retry returns the original receipt; a conflicting retry is rejected.
+- Evidence: Post and the multi-account atomicity, validation, retry, overflow, and concurrency tests.
+
 ## 04 — See it in a minute
 
-The core invariant is visible in a two-account transfer:
+The core invariant is visible in a multi-account settlement: one operation can debit a participant by 30, credit a house account by 10, and credit escrow by 20. The combined balance is unchanged and no intermediate partial state is exposed.
+
+The two-account case is:
 
     source opening balance: 100
     transfer:                 35
@@ -122,7 +137,7 @@ Issuance and retirement are explicit exceptions to conservation across participa
 
 - Read the [SimulationLedger API contract](../API/SimulationLedger.md).
 - Inspect the [implementation](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/SimulationLedger.cs) and [tests](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs).
-- Follow [issue #14](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/14) for durable records, casino custody, and wager accounting.
+- Follow [issue #14](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/14) for durable records, casino custody, and wager accounting. The current multi-account primitive remains process-local; persistence and crash recovery are separate work.
 
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
