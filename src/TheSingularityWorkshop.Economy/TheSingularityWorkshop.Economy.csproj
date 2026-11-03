@@ -30,6 +30,7 @@
     <None Include="../../docs/API/SimulationLedger.md" Pack="true" PackagePath="docs/API/" />
     <None Include="../../docs/UML/README.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/SimulationLedgerUML.md" Pack="true" PackagePath="docs/UML/" />
+    <None Include="../../docs/UML/CasinoWagerBookUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/assets/economy-boundary.svg" Pack="true" PackagePath="docs/assets/" />
   </ItemGroup>
 </Project>
