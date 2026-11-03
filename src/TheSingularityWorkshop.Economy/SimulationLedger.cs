@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace TheSingularityWorkshop.Economy;
 
 /// <summary>Stable identity for a fictional, in-simulation currency.</summary>
@@ -93,6 +95,12 @@ public sealed record SimulationLedgerEntry(
     SimulationLedgerOperationKind Kind,
     DateTimeOffset OccurredAt);
 
+/// <summary>One signed posting in a balanced multi-account simulated transfer.</summary>
+public sealed record SimulationLedgerPosting(
+    Guid AccountId,
+    SimulatedCurrencyId CurrencyId,
+    decimal Delta);
+
 /// <summary>Receipt for an applied or idempotently replayed ledger operation.</summary>
 public sealed record SimulationLedgerReceipt(
     Guid OperationId,
@@ -101,7 +109,8 @@ public sealed record SimulationLedgerReceipt(
     Guid? ToAccountId,
     SimulatedAmount Amount,
     DateTimeOffset OccurredAt,
-    bool IsReplay = false);
+    bool IsReplay = false,
+    IReadOnlyList<SimulationLedgerPosting>? Postings = null);
 
 /// <summary>
 /// Process-local, thread-safe ledger for deterministic fictional-currency simulation.
@@ -211,6 +220,90 @@ public sealed class SimulationLedger
                     SimulationLedgerOperationKind.Transfer, occurredAt),
                 new SimulationLedgerEntry(operationId, toAccountId, amount.CurrencyId, amount.Value,
                     SimulationLedgerOperationKind.Transfer, occurredAt));
+            return receipt;
+        }
+    }
+
+    /// <summary>
+    /// Applies a balanced transfer across two or more accounts as one atomic ledger operation.
+    /// Every account must use the same currency; positive and negative postings must sum to zero.
+    /// </summary>
+    public SimulationLedgerReceipt Post(
+        Guid operationId,
+        IReadOnlyCollection<SimulationLedgerPosting> postings,
+        DateTimeOffset occurredAt)
+    {
+        ValidateOperationId(operationId);
+        ArgumentNullException.ThrowIfNull(postings);
+
+        var requestedPostings = postings.ToArray();
+        if (requestedPostings.Length < 2)
+            throw new ArgumentException("A balanced transfer requires at least two postings.", nameof(postings));
+        if (requestedPostings.Any(posting => posting.AccountId == Guid.Empty))
+            throw new ArgumentException("Every posting must identify an account.", nameof(postings));
+        if (requestedPostings.Any(posting => posting.CurrencyId.Value == Guid.Empty))
+            throw new ArgumentException("Every posting must identify a currency.", nameof(postings));
+        if (requestedPostings.Any(posting => posting.Delta == 0m))
+            throw new ArgumentException("A posting must move a non-zero amount.", nameof(postings));
+        if (requestedPostings.Select(posting => posting.AccountId).Distinct().Count() != requestedPostings.Length)
+            throw new ArgumentException("An account may appear only once in a posting set.", nameof(postings));
+
+        var orderedPostings = requestedPostings.OrderBy(posting => posting.AccountId).ToArray();
+        var currencyId = orderedPostings[0].CurrencyId;
+        if (orderedPostings.Any(posting => posting.CurrencyId != currencyId))
+            throw new InvalidOperationException("All postings in a transfer must use the same currency.");
+
+        var postingFingerprint = string.Join("|", orderedPostings.Select(posting =>
+            $"{posting.AccountId:N}:{posting.CurrencyId.Value:N}:{posting.Delta.ToString("G29", CultureInfo.InvariantCulture)}"));
+
+        lock (_sync)
+        {
+            var fingerprint = new OperationFingerprint(
+                SimulationLedgerOperationKind.Transfer, null, null, default, postingFingerprint);
+            if (TryReplay(operationId, fingerprint, out var replay))
+                return replay;
+
+            decimal total = 0m;
+            decimal totalCredits = 0m;
+            var nextBalances = new Dictionary<Guid, decimal>();
+            foreach (var posting in orderedPostings)
+            {
+                var account = GetAccount(posting.AccountId);
+                if (account.Currency.Id != posting.CurrencyId)
+                    throw new InvalidOperationException("A posting currency does not match its account currency.");
+                if (decimal.Round(posting.Delta, account.Currency.DecimalPlaces) != posting.Delta)
+                    throw new ArgumentOutOfRangeException(nameof(postings),
+                        $"A posting exceeds the currency precision of {account.Currency.DecimalPlaces} decimal places.");
+
+                total = checked(total + posting.Delta);
+                if (posting.Delta > 0m)
+                    totalCredits = checked(totalCredits + posting.Delta);
+
+                var nextBalance = checked(GetBalanceCore(posting.AccountId) + posting.Delta);
+                if (nextBalance < 0m)
+                    throw new InvalidOperationException("A ledger operation cannot create a negative account balance.");
+                nextBalances.Add(posting.AccountId, nextBalance);
+            }
+
+            if (total != 0m)
+                throw new InvalidOperationException("Ordinary transfer postings must balance to zero.");
+
+            var receiptPostings = Array.AsReadOnly(orderedPostings);
+            var entries = orderedPostings.Select(posting =>
+                new SimulationLedgerEntry(operationId, posting.AccountId, posting.CurrencyId,
+                    posting.Delta, SimulationLedgerOperationKind.Transfer, occurredAt)).ToArray();
+            var receipt = new SimulationLedgerReceipt(
+                operationId, SimulationLedgerOperationKind.Transfer, null, null,
+                new SimulatedAmount(totalCredits, currencyId), occurredAt,
+                Postings: receiptPostings);
+
+            // Commit only after every posting, resulting balance, and invariant has passed validation.
+            _fingerprints.Add(operationId, fingerprint);
+            _receipts.Add(operationId, receipt);
+            _entries.AddRange(entries);
+            foreach (var balance in nextBalances)
+                _balances[balance.Key] = balance.Value;
+
             return receipt;
         }
     }
@@ -354,5 +447,6 @@ public sealed class SimulationLedger
         SimulationLedgerOperationKind Kind,
         Guid? FromAccountId,
         Guid? ToAccountId,
-        SimulatedAmount Amount);
+        SimulatedAmount Amount,
+        string PostingFingerprint = "");
 }
