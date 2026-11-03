@@ -64,6 +64,9 @@ public static class BlackjackRules
         if (stake.Value <= 0m)
             throw new ArgumentOutOfRangeException(nameof(stake), "A blackjack stake must be positive.");
 
+        if (playerCards.Count < 2 || dealerCards.Count < 2)
+            throw new ArgumentException("A completed blackjack round requires at least two cards per hand.");
+
         var combined = playerCards.Concat(dealerCards).ToArray();
         ValidateCards(combined);
         var player = EvaluateHand(playerCards);
