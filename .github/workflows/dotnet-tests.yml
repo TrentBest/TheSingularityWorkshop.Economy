@@ -35,6 +35,8 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/GETTING_STARTED.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/README.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/API/README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/API/SimulationLedger.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/README.md'
@@ -43,3 +45,4 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackWagerIntegrationUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackSessionUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackSessionOpeningUML.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/UML/CompetitionUML.md'
