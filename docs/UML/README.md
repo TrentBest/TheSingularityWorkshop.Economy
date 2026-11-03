@@ -12,12 +12,12 @@ A class diagram alone cannot explain an economic operation. Type neighborhoods, 
 
 | View family | Required scope | Current status | Evidence / next action |
 |---|---|---|---|
-| Class/type diagrams | Each public declaration in source scope | Partial | [SimulationLedger neighborhood](SimulationLedgerUML.md); the other 27 declarations do not yet have their own focal neighborhoods |
+| Class/type diagrams | Each public declaration in source scope | Partial | [SimulationLedger neighborhood](SimulationLedgerUML.md); [casino custody and wager lifecycle](CasinoWagerBookUML.md); CasinoWagerBook is now the second focal neighborhood; the other 30 declarations do not yet have dedicated focal neighborhoods |
 | Class neighborhoods | Consumers above, focal type centered, dependencies below, package references to the right | Partial | SimulationLedger target-centered view exists; other focal types planned |
-| Sequence diagrams | Important workflows and failure paths | Planned | Add issue, transfer, retirement, retry, and rejection traces from source/tests |
+| Sequence diagrams | Important workflows and failure paths | Planned | Add ledger posting and casino wager settlement sequences from source/tests |
 | Activity/control-flow diagrams | Nontrivial branches, validation, loops, and exceptions | Planned | Begin with transfer validation and atomic commit path |
-| State/lifecycle diagrams | Stateful domain lifecycles | Planned / applicability review | Casino wager lifecycle is a future domain contract; current ledger has no persistent lifecycle |
-| Use cases | Actor goals, preconditions, success, alternatives, evidence | Partial | Five SimulationLedger use cases documented; remaining public types need use cases where meaningful |
+| State/lifecycle diagrams | Stateful domain lifecycles | Planned / applicability review | Casino wager lifecycle is documented and process-local; durable lifecycle recovery remains absent |
+| Use cases | Actor goals, preconditions, success, alternatives, evidence | Partial | SimulationLedger and casino wager use cases documented; remaining public types need use cases where meaningful |
 | Architecture/component diagrams | Project boundaries and dependency direction | Present, manual | [Architecture guide](../ARCHITECTURE.md); target diagram is authored conceptual architecture, not a generated dependency graph |
 | Deployment/runtime topology | Actual deployed runtime nodes | Not applicable to current library runtime | Economy is a library; the Pages site is documentation hosting, not a deployed economic runtime |
 | Data models and data flow | Ownership, journal postings, provenance, transformations | Partial | SimulationLedger entries and signed posting flow documented; durable storage and reconciliation are absent |
@@ -37,7 +37,7 @@ No Roslyn-based repository-wide UML generator, reflection inventory, relationshi
 
 ## 04 — See it in a minute
 
-The [SimulationLedger neighborhood](SimulationLedgerUML.md) is the first example. It identifies the current test consumer, the target type, its direct domain dependencies, and its project boundary. Its five use cases are human-authored and tied to the actual ledger operations and tests.
+The [SimulationLedger neighborhood](SimulationLedgerUML.md) and [casino custody/wager lifecycle](CasinoWagerBookUML.md) are the first two focal views. The casino view distinguishes implemented accounting transitions from game rules, persistence, and runtime integration that remain future work.
 
 ## 05 — Choose your next step
 
