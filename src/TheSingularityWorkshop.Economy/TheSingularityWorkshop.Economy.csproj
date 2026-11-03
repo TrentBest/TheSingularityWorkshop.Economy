@@ -21,6 +21,7 @@
     <None Include="../../ECONOMY_ARCHITECTURE.md" Pack="true" PackagePath="/" />
     <None Include="../../docs/ARCHITECTURE.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/EXPERIENCE_CAPABILITY_CATALOG.md" Pack="true" PackagePath="docs/" />
+    <None Include="../../docs/EXPERIENCE_COMPOSITION_EXAMPLES.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/WHAT_IS_ECONOMY.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/GETTING_STARTED.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/GALLERY.md" Pack="true" PackagePath="docs/" />
