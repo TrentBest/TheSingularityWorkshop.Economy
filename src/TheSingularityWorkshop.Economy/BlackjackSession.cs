@@ -17,6 +17,64 @@ public sealed class BlackjackSession
     private readonly CasinoWagerBook _wagerBook;
     private CasinoWager _wager;
 
+    /// <summary>
+    /// Opens a session by reserving the initial deal, placing its wager, binding both,
+    /// and only then committing the four-card shoe reservation.
+    /// </summary>
+    /// <remarks>
+    /// If wager placement fails, the reservation is released without consuming cards.
+    /// This is an in-process staged protocol, not a durable transaction spanning the shoe
+    /// and ledger. A process crash after value movement is not recoverable by this method.
+    /// </remarks>
+    public static BlackjackSession Open(
+        Guid sessionId,
+        BlackjackShoe shoe,
+        CasinoWagerBook wagerBook,
+        Guid placeOperationId,
+        Guid wagerId,
+        Guid playerChipAccountId,
+        SimulatedAmount stake,
+        DateTimeOffset occurredAt)
+    {
+        if (sessionId == Guid.Empty || placeOperationId == Guid.Empty ||
+            wagerId == Guid.Empty || playerChipAccountId == Guid.Empty)
+            throw new ArgumentException("Session, placement, wager, and player account identifiers are required.");
+        ArgumentNullException.ThrowIfNull(shoe);
+        ArgumentNullException.ThrowIfNull(wagerBook);
+        if (stake.Value <= 0m || stake.CurrencyId.Value == Guid.Empty)
+            throw new ArgumentOutOfRangeException(nameof(stake), "A session stake must be positive and typed.");
+
+        var reservation = shoe.ReserveInitialDeal();
+        BlackjackRound round;
+        try
+        {
+            round = BlackjackRound.StartReserved(shoe, reservation, stake);
+        }
+        catch
+        {
+            shoe.ReleaseReservation(reservation);
+            throw;
+        }
+
+        CasinoWager wager;
+        try
+        {
+            wager = wagerBook.PlaceWager(
+                placeOperationId, wagerId, playerChipAccountId, stake, occurredAt);
+        }
+        catch
+        {
+            shoe.ReleaseReservation(reservation);
+            throw;
+        }
+
+        // All constructor invariants are prevalidated by the arguments and PlaceWager result.
+        // No generic compensating refund is attempted if an unexpected failure occurs here.
+        var session = new BlackjackSession(sessionId, round, wager, wagerBook);
+        shoe.CommitReservation(reservation);
+        return session;
+    }
+
     public BlackjackSession(
         Guid sessionId,
         BlackjackRound round,
