@@ -19,7 +19,7 @@ Read the chapters in order. Each chapter distinguishes conceptual theory, assump
 | Order | Chapter | Learning objective | Status |
 |---|---|---|---|
 | 01 | [Value, scarcity, and exchange](01-VALUE-SCARCITY-AND-EXCHANGE.md) | Understand choice, opportunity cost, exchange, price, and the limits of a shared unit of account | Initial chapter |
-| 02 | Incentives, constraints, and decision models | Explain how rules and constraints shape actor choices | Planned |
+| 02 | [Prediction markets and simulated wagering](02-PREDICTION-MARKETS-AND-WAGERING.md) | Separate events, markets, selections, odds, accepted bets, results, and settlement; design a provider-neutral sports-first wagering domain | Design chapter; proposed components not implemented |
 | 03 | Money, units, and currency identity | Distinguish a numeric amount, a unit code, a currency system, and a claim on value | Planned |
 | 04 | Accounts, transfers, and double-entry reasoning | Understand custody, conservation, issuance, sinks, and auditable records | Planned; implementation prerequisite |
 | 05 | Markets, prices, supply, and demand | Explore price formation and why a listing is not proof of available stock | Planned |
@@ -36,7 +36,7 @@ The current source is a deliberately small starting point:
 - EconomyTransfer validates an intended movement between accounts, but does not move value.
 - EconomicExecutionResult records a reported environment and status, but does not prove settlement or maintain a ledger.
 
-The first chapter maps these boundaries to the economic ideas they can—and cannot—represent.
+The first chapter maps these boundaries to the economic ideas they can—and cannot—represent. The prediction-market chapter defines a future sports-first vertical slice while clearly separating proposed architecture from the current blackjack and ledger implementation.
 
 ## 05 — Choose your next step
 
