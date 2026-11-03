@@ -70,6 +70,16 @@ The tests exercise explicit issuance, two-account transfer conservation, three-a
 
 Every transition has a caller-supplied operation ID, and every wager has its own stable wager ID. This coordinator is process-local and volatile; it does not generate random outcomes, enforce table limits, persist state, or recover after a crash. A future game engine must supply deterministic/reproducible outcomes and explicit rules rather than asking this accounting component to invent them.
 
+### Blackjack rules
+
+The pure BlackjackRules evaluator accepts fully supplied player/dealer card lists and a positive typed stake. EvaluateHand calculates the best hand total, soft-ace status, bust status, and two-card natural status. Resolve validates a completed round (at least two cards per hand, no duplicate physical card across the round) and returns a BlackjackDecision containing both hand values, CasinoWagerOutcome, and gross payout.
+
+A natural beats an ordinary 21; equal totals push; a player bust loses; a dealer bust wins only if the player has not busted. This initial payout schedule is deliberately even-money: a win returns twice the stake as gross payout, a push returns the stake, and a loss returns zero. A natural bonus is not implemented.
+
+The evaluator is deterministic and has no random source, shoe, draw lifecycle, player-action state machine, or ledger dependency. The host supplies card inputs and then explicitly passes the decision to CasinoWagerBook.ResolveWager. Dealer soft-17 policy is not applicable until a dealer drawing policy exists.
+
+Source: [BlackjackRules.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/BlackjackRules.cs). Tests: [BlackjackRulesTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/BlackjackRulesTests.cs). Structural and decision-flow views: [BlackjackRules UML](../UML/BlackjackRulesUML.md).
+
 ## 04 — See it in a minute
 
     var currency = new SimulatedCurrency(
