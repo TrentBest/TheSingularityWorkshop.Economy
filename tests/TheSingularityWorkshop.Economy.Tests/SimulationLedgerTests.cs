@@ -260,4 +260,207 @@ public sealed class SimulationLedgerTests
                 Guid.NewGuid(), account.Id, currency.Id, 10m,
                 SimulationLedgerOperationKind.Issuance, Time)));
     }
+
+    [Fact]
+    public void PostSettlesThreeAccountsAtomicallyAndReturnsImmutablePostingReceipt()
+    {
+        var currency = Currency();
+        var source = Account(currency);
+        var house = Account(currency);
+        var escrow = Account(currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(source);
+        ledger.RegisterAccount(house);
+        ledger.RegisterAccount(escrow);
+        ledger.Issue(Guid.NewGuid(), source.Id, Amount(100m, currency), Time);
+        var operationId = Guid.NewGuid();
+
+        var receipt = ledger.Post(operationId, new[]
+        {
+            new SimulationLedgerPosting(source.Id, currency.Id, -30m),
+            new SimulationLedgerPosting(house.Id, currency.Id, 10m),
+            new SimulationLedgerPosting(escrow.Id, currency.Id, 20m)
+        }, Time);
+
+        Assert.Equal(SimulationLedgerOperationKind.Transfer, receipt.Kind);
+        Assert.Null(receipt.FromAccountId);
+        Assert.Null(receipt.ToAccountId);
+        Assert.Equal(30m, receipt.Amount.Value);
+        Assert.Equal(3, receipt.Postings!.Count);
+        Assert.Equal(70m, ledger.GetBalance(source.Id));
+        Assert.Equal(10m, ledger.GetBalance(house.Id));
+        Assert.Equal(20m, ledger.GetBalance(escrow.Id));
+        Assert.Equal(3, ledger.GetEntries(source.Id).Count + ledger.GetEntries(house.Id).Count + ledger.GetEntries(escrow.Id).Count);
+        Assert.True(Assert.IsAssignableFrom<IList<SimulationLedgerPosting>>(receipt.Postings).IsReadOnly);
+    }
+
+    [Fact]
+    public void PostRejectsLateInsufficientBalanceWithoutAnyPartialCommit()
+    {
+        var currency = Currency();
+        var funded = Account(currency);
+        var underfunded = Account(currency);
+        var recipient = Account(currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(funded);
+        ledger.RegisterAccount(underfunded);
+        ledger.RegisterAccount(recipient);
+        ledger.Issue(Guid.NewGuid(), funded.Id, Amount(10m, currency), Time);
+        var operationId = Guid.NewGuid();
+
+        Assert.Throws<InvalidOperationException>(() => ledger.Post(operationId, new[]
+        {
+            new SimulationLedgerPosting(funded.Id, currency.Id, -5m),
+            new SimulationLedgerPosting(underfunded.Id, currency.Id, -1m),
+            new SimulationLedgerPosting(recipient.Id, currency.Id, 6m)
+        }, Time));
+
+        Assert.Equal(10m, ledger.GetBalance(funded.Id));
+        Assert.Equal(0m, ledger.GetBalance(underfunded.Id));
+        Assert.Equal(0m, ledger.GetBalance(recipient.Id));
+        Assert.Null(ledger.GetReceipt(operationId));
+        Assert.Single(ledger.GetEntries(funded.Id));
+        Assert.Empty(ledger.GetEntries(underfunded.Id));
+        Assert.Empty(ledger.GetEntries(recipient.Id));
+    }
+
+    [Fact]
+    public void PostRejectsOverflowWithoutAnyPartialCommit()
+    {
+        var currency = Currency();
+        var source = Account(currency);
+        var full = Account(currency);
+        var recipient = Account(currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(source);
+        ledger.RegisterAccount(full);
+        ledger.RegisterAccount(recipient);
+        ledger.Issue(Guid.NewGuid(), source.Id, Amount(decimal.MaxValue, currency), Time);
+        ledger.Issue(Guid.NewGuid(), full.Id, Amount(decimal.MaxValue, currency), Time);
+        var operationId = Guid.NewGuid();
+
+        Assert.Throws<OverflowException>(() => ledger.Post(operationId, new[]
+        {
+            new SimulationLedgerPosting(source.Id, currency.Id, -2m),
+            new SimulationLedgerPosting(full.Id, currency.Id, 1m),
+            new SimulationLedgerPosting(recipient.Id, currency.Id, 1m)
+        }, Time));
+
+        Assert.Equal(decimal.MaxValue, ledger.GetBalance(source.Id));
+        Assert.Equal(decimal.MaxValue, ledger.GetBalance(full.Id));
+        Assert.Equal(0m, ledger.GetBalance(recipient.Id));
+        Assert.Null(ledger.GetReceipt(operationId));
+        Assert.Single(ledger.GetEntries(source.Id));
+        Assert.Single(ledger.GetEntries(full.Id));
+        Assert.Empty(ledger.GetEntries(recipient.Id));
+    }
+
+    [Fact]
+    public void PostRequiresBalancedSameCurrencyPrecisionValidUniqueAccountPostings()
+    {
+        var currency = Currency();
+        var otherCurrency = Currency("Other");
+        var first = Account(currency);
+        var second = Account(currency);
+        var other = Account(otherCurrency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(first);
+        ledger.RegisterAccount(second);
+        ledger.RegisterAccount(other);
+
+        Assert.Throws<InvalidOperationException>(() => ledger.Post(Guid.NewGuid(), new[]
+        {
+            new SimulationLedgerPosting(first.Id, currency.Id, -2m),
+            new SimulationLedgerPosting(second.Id, currency.Id, 1m)
+        }, Time));
+        Assert.Throws<InvalidOperationException>(() => ledger.Post(Guid.NewGuid(), new[]
+        {
+            new SimulationLedgerPosting(first.Id, currency.Id, -1m),
+            new SimulationLedgerPosting(other.Id, otherCurrency.Id, 1m)
+        }, Time));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ledger.Post(Guid.NewGuid(), new[]
+        {
+            new SimulationLedgerPosting(first.Id, currency.Id, -1.001m),
+            new SimulationLedgerPosting(second.Id, currency.Id, 1.001m)
+        }, Time));
+        Assert.Throws<ArgumentException>(() => ledger.Post(Guid.NewGuid(), new[]
+        {
+            new SimulationLedgerPosting(first.Id, currency.Id, -1m),
+            new SimulationLedgerPosting(first.Id, currency.Id, 1m)
+        }, Time));
+
+        Assert.Equal(0m, ledger.GetBalance(first.Id));
+        Assert.Equal(0m, ledger.GetBalance(second.Id));
+        Assert.Equal(0m, ledger.GetBalance(other.Id));
+    }
+
+    [Fact]
+    public void PostExactRetryIsIdempotentAndConflictingRetryIsRejected()
+    {
+        var currency = Currency();
+        var source = Account(currency);
+        var house = Account(currency);
+        var escrow = Account(currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(source);
+        ledger.RegisterAccount(house);
+        ledger.RegisterAccount(escrow);
+        ledger.Issue(Guid.NewGuid(), source.Id, Amount(100m, currency), Time);
+        var operationId = Guid.NewGuid();
+        var postings = new[]
+        {
+            new SimulationLedgerPosting(source.Id, currency.Id, -30m),
+            new SimulationLedgerPosting(house.Id, currency.Id, 10m),
+            new SimulationLedgerPosting(escrow.Id, currency.Id, 20m)
+        };
+
+        var first = ledger.Post(operationId, postings, Time);
+        var replay = ledger.Post(operationId, postings.Reverse().ToArray(), Time.AddMinutes(5));
+
+        Assert.False(first.IsReplay);
+        Assert.True(replay.IsReplay);
+        Assert.Equal(first.OccurredAt, replay.OccurredAt);
+        Assert.Equal(70m, ledger.GetBalance(source.Id));
+        Assert.Equal(10m, ledger.GetBalance(house.Id));
+        Assert.Equal(20m, ledger.GetBalance(escrow.Id));
+        Assert.Throws<InvalidOperationException>(() => ledger.Post(operationId, new[]
+        {
+            new SimulationLedgerPosting(source.Id, currency.Id, -31m),
+            new SimulationLedgerPosting(house.Id, currency.Id, 11m),
+            new SimulationLedgerPosting(escrow.Id, currency.Id, 20m)
+        }, Time));
+        Assert.Equal(70m, ledger.GetBalance(source.Id));
+        Assert.Equal(10m, ledger.GetBalance(house.Id));
+        Assert.Equal(20m, ledger.GetBalance(escrow.Id));
+    }
+
+    [Fact]
+    public void ConcurrentMultiAccountSettlementsCannotOverdraw()
+    {
+        var currency = Currency();
+        var source = Account(currency);
+        var house = Account(currency);
+        var escrow = Account(currency);
+        var ledger = new SimulationLedger();
+        ledger.RegisterAccount(source);
+        ledger.RegisterAccount(house);
+        ledger.RegisterAccount(escrow);
+        ledger.Issue(Guid.NewGuid(), source.Id, Amount(100m, currency), Time);
+
+        Parallel.For(0, 100, _ => ledger.Post(Guid.NewGuid(), new[]
+        {
+            new SimulationLedgerPosting(source.Id, currency.Id, -1m),
+            new SimulationLedgerPosting(house.Id, currency.Id, 0.25m),
+            new SimulationLedgerPosting(escrow.Id, currency.Id, 0.75m)
+        }, Time));
+
+        Assert.Equal(0m, ledger.GetBalance(source.Id));
+        Assert.Equal(25m, ledger.GetBalance(house.Id));
+        Assert.Equal(75m, ledger.GetBalance(escrow.Id));
+        Assert.Equal(0m, ledger.GetBalance(source.Id) + ledger.GetBalance(house.Id) + ledger.GetBalance(escrow.Id) - 100m);
+        Assert.Equal(100m, ledger.GetEntries(source.Id).Sum(entry => entry.Delta) * -1m);
+        Assert.Equal(25m, ledger.GetEntries(house.Id).Sum(entry => entry.Delta));
+        Assert.Equal(75m, ledger.GetEntries(escrow.Id).Sum(entry => entry.Delta));
+    }
+
 }
