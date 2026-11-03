@@ -55,7 +55,7 @@ For example, single elimination needs seeding, bracket slots, byes, match result
 
 ### Poker and blackjack
 
-Poker and blackjack remain supported as activities, not as the organizing abstraction. They can run as casual tables, ranked ladders, leagues, or tournaments. Tournament administration can manage registration, seats, rounds, eliminations, and final placement while a game-specific rules engine owns hands, turns, and outcomes.
+Poker and blackjack remain supported as activities, not as the organizing abstraction. They can run as casual tables, ranked ladders, leagues, or tournaments. Tournament administration can manage registration, seats, rounds, eliminations, and final placement while a game-specific rules engine owns hands, turns, and outcomes. The first single-elimination bracket primitive is implemented; full tournament lifecycle and poker mechanics remain future work.
 
 The current blackjack slice is deterministic and simulation-only. Poker rules, poker hand evaluation, dealing, tournament lifecycle, and multiplayer table coordination are not implemented by this chapter.
 
@@ -67,7 +67,7 @@ Implemented in the first competition slice:
 - Immutable team add/remove operations.
 - Competition format vocabulary.
 - Immutable entrant registration and capacity.
-- Explicit draft → registration open → registration closed → in progress → completed lifecycle, with cancellation paths.
+- Explicit draft → registration open → registration closed → in progress → completed lifecycle, with cancellation paths.\n- Deterministic single-elimination bracket generation, standard seed order, first-round byes, immutable match snapshots, and validated winner advancement.
 
 Not yet implemented:
 - Tournament aggregate, bracket generation, byes, seeding, round advancement, and standings.
