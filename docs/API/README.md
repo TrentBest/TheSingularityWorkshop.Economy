@@ -35,7 +35,7 @@ The current source scope is the 14 C# files under src/TheSingularityWorkshop.Eco
 
 ### Current contract references
 
-- [SimulationLedger API](SimulationLedger.md) — the first typed simulated-currency ledger.
+- [SimulationLedger API](SimulationLedger.md) — typed simulated currency, wager accounting, blackjack rules, round lifecycle, and the host settlement seam.
 - [Economy architecture](../ARCHITECTURE.md) — responsibility boundaries and maturity.
 - [Getting started](../GETTING_STARTED.md) — first shop construction.
 - [Theory learning path](../THEORY/README.md) — domain reasoning independent of the API.
