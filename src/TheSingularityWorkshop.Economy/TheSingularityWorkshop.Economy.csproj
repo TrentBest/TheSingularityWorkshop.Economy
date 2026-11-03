@@ -29,6 +29,7 @@
     <None Include="../../docs/THEORY/01-VALUE-SCARCITY-AND-EXCHANGE.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md" Pack="true" PackagePath="docs/THEORY/" />
+    <None Include="../../docs/THEORY/04-COMPOSABLE-ECONOMIES-AND-EXPERIENCE-CAPABILITIES.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/API/README.md" Pack="true" PackagePath="docs/API/" />
     <None Include="../../docs/API/SimulationLedger.md" Pack="true" PackagePath="docs/API/" />
     <None Include="../../docs/UML/README.md" Pack="true" PackagePath="docs/UML/" />
@@ -41,6 +42,7 @@
     <None Include="../../docs/UML/BlackjackSessionOpeningUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/CompetitionUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/TournamentBracketUML.md" Pack="true" PackagePath="docs/UML/" />
+    <None Include="../../docs/UML/CapabilityCompositionUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/assets/economy-boundary.svg" Pack="true" PackagePath="docs/assets/" />
   </ItemGroup>
 </Project>

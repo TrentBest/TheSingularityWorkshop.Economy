@@ -38,6 +38,7 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/04-COMPOSABLE-ECONOMIES-AND-EXPERIENCE-CAPABILITIES.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/API/README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/API/SimulationLedger.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/README.md'
@@ -48,3 +49,4 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackSessionOpeningUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/CompetitionUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/TournamentBracketUML.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/UML/CapabilityCompositionUML.md'
