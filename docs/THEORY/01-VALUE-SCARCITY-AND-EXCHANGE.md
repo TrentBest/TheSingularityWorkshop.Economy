@@ -82,6 +82,10 @@ This chapter uses a simple market with one seller, one currency, fixed asking pr
 
 Economic models depend on assumptions about actor knowledge, preferences, constraints, institutional rules, and available alternatives. A simulation should state these assumptions and make them changeable where the research question requires it. Do not treat one agent policy as a universal theory of human behavior.
 
+### Determinism, rules, and economic settlement
+
+A game outcome and an economic posting are different facts. The blackjack round engine consumes an explicitly ordered shoe and applies declared action rules; it does not choose a random sequence or move simulated currency. The resulting decision describes whether the wager won, lost, or pushed and what gross payout the rules specify. A separate wager-book operation moves value through escrow and payouts owed. This separation makes the outcome reproducible and prevents a visual game action from becoming an unreviewed balance mutation. A complete production system would still need a trusted source of shuffled shoe order, durable round history, auditability, and clear disclosure of the rules.
+
 ## 04 — See it in a minute
 
 Try the reasoning exercise before reading the answer:
