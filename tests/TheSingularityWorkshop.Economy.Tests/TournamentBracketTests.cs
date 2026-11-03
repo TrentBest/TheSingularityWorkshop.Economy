@@ -55,7 +55,7 @@ public sealed class TournamentBracketTests
 
         var played = bracket.FirstRound.Single(match => match.Status == TournamentMatchStatus.Ready);
         var progressed = bracket.RecordWinner(played.Id, played.FirstCompetitorId!.Value);
-        Assert.Equal(TournamentMatchStatus.Ready, progressed.Rounds[1][1].Status);
+        Assert.Equal(TournamentMatchStatus.Ready, progressed.Rounds[1][0].Status);
     }
 
     [Fact]
