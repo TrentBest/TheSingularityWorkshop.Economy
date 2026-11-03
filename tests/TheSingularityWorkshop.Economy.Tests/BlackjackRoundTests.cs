@@ -15,7 +15,7 @@ public sealed class BlackjackRoundTests
         var shoe = new BlackjackShoe(new[]
         {
             C(BlackjackRank.Ten, BlackjackSuit.Clubs),
-            C(BlackjackRank.Six, BlackjackSuit.Clubs),
+            C(BlackjackRank.Ten, BlackjackSuit.Spades),
             C(BlackjackRank.Nine, BlackjackSuit.Diamonds),
             C(BlackjackRank.Six, BlackjackSuit.Diamonds),
             C(BlackjackRank.Two, BlackjackSuit.Hearts)
@@ -24,7 +24,7 @@ public sealed class BlackjackRoundTests
         var round = BlackjackRound.Start(shoe, Stake);
 
         Assert.Equal(new[] { C(BlackjackRank.Ten, BlackjackSuit.Clubs), C(BlackjackRank.Nine, BlackjackSuit.Diamonds) }, round.PlayerCards);
-        Assert.Equal(new[] { C(BlackjackRank.Six, BlackjackSuit.Clubs), C(BlackjackRank.Nine, BlackjackSuit.Diamonds) }, round.DealerCards);
+        Assert.Equal(new[] { C(BlackjackRank.Ten, BlackjackSuit.Spades), C(BlackjackRank.Six, BlackjackSuit.Diamonds) }, round.DealerCards);
         Assert.Equal(1, shoe.Remaining);
         Assert.Equal(BlackjackRoundState.PlayerTurn, round.State);
     }
