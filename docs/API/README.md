@@ -30,7 +30,7 @@ The current source scope is the 15 C# files under src/TheSingularityWorkshop.Eco
 | CasinoWagerBook.cs | CasinoCashier, CasinoWagerOutcome, CasinoWagerBook, CasinoWager | [Casino and ledger API](SimulationLedger.md#casino-custody-and-wager-lifecycle) | [Casino wager UML](../UML/CasinoWagerBookUML.md) |
 | BlackjackRules.cs | BlackjackSuit, BlackjackRank, BlackjackCard, BlackjackHandValue, BlackjackRules, BlackjackDecision | [Blackjack rules API](SimulationLedger.md#blackjack-rules) | [Blackjack rules UML](../UML/BlackjackRulesUML.md) |
 | BlackjackRound.cs | BlackjackShoe, BlackjackRoundState, BlackjackRound | [Blackjack round API](SimulationLedger.md#blackjack-round-lifecycle) | [Blackjack round UML](../UML/BlackjackRoundUML.md) |
-| BlackjackSession.cs | BlackjackSession | [Blackjack session API](SimulationLedger.md#blackjack-session-coordination) | [Blackjack session UML](../UML/BlackjackSessionUML.md) |
+| BlackjackSession.cs | BlackjackSession | [Blackjack session API](SimulationLedger.md#blackjack-session-coordination) | [Blackjack session UML](../UML/BlackjackSessionUML.md); [opening protocol](../UML/BlackjackSessionOpeningUML.md) |
 
 **Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 34 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 43 public declarations. No repository-wide documentation generator is claimed.
 
