@@ -82,6 +82,14 @@ The host owns the orchestration boundary. It first moves any buy-in through Casi
 
 This seam is exercised end-to-end by [BlackjackWagerIntegrationTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/BlackjackWagerIntegrationTests.cs): deterministic win, player bust/loss, push, payout claim, exact resolution replay, and insufficient-house-funds atomicity. These are process-local integration tests, not a durable session protocol or production casino authorization model. See [the integration sequence](../UML/BlackjackWagerIntegrationUML.md).
 
+### Blackjack session coordination
+
+`BlackjackSession` binds one current unresolved `CasinoWager` to one `BlackjackRound`. Construction validates that the supplied wager is the current snapshot in the supplied book, that its identity and player account match, and that the round stake exactly matches the wager's amount and currency. The session exposes Hit and Stand, then settles only the decision produced by its bound round; callers cannot pass an arbitrary outcome or payout. It also coordinates a positive payout claim. Settlement and claim operation IDs remain caller-owned and exact retries replay through `CasinoWagerBook`.
+
+The host currently places the wager and starts the round before constructing the session. A dedicated shoe per round is required. If composition fails after wager placement, the host must handle that failure; session construction does not roll back a prior ledger transfer. State remains process-local and volatile, and external mutation of the wager book is detected before session actions/settlement. The session is not a durable aggregate, distributed lock, crash-recovery protocol, or multiplayer authority.
+
+Source: [BlackjackSession.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/BlackjackSession.cs). Tests: [BlackjackSessionTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/BlackjackSessionTests.cs). UML: [BlackjackSession UML](../UML/BlackjackSessionUML.md).
+
 ### Blackjack rules
 
 The pure BlackjackRules evaluator accepts fully supplied player/dealer card lists and a positive typed stake. EvaluateHand calculates the best hand total, soft-ace status, bust status, and two-card natural status. Resolve validates a completed round (at least two cards per hand, no duplicate physical card across the round) and returns a BlackjackDecision containing both hand values, CasinoWagerOutcome, and gross payout.
