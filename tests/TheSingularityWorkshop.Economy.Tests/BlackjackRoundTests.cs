@@ -54,7 +54,7 @@ public sealed class BlackjackRoundTests
         var shoe = new BlackjackShoe(new[]
         {
             C(BlackjackRank.Ten, BlackjackSuit.Clubs), C(BlackjackRank.Ten, BlackjackSuit.Diamonds),
-            C(BlackjackRank.Seven, BlackjackSuit.Clubs), C(BlackjackRank.Six, BlackjackSuit.Diamonds),
+            C(BlackjackRank.Nine, BlackjackSuit.Clubs), C(BlackjackRank.Six, BlackjackSuit.Diamonds),
             C(BlackjackRank.Two, BlackjackSuit.Hearts)
         });
         var round = BlackjackRound.Start(shoe, Stake);
