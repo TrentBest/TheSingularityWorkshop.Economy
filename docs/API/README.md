@@ -27,7 +27,8 @@ The current source scope is the 13 C# files under src/TheSingularityWorkshop.Eco
 | Money.cs | Money | Planned | Planned |
 | Transfer.cs | TransferKind, EconomyTransfer | Planned | Planned |
 | SimulationLedger.cs | SimulatedCurrencyId, SimulatedCurrency, SimulatedAmount, SimulationAccount, SimulationLedgerOperationKind, SimulationLedgerEntry, SimulationLedgerPosting, SimulationLedgerReceipt, SimulationLedger | [SimulationLedger API](SimulationLedger.md) | [SimulationLedger UML](../UML/SimulationLedgerUML.md) |
-| CasinoWagerBook.cs | CasinoCashier, CasinoWagerOutcome, CasinoWagerBook, CasinoWager | [Casino and ledger API](SimulationLedger.md#casino-custody-and-wager-lifecycle) | [Casino wager UML](../UML/CasinoWagerBookUML.md) |\n| BlackjackRules.cs | BlackjackSuit, BlackjackRank, BlackjackCard, BlackjackHandValue, BlackjackRules, BlackjackDecision | [Blackjack rules API](SimulationLedger.md#blackjack-rules) | [Blackjack rules UML](../UML/BlackjackRulesUML.md) |
+| CasinoWagerBook.cs | CasinoCashier, CasinoWagerOutcome, CasinoWagerBook, CasinoWager | [Casino and ledger API](SimulationLedger.md#casino-custody-and-wager-lifecycle) | [Casino wager UML](../UML/CasinoWagerBookUML.md) |
+| BlackjackRules.cs | BlackjackSuit, BlackjackRank, BlackjackCard, BlackjackHandValue, BlackjackRules, BlackjackDecision | [Blackjack rules API](SimulationLedger.md#blackjack-rules) | [Blackjack rules UML](../UML/BlackjackRulesUML.md) |
 
 **Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 20 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 39 public declarations. No repository-wide documentation generator is claimed.
 
