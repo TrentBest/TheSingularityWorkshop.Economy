@@ -109,7 +109,7 @@ public sealed class CasinoWagerBook
 
         lock (_sync)
         {
-            var wager = GetWager(wagerId);
+            var wager = RequireWager(wagerId);
             if (wager.ResolutionOperationId is not null)
             {
                 if (wager.ResolutionOperationId != operationId ||
@@ -211,7 +211,7 @@ public sealed class CasinoWagerBook
             return _wagers.GetValueOrDefault(wagerId);
     }
 
-    private CasinoWager GetWager(Guid wagerId) =>
+    private CasinoWager RequireWager(Guid wagerId) =>
         _wagers.TryGetValue(wagerId, out var wager)
             ? wager
             : throw new KeyNotFoundException($"Wager {wagerId} does not exist.");
