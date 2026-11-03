@@ -118,6 +118,18 @@ public sealed class BlackjackSession
         get { lock (_sync) return _round.State; }
     }
 
+    /// <summary>Cards currently held by the player in this session.</summary>
+    public IReadOnlyList<BlackjackCard> PlayerCards
+    {
+        get { lock (_sync) return _round.PlayerCards; }
+    }
+
+    /// <summary>Cards currently held by the dealer in this session.</summary>
+    public IReadOnlyList<BlackjackCard> DealerCards
+    {
+        get { lock (_sync) return _round.DealerCards; }
+    }
+
     /// <summary>The completed decision, or null while the round is still in play.</summary>
     public BlackjackDecision? Decision
     {
