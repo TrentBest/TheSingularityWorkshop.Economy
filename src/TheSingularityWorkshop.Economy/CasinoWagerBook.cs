@@ -208,7 +208,7 @@ public sealed class CasinoWagerBook
 
         lock (_sync)
         {
-            var wager = GetWager(wagerId);
+            var wager = RequireWager(wagerId);
             if (wager.ResolutionOperationId is null || wager.GrossPayout is null)
                 throw new InvalidOperationException("An unresolved wager has no payable balance.");
             if (wager.GrossPayout.Value.Value == 0m)
