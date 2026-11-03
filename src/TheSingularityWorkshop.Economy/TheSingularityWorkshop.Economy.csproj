@@ -23,6 +23,7 @@
     <None Include="../../docs/WHAT_IS_ECONOMY.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/GETTING_STARTED.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/GALLERY.md" Pack="true" PackagePath="docs/" />
+    <None Include="../../docs/MARKETS_AND_PLAYGROUNDS.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/THEORY/README.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/THEORY/01-VALUE-SCARCITY-AND-EXCHANGE.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/API/README.md" Pack="true" PackagePath="docs/API/" />
