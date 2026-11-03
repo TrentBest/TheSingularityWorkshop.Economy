@@ -29,6 +29,10 @@ title: Economy Learning Center
 - [SimulationLedger UML](UML/SimulationLedgerUML.md) — target-centered type neighborhood and use cases.
 - [Gallery](GALLERY.md) — inspect the creator-shop composition proof and reproduce its tests.
 - [Game store patterns](GAME_STORE_PATTERNS.md) — compose RPG, magic, consumable, crafting, and player markets without moving game rules into Economy.
+
+## Explore the experiences
+
+- [Markets and economic playgrounds](MARKETS_AND_PLAYGROUNDS.md) — casino, simulated stock exchange, businesses, auctions, jobs, and supply-chain experiments.
 - [Singularity currency and casino contract](SINGULARITY_CURRENCY_AND_CASINO.md) — the staged casino custody and wager model.
 - [Simulated economies and creator commerce](SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — the Singularity City direction and first Digiten loop.
 
@@ -42,7 +46,7 @@ title: Economy Learning Center
 
 ## Current maturity
 
-The package is an exploratory alpha. Its process-local simulation ledger is useful for deterministic tests and in-process fictional-currency scenarios, but it is not durable, distributed, or a casino accounting system. Real-money operations remain a separate future capability requiring professional review and explicit authorization.
+The package is an exploratory alpha. Its process-local simulation ledger is useful for deterministic tests and in-process fictional-currency scenarios, but it is not durable, distributed, or a casino accounting system. The stock exchange and other playgrounds are design-stage capabilities. Real-money operations remain a separate future capability requiring professional review and explicit authorization.
 
 **Evidence rule:** implementation claims must point to source and tests; conceptual diagrams and future roadmaps are not proof that a capability is implemented.
 
