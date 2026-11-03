@@ -12,7 +12,7 @@ A package is easier to learn and maintain when every public type has a discovera
 
 ### Public type inventory
 
-The current source scope is the 12 C# files under src/TheSingularityWorkshop.Economy. There are 32 public declarations in that scope.
+The current source scope is the 13 C# files under src/TheSingularityWorkshop.Economy. There are 38 public declarations in that scope.
 
 | Source file | Public declarations | Dedicated API page | UML/use-case companion |
 |---|---|---|---|
@@ -27,9 +27,9 @@ The current source scope is the 12 C# files under src/TheSingularityWorkshop.Eco
 | Money.cs | Money | Planned | Planned |
 | Transfer.cs | TransferKind, EconomyTransfer | Planned | Planned |
 | SimulationLedger.cs | SimulatedCurrencyId, SimulatedCurrency, SimulatedAmount, SimulationAccount, SimulationLedgerOperationKind, SimulationLedgerEntry, SimulationLedgerPosting, SimulationLedgerReceipt, SimulationLedger | [SimulationLedger API](SimulationLedger.md) | [SimulationLedger UML](../UML/SimulationLedgerUML.md) |
-| CasinoWagerBook.cs | CasinoCashier, CasinoWagerOutcome, CasinoWagerBook, CasinoWager | [Casino and ledger API](SimulationLedger.md#casino-custody-and-wager-lifecycle) | Planned |
+| CasinoWagerBook.cs | CasinoCashier, CasinoWagerOutcome, CasinoWagerBook, CasinoWager | [Casino and ledger API](SimulationLedger.md#casino-custody-and-wager-lifecycle) | [Casino wager UML](../UML/CasinoWagerBookUML.md) |\n| BlackjackRules.cs | BlackjackSuit, BlackjackRank, BlackjackCard, BlackjackHandValue, BlackjackRules, BlackjackDecision | [Blackjack rules API](SimulationLedger.md#blackjack-rules) | [Blackjack rules UML](../UML/BlackjackRulesUML.md) |
 
-**Coverage status:** one combined API page currently explains the 8 declarations in SimulationLedger.cs; 20 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 28 public declarations. No repository-wide documentation generator is claimed.
+**Coverage status:** one combined API page currently explains the 8 declarations in SimulationLedger.cs; 20 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 38 public declarations. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
