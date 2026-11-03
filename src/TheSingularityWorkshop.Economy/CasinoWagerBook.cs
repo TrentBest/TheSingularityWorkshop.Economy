@@ -1,5 +1,37 @@
 namespace TheSingularityWorkshop.Economy;
 
+
+/// <summary>Moves fictional currency between a participant wallet and their casino chip account.</summary>
+/// <remarks>Buy-in and cash-out are one-for-one in-world transfers, never external deposits or withdrawals.</remarks>
+public sealed class CasinoCashier
+{
+    private readonly SimulationLedger _ledger;
+
+    public CasinoCashier(SimulationLedger ledger)
+    {
+        ArgumentNullException.ThrowIfNull(ledger);
+        _ledger = ledger;
+    }
+
+    public SimulationLedgerReceipt BuyIn(
+        Guid operationId, Guid participantWalletAccountId, Guid playerChipAccountId,
+        SimulatedAmount amount, DateTimeOffset occurredAt)
+    {
+        if (participantWalletAccountId == playerChipAccountId)
+            throw new ArgumentException("Wallet and chip accounts must be distinct.");
+        return _ledger.Transfer(operationId, participantWalletAccountId, playerChipAccountId, amount, occurredAt);
+    }
+
+    public SimulationLedgerReceipt CashOut(
+        Guid operationId, Guid playerChipAccountId, Guid participantWalletAccountId,
+        SimulatedAmount amount, DateTimeOffset occurredAt)
+    {
+        if (participantWalletAccountId == playerChipAccountId)
+            throw new ArgumentException("Wallet and chip accounts must be distinct.");
+        return _ledger.Transfer(operationId, playerChipAccountId, participantWalletAccountId, amount, occurredAt);
+    }
+}
+
 /// <summary>Describes the economic result of a completed simulated casino wager.</summary>
 public enum CasinoWagerOutcome
 {
