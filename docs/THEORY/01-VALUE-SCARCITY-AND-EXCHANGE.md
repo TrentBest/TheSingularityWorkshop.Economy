@@ -44,7 +44,7 @@ The model requires more than a price field to simulate a purchase correctly:
 5. A successful operation records the buyer debit, seller credit, and inventory consequence together.
 6. A rejected operation leaves all economic state unchanged.
 
-Those are design requirements for a future deterministic simulation slice, not capabilities provided by the current package.
+The current package now provides a process-local ledger primitive for simulated value movement, but the complete market purchase described here still needs atomic inventory consequences and seller/offer availability checks. The example remains a design requirement for that broader commerce workflow.
 
 ### Distinguish the economic objects
 
@@ -65,6 +65,7 @@ A price is not a balance. A balance is not inventory. A transfer intent is not a
 | Amount and unit | [Money.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Money.cs) | Decimal amount, normalized three-letter code, and same-code arithmetic |
 | Fictional currency identity and amount | [SimulationLedger.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/SimulationLedger.cs) | Typed identity and amount that cannot be confused merely because two currencies share a display symbol |
 | Simulated balances and journal | [SimulationLedger.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/SimulationLedger.cs) | Process-local signed postings, explicit issuance/retirement, two-account transfers, balanced multi-account settlement, and derived balances; no durable storage |
+| Casino cashier and wager accounting | [CasinoWagerBook.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/CasinoWagerBook.cs) | One-for-one wallet/chip transfers, stake escrow, loss/push/win settlement, separate payouts owed, and one-time claims; no game rules, RNG, persistence, or real-money boundary |
 | Economic actor identity | [EconomyEntity.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/EconomyEntity.cs) | Entity identity vocabulary |
 | Account boundary | [EconomyAccount.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/EconomyAccount.cs) | Owner and currency identity; no balance storage |
 | Offer description | [Commerce.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Commerce.cs) | Item/seller/name/price and marketplace offer data |
@@ -73,7 +74,7 @@ A price is not a balance. A balance is not inventory. A transfer intent is not a
 | Fee calculation | [FeePolicy.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/FeePolicy.cs) | Calculates a configured share of a gross amount; does not collect it |
 | Execution observation | [EconomicExecutionResult.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/EconomicExecutionResult.cs) | Records operation/transfer IDs, reporting environment, status, timestamp, and optional external reference |
 
-The implementation now supplies a process-local simulation ledger with derived balances, atomic in-memory multi-account postings, and idempotent operation identities. The multi-account operation validates every account, currency, precision, zero-sum posting set, and resulting balance before committing journal entries, receipt, fingerprint, and balance projections under one lock. It does not supply durable storage, crash recovery, distributed atomicity, stock custody, casino-specific accounting, or reconciliation. These are not minor details: without them, the worked model cannot be honestly called an implemented transaction.
+The implementation supplies a process-local simulation ledger with derived balances, atomic in-memory multi-account postings, and idempotent operation identities. The casino accounting slice builds on that primitive: wallet/chip buy-in and cash-out are transfers; a wager moves into escrow; a loss moves escrow to the house reserve; a push or win creates a payable; and a claim transfers the payable to player chips. The house funds only net winnings, while gross payout includes the returned stake. This is accounting, not game logic: the game must provide its rules and outcome. None of these process-local records survive restart, and there is no crash recovery, distributed atomicity, durable reconciliation, inventory custody, or completed city-wide commerce workflow.
 
 ### Assumptions and limits
 
