@@ -34,6 +34,7 @@
     <None Include="../../docs/UML/BlackjackRulesUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/BlackjackRoundUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/BlackjackWagerIntegrationUML.md" Pack="true" PackagePath="docs/UML/" />
+    <None Include="../../docs/UML/BlackjackSessionUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/assets/economy-boundary.svg" Pack="true" PackagePath="docs/assets/" />
   </ItemGroup>
 </Project>
