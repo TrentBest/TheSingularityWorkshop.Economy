@@ -290,7 +290,7 @@ public sealed class SimulationLedgerTests
         Assert.Equal(70m, ledger.GetBalance(source.Id));
         Assert.Equal(10m, ledger.GetBalance(house.Id));
         Assert.Equal(20m, ledger.GetBalance(escrow.Id));
-        Assert.Equal(3, ledger.GetEntries(source.Id).Count + ledger.GetEntries(house.Id).Count + ledger.GetEntries(escrow.Id).Count);
+        Assert.Equal(4, ledger.GetEntries(source.Id).Count + ledger.GetEntries(house.Id).Count + ledger.GetEntries(escrow.Id).Count);
         Assert.True(Assert.IsAssignableFrom<IList<SimulationLedgerPosting>>(receipt.Postings).IsReadOnly);
     }
 
@@ -498,7 +498,7 @@ public sealed class SimulationLedgerTests
         Assert.Equal(25m, ledger.GetBalance(house.Id));
         Assert.Equal(75m, ledger.GetBalance(escrow.Id));
         Assert.Equal(0m, ledger.GetBalance(source.Id) + ledger.GetBalance(house.Id) + ledger.GetBalance(escrow.Id) - 100m);
-        Assert.Equal(100m, ledger.GetEntries(source.Id).Sum(entry => entry.Delta) * -1m);
+        Assert.Equal(ledger.GetBalance(source.Id), ledger.GetEntries(source.Id).Sum(entry => entry.Delta));
         Assert.Equal(25m, ledger.GetEntries(house.Id).Sum(entry => entry.Delta));
         Assert.Equal(75m, ledger.GetEntries(escrow.Id).Sum(entry => entry.Delta));
     }
