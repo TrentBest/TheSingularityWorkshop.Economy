@@ -76,6 +76,12 @@ Every transition has a caller-supplied operation ID, and every wager has its own
 
 Source: [BlackjackRound.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/BlackjackRound.cs). Tests: [BlackjackRoundTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/BlackjackRoundTests.cs). UML: [BlackjackRound UML](../UML/BlackjackRoundUML.md).
 
+### Host integration: decision to settlement
+
+The host owns the orchestration boundary. It first moves any buy-in through CasinoCashier, places a wager through CasinoWagerBook, and starts a BlackjackRound with the same typed stake. When the round reaches Completed, the host reads its BlackjackDecision and passes Outcome and GrossPayout to ResolveWager with a new caller-owned operation ID. A positive resolved payout is then claimed through ClaimPayout. The round never receives the ledger or wager book, and the wager book never draws cards or chooses an outcome.
+
+This seam is exercised end-to-end by [BlackjackWagerIntegrationTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/BlackjackWagerIntegrationTests.cs): deterministic win, player bust/loss, push, payout claim, exact resolution replay, and insufficient-house-funds atomicity. These are process-local integration tests, not a durable session protocol or production casino authorization model. See [the integration sequence](../UML/BlackjackWagerIntegrationUML.md).
+
 ### Blackjack rules
 
 The pure BlackjackRules evaluator accepts fully supplied player/dealer card lists and a positive typed stake. EvaluateHand calculates the best hand total, soft-ace status, bust status, and two-card natural status. Resolve validates a completed round (at least two cards per hand, no duplicate physical card across the round) and returns a BlackjackDecision containing both hand values, CasinoWagerOutcome, and gross payout.
