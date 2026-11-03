@@ -14,7 +14,12 @@ public sealed class BlackjackShoe
         _cards = orderedCards.ToArray();
         if (_cards.Length == 0)
             throw new ArgumentException("A shoe must contain at least one card.", nameof(orderedCards));
-        _ = BlackjackRules.EvaluateHand(new[] { _cards[0] });
+        foreach (var card in _cards)
+        {
+            if (!Enum.IsDefined(card.Rank) || !Enum.IsDefined(card.Suit))
+                throw new ArgumentOutOfRangeException(nameof(orderedCards),
+                    "Every shoe card must have a standard rank and suit.");
+        }
         if (_cards.Distinct().Count() != _cards.Length)
             throw new ArgumentException("A shoe cannot contain duplicate physical cards.", nameof(orderedCards));
     }
