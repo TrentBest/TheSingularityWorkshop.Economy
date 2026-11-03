@@ -121,7 +121,7 @@ public sealed class CasinoWagerBookTests
     [Fact]
     public void FailedWagerAndResolutionLeaveBalancesAndStateUnchanged()
     {
-        var (ledger, currency, player, house, escrow, payoutsOwed, book) = Create(playerBalance: 10m);
+        var (ledger, currency, player, house, escrow, payoutsOwed, book) = Create(playerBalance: 10m, houseBalance: 0m);
         var wagerId = Guid.NewGuid();
         Assert.Throws<InvalidOperationException>(() => book.PlaceWager(
             Guid.NewGuid(), wagerId, player.Id, new SimulatedAmount(11m, currency.Id), Time));
@@ -136,7 +136,7 @@ public sealed class CasinoWagerBookTests
             new SimulatedAmount(20m, currency.Id), Time));
         Assert.Null(book.GetWager(wagerId)!.Outcome);
         Assert.Equal(10m, ledger.GetBalance(escrow.Id));
-        Assert.Equal(0m, ledger.GetBalance(house.Id) - 10_000m);
+        Assert.Equal(0m, ledger.GetBalance(house.Id));
         Assert.Equal(0m, ledger.GetBalance(payoutsOwed.Id));
     }
 
