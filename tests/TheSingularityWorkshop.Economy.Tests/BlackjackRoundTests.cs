@@ -71,9 +71,9 @@ public sealed class BlackjackRoundTests
     {
         var shoe = new BlackjackShoe(new[]
         {
-            C(BlackjackRank.Ace, BlackjackSuit.Clubs), C(BlackjackRank.Ten, BlackjackSuit.Clubs),
-            C(BlackjackRank.Six, BlackjackSuit.Diamonds), C(BlackjackRank.Six, BlackjackSuit.Hearts),
-            C(BlackjackRank.Ace, BlackjackSuit.Spades), C(BlackjackRank.Two, BlackjackSuit.Spades)
+            C(BlackjackRank.Ten, BlackjackSuit.Clubs), C(BlackjackRank.Six, BlackjackSuit.Clubs),
+            C(BlackjackRank.Nine, BlackjackSuit.Diamonds), C(BlackjackRank.Ace, BlackjackSuit.Hearts),
+            C(BlackjackRank.Two, BlackjackSuit.Spades)
         });
         var round = BlackjackRound.Start(shoe, Stake);
 
@@ -101,7 +101,7 @@ public sealed class BlackjackRoundTests
         {
             C(BlackjackRank.Two, BlackjackSuit.Clubs), C(BlackjackRank.Two, BlackjackSuit.Clubs)
         }));
-        Assert.Throws<ArgumentException>(() => new BlackjackShoe(new[]
+        Assert.Throws<ArgumentOutOfRangeException>(() => new BlackjackShoe(new[]
         {
             new BlackjackCard((BlackjackRank)99, BlackjackSuit.Clubs)
         }));
