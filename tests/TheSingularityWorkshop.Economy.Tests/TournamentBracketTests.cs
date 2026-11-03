@@ -74,7 +74,7 @@ public sealed class TournamentBracketTests
     [Fact]
     public void BracketRejectsUnknownWinnerWrongMatchAndPrematureResults()
     {
-        var entrants = new[] { CompetitorNamed("A"), CompetitorNamed("B") };
+        var entrants = new[] { CompetitorNamed("A"), CompetitorNamed("B"), CompetitorNamed("C"), CompetitorNamed("D") };
         var bracket = SingleEliminationBracket.Create(Guid.NewGuid(), entrants);
         var match = bracket.FirstRound[0];
 
