@@ -36,7 +36,7 @@ The same currency ID cannot be registered with conflicting metadata inside one l
 
 - Issue credits an account and records an explicit issuance posting.
 - Transfer validates both accounts and the currency, checks available funds, then records a debit and credit while holding the ledger lock.
-- Post applies a balanced transfer across two or more accounts. Each account appears once; every posting uses the same registered currency and valid precision; signed deltas total exactly zero. All resulting balances are checked before any state changes.
+- Post applies a balanced transfer across two or more accounts. Each account appears once; every posting uses the same registered currency and valid precision; signed deltas total exactly zero. All resulting balances are checked before any state changes. The receipt stores the aggregate positive side in a decimal SimulatedAmount, so the total of positive postings must also fit decimal; a larger otherwise-balanced settlement is rejected with overflow before commit.
 - Retire debits an account and records an explicit retirement posting.
 - GetBalance sums the account's signed journal entries.
 - GetEntries returns a read-only snapshot for the selected account.
@@ -56,7 +56,7 @@ This is an in-memory idempotency boundary. It does not survive process restart a
 - Tests: [SimulationLedgerTests.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/tests/TheSingularityWorkshop.Economy.Tests/SimulationLedgerTests.cs)
 - Related legacy vocabulary: [Money.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Money.cs), [EconomyAccount.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/EconomyAccount.cs), and [Transfer.cs](https://github.com/TrentBest/TheSingularityWorkshop.Economy/blob/development/src/TheSingularityWorkshop.Economy/Transfer.cs)
 
-The tests exercise explicit issuance, two-account transfer conservation, three-account atomic settlement, late insufficient-funds rejection, overflow rejection, balanced totals, currency and precision validation, exact and conflicting retries, concurrent competing settlements, retirement, account registration, and read-only journal/receipt snapshots.
+The tests exercise explicit issuance, two-account transfer conservation, three-account atomic settlement, late insufficient-funds rejection, account-balance overflow and aggregate receipt-amount overflow rejection, balanced totals, currency and precision validation, exact and conflicting retries, concurrent competing settlements, retirement, account registration, and read-only journal/receipt snapshots.
 
 ## 04 — See it in a minute
 
