@@ -39,3 +39,5 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/API/SimulationLedger.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/SimulationLedgerUML.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackRoundUML.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackWagerIntegrationUML.md'
