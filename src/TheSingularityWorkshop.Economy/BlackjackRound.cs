@@ -7,6 +7,7 @@ public sealed class BlackjackShoe
     private readonly object _sync = new();
     private readonly BlackjackCard[] _cards;
     private int _nextIndex;
+    private object? _activeReservation;
 
     public BlackjackShoe(IEnumerable<BlackjackCard> orderedCards)
     {
@@ -29,15 +30,82 @@ public sealed class BlackjackShoe
         get { lock (_sync) return _cards.Length - _nextIndex; }
     }
 
+    internal BlackjackShoeReservation ReserveInitialDeal()
+    {
+        lock (_sync)
+        {
+            if (_activeReservation is not null)
+                throw new InvalidOperationException("The shoe already has an active reservation.");
+            if (_cards.Length - _nextIndex < 4)
+                throw new InvalidOperationException("At least four cards are required to reserve a blackjack deal.");
+
+            var token = new object();
+            _activeReservation = token;
+            return new BlackjackShoeReservation(this, token, _cards.Skip(_nextIndex).Take(4).ToArray());
+        }
+    }
+
+    internal void CommitReservation(BlackjackShoeReservation reservation)
+    {
+        ArgumentNullException.ThrowIfNull(reservation);
+        lock (_sync)
+        {
+            ValidateReservation(reservation);
+            _nextIndex += 4;
+            _activeReservation = null;
+            reservation.MarkCompleted();
+        }
+    }
+
+    internal void ReleaseReservation(BlackjackShoeReservation reservation)
+    {
+        ArgumentNullException.ThrowIfNull(reservation);
+        lock (_sync)
+        {
+            ValidateReservation(reservation);
+            _activeReservation = null;
+            reservation.MarkCompleted();
+        }
+    }
+
+    private void ValidateReservation(BlackjackShoeReservation reservation)
+    {
+        if (!ReferenceEquals(reservation.Owner, this) ||
+            !ReferenceEquals(_activeReservation, reservation.Token) ||
+            reservation.IsCompleted)
+            throw new InvalidOperationException("The shoe reservation is invalid, foreign, or already completed.");
+    }
+
     internal BlackjackCard Draw()
     {
         lock (_sync)
         {
+            if (_activeReservation is not null)
+                throw new InvalidOperationException("The shoe is reserved while a session is being opened.");
             if (_nextIndex >= _cards.Length)
                 throw new InvalidOperationException("The blackjack shoe is exhausted.");
             return _cards[_nextIndex++];
         }
     }
+}
+
+/// <summary>Exclusive, single-use reservation of the next four cards in one shoe.</summary>
+internal sealed class BlackjackShoeReservation
+{
+    private bool _completed;
+
+    internal BlackjackShoeReservation(BlackjackShoe owner, object token, BlackjackCard[] cards)
+    {
+        Owner = owner;
+        Token = token;
+        Cards = cards;
+    }
+
+    internal BlackjackShoe Owner { get; }
+    internal object Token { get; }
+    internal BlackjackCard[] Cards { get; }
+    internal bool IsCompleted => _completed;
+    internal void MarkCompleted() => _completed = true;
 }
 
 /// <summary>Lifecycle states for one deterministic blackjack round.</summary>
@@ -87,6 +155,21 @@ public sealed class BlackjackRound
     public IReadOnlyList<BlackjackCard> DealerCards
     {
         get { lock (_sync) return Array.AsReadOnly(_dealerCards.ToArray()); }
+    }
+
+    internal static BlackjackRound StartReserved(
+        BlackjackShoe shoe, BlackjackShoeReservation reservation, SimulatedAmount stake)
+    {
+        ArgumentNullException.ThrowIfNull(shoe);
+        ArgumentNullException.ThrowIfNull(reservation);
+        if (stake.Value <= 0m || stake.CurrencyId.Value == Guid.Empty)
+            throw new ArgumentOutOfRangeException(nameof(stake), "A blackjack stake must be positive and typed.");
+        if (!ReferenceEquals(reservation.Owner, shoe) || reservation.IsCompleted || reservation.Cards.Length != 4)
+            throw new InvalidOperationException("The reservation cannot prepare a round for this shoe.");
+
+        var cards = reservation.Cards;
+        return new BlackjackRound(shoe, stake,
+            new[] { cards[0], cards[2] }, new[] { cards[1], cards[3] });
     }
 
     public static BlackjackRound Start(BlackjackShoe shoe, SimulatedAmount stake)
