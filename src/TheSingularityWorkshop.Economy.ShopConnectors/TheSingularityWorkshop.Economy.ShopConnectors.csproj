@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>TheSingularityWorkshop.Economy.ShopConnectors</AssemblyName>
+    <RootNamespace>TheSingularityWorkshop.Economy.ShopConnectors</RootNamespace>
+    <PackageId>TheSingularityWorkshop.Economy.ShopConnectors</PackageId>
+    <Version>0.1.0-alpha.1</Version>
+    <Description>Optional provider-neutral shop catalog connector contracts and adapters for The Singularity Workshop Economy.</Description>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../TheSingularityWorkshop.Economy/TheSingularityWorkshop.Economy.csproj" />
+  </ItemGroup>
+</Project>
