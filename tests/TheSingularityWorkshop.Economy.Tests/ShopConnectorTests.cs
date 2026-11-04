@@ -70,6 +70,23 @@ public sealed class ShopConnectorTests
         Assert.True(source.Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability));
     }
 
+
+    [Fact]
+    public async Task IndividualItemReadPreservesProviderProvenanceAndCanonicalIdentity()
+    {
+        var source = new MutableCatalogSource("fixture-marketplace", "shop-1");
+        var connector = new SnapshotShopConnector(source);
+        var identities = new InMemoryShopIdentityMap();
+        var seller = EconomyEntityId.New();
+
+        var catalogItem = await connector.ReadItemAsync("shop-1", "item-1", seller, identities);
+        var synchronized = await connector.SynchronizeAsync("shop-1", seller, identities);
+
+        Assert.Equal(synchronized.Shop.Products.Single().Id, catalogItem.Item.Id);
+        Assert.Equal("fixture-marketplace", catalogItem.Provenance.ProviderItem.Provider.Value);
+        Assert.Equal("shop-1", catalogItem.Provenance.ProviderItem.ExternalShopId);
+    }
+
     [Fact]
     public async Task NativeInMemorySourceFeedsTheSameCanonicalConnectorContract()
     {
@@ -126,6 +143,7 @@ public sealed class ShopConnectorTests
         public ShopProviderId Provider { get; }
         public ShopConnectorCapabilities Capabilities =>
             ShopConnectorCapabilities.ReadCatalog |
+            ShopConnectorCapabilities.ReadItem |
             ShopConnectorCapabilities.SynchronizeCatalog |
             ShopConnectorCapabilities.ExternalProductLinks |
             (_includeAvailability ? ShopConnectorCapabilities.ReadAvailability : ShopConnectorCapabilities.None);
@@ -133,6 +151,25 @@ public sealed class ShopConnectorTests
         public void RenameItem(string externalItemId, string name)
         {
             if (externalItemId == "item-1") _itemName = name;
+        }
+
+
+        public Task<ProviderCatalogItem> ReadItemAsync(
+            string externalShopId,
+            string externalItemId,
+            CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (externalShopId != _shopId || externalItemId != "item-1")
+                throw new KeyNotFoundException();
+            return Task.FromResult(new ProviderCatalogItem(
+                "item-1",
+                _itemName,
+                new Money(12m, "USD"),
+                new Uri($"https://example.invalid/{Provider.Value}/items/item-1"),
+                _includeAvailability
+                    ? new ProviderAvailabilityObservation(true, 7, DateTimeOffset.UtcNow)
+                    : null));
         }
 
         public Task<ProviderShopSnapshot> ReadCatalogAsync(
