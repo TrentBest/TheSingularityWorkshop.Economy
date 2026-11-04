@@ -20,6 +20,7 @@ public sealed class InMemoryShopCatalogSource : IShopCatalogSource
 
     public ShopConnectorCapabilities Capabilities =>
         ShopConnectorCapabilities.ReadCatalog |
+        ShopConnectorCapabilities.ReadItem |
         ShopConnectorCapabilities.SynchronizeCatalog |
         ShopConnectorCapabilities.ExternalProductLinks |
         ShopConnectorCapabilities.ReadAvailability;
@@ -34,6 +35,17 @@ public sealed class InMemoryShopCatalogSource : IShopCatalogSource
         {
             Items = Array.AsReadOnly(snapshot.Items.ToArray())
         };
+    }
+
+
+    public async Task<ProviderCatalogItem> ReadItemAsync(
+        string externalShopId,
+        string externalItemId,
+        CancellationToken cancellationToken = default)
+    {
+        var snapshot = await ReadCatalogAsync(externalShopId, cancellationToken).ConfigureAwait(false);
+        return snapshot.Items.FirstOrDefault(item => string.Equals(item.ExternalItemId, externalItemId, StringComparison.Ordinal))
+            ?? throw new KeyNotFoundException("The requested native Workshop item was not found.");
     }
 
     public Task<ProviderShopSnapshot> ReadCatalogAsync(
