@@ -10,7 +10,8 @@ public enum ShopConnectorCapabilities
     ReadCatalog = 1,
     SynchronizeCatalog = 2,
     ExternalProductLinks = 4,
-    ReadAvailability = 8
+    ReadAvailability = 8,
+    ReadItem = 16
 }
 
 /// <summary>Stable identity of a provider, independent of its SDK or transport.</summary>
@@ -72,11 +73,15 @@ public sealed record ImportedItemProvenance(
 /// <summary>Canonical Economy shop plus provider metadata retained outside Economy core.</summary>
 public sealed record ImportedShopCatalog(EconomyShop Shop, ImportedShopProvenance Provenance);
 
+/// <summary>One canonical item returned from a provider, with its provider provenance.</summary>
+public sealed record ImportedShopItem(CommerceItem Item, ImportedItemProvenance Provenance);
+
 /// <summary>Reads and synchronizes a provider catalog. No checkout or mutation operations are implied.</summary>
 public interface IShopConnector
 {
     ShopProviderId Provider { get; }
     ShopConnectorCapabilities Capabilities { get; }
+    Task<ImportedShopItem> ReadItemAsync(string externalShopId, string externalItemId, EconomyEntityId seller, IShopIdentityMap identityMap, CancellationToken cancellationToken = default);
     Task<ImportedShopCatalog> SynchronizeAsync(
         string externalShopId,
         EconomyEntityId seller,
