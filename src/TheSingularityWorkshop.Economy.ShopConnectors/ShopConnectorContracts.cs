@@ -14,13 +14,15 @@ public enum ShopConnectorCapabilities
 }
 
 /// <summary>Stable identity of a provider, independent of its SDK or transport.</summary>
-public readonly record struct ShopProviderId(string Value)
+public readonly record struct ShopProviderId
 {
-    public ShopProviderId
+    public ShopProviderId(string value)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(Value);
-        Value = Value.Trim().ToLowerInvariant();
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
+        Value = value.Trim().ToLowerInvariant();
     }
+
+    public string Value { get; }
 }
 
 /// <summary>Provider-side shop identity and provenance.</summary>
@@ -82,25 +84,27 @@ public interface IShopConnector
         CancellationToken cancellationToken = default);
 }
 
-/// <summary>In-memory identity map for tests, demos, and ephemeral hosts. Use a durable implementation for persistence.</summary>
+/// <summary>Maps external identities to Workshop IDs for tests and ephemeral hosts. Use durable storage in production.</summary>
 public sealed class InMemoryShopIdentityMap : IShopIdentityMap
 {
-    private readonly Dictionary<ProviderShopReference, Guid> _shops = new();
-    private readonly Dictionary<ProviderItemReference, CommerceItemId> _items = new();
+    private readonly Dictionary<(ShopProviderId Provider, string ExternalId), Guid> _shops = new();
+    private readonly Dictionary<(ShopProviderId Provider, string ExternalId), CommerceItemId> _items = new();
 
     public Guid GetOrCreateShopId(ProviderShopReference reference)
     {
         ArgumentNullException.ThrowIfNull(reference);
-        if (!_shops.TryGetValue(reference, out var id))
-            _shops.Add(reference, id = Guid.NewGuid());
+        var key = (reference.Provider, reference.ExternalShopId);
+        if (!_shops.TryGetValue(key, out var id))
+            _shops.Add(key, id = Guid.NewGuid());
         return id;
     }
 
     public CommerceItemId GetOrCreateItemId(ProviderItemReference reference)
     {
         ArgumentNullException.ThrowIfNull(reference);
-        if (!_items.TryGetValue(reference, out var id))
-            _items.Add(reference, id = CommerceItemId.New());
+        var key = (reference.Provider, reference.ExternalItemId);
+        if (!_items.TryGetValue(key, out var id))
+            _items.Add(key, id = CommerceItemId.New());
         return id;
     }
 }
