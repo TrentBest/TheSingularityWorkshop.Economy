@@ -88,6 +88,21 @@ public sealed class ShopConnectorTests
     }
 
     [Fact]
+    public async Task ImportedShopCanBePlacedInTwoExperiencesWithoutChangingItsIdentity()
+    {
+        var connector = new SnapshotShopConnector(new MutableCatalogSource("fixture", "shop-1"));
+        var imported = await connector.SynchronizeAsync(
+            "shop-1", EconomyEntityId.New(), new InMemoryShopIdentityMap());
+        var first = new ExperiencePlacement(imported.Shop, "market-fair", "open-air-stall");
+        var second = new ExperiencePlacement(imported.Shop, "city-plaza", "holographic-kiosk");
+
+        Assert.Same(first.Shop, second.Shop);
+        Assert.Equal(first.Shop.Id, second.Shop.Id);
+        Assert.NotEqual(first.SkinId, second.SkinId);
+        Assert.Equal(first.Shop.Products.Select(item => item.Id), second.Shop.Products.Select(item => item.Id));
+    }
+
+    [Fact]
     public async Task NativeInMemorySourceFeedsTheSameCanonicalConnectorContract()
     {
         var nativeShop = new ProviderShopSnapshot(
@@ -126,6 +141,8 @@ public sealed class ShopConnectorTests
         Assert.Equal(first, identities.GetOrCreateItemId(
             new ProviderItemReference(provider, "shop-a", "item-1", new Uri("https://example.invalid/changed-url"))));
     }
+
+    private sealed record ExperiencePlacement(EconomyShop Shop, string ExperienceId, string SkinId);
 
     private sealed class MutableCatalogSource : IShopCatalogSource
     {
