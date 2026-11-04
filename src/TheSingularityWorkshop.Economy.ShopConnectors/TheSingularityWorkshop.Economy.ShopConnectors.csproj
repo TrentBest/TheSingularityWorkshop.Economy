@@ -4,10 +4,18 @@
     <RootNamespace>TheSingularityWorkshop.Economy.ShopConnectors</RootNamespace>
     <PackageId>TheSingularityWorkshop.Economy.ShopConnectors</PackageId>
     <Version>0.1.0-alpha.1</Version>
+    <Authors>Trent Best</Authors>
+    <Company>The Singularity Workshop</Company>
     <Description>Optional provider-neutral shop catalog connector contracts and adapters for The Singularity Workshop Economy.</Description>
+    <PackageTags>economy;commerce;shop;connector;marketplace;TheSingularityWorkshop</PackageTags>
+    <RepositoryUrl>https://github.com/TrentBest/TheSingularityWorkshop.Economy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>SHOP_CONNECTORS.md</PackageReadmeFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../TheSingularityWorkshop.Economy/TheSingularityWorkshop.Economy.csproj" />
+    <None Include="../../docs/SHOP_CONNECTORS.md" Pack="true" PackagePath="/" Visible="false" />
   </ItemGroup>
 </Project>
