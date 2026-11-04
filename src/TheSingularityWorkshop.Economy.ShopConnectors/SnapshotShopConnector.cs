@@ -8,6 +8,7 @@ public interface IShopCatalogSource
     ShopProviderId Provider { get; }
     ShopConnectorCapabilities Capabilities { get; }
     Task<ProviderShopSnapshot> ReadCatalogAsync(string externalShopId, CancellationToken cancellationToken = default);
+    Task<ProviderCatalogItem> ReadItemAsync(string externalShopId, string externalItemId, CancellationToken cancellationToken = default);
 }
 
 /// <summary>Adapts any catalog source into canonical Economy shop and item identities.</summary>
@@ -25,6 +26,31 @@ public sealed class SnapshotShopConnector : IShopConnector
 
     public ShopProviderId Provider => _source.Provider;
     public ShopConnectorCapabilities Capabilities => _source.Capabilities;
+
+
+    public async Task<ImportedShopItem> ReadItemAsync(
+        string externalShopId,
+        string externalItemId,
+        EconomyEntityId seller,
+        IShopIdentityMap identityMap,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(externalShopId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(externalItemId);
+        ArgumentNullException.ThrowIfNull(identityMap);
+        if (!Capabilities.HasFlag(ShopConnectorCapabilities.ReadItem))
+            throw new NotSupportedException("This provider does not support reading an individual item.");
+
+        var item = await _source.ReadItemAsync(externalShopId, externalItemId, cancellationToken).ConfigureAwait(false);
+        if (!string.Equals(item.ExternalItemId, externalItemId, StringComparison.Ordinal))
+            throw new InvalidOperationException("The catalog source returned a different external item identity.");
+        if (item.Availability is not null && !Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability))
+            throw new InvalidOperationException("The source returned availability without declaring that capability.");
+
+        var reference = new ProviderItemReference(Provider, externalShopId, item.ExternalItemId, item.ProductUri);
+        var canonical = new CommerceItem(identityMap.GetOrCreateItemId(reference), seller, item.Name, item.Price, item.ProductUri);
+        return new ImportedShopItem(canonical, new ImportedItemProvenance(reference, item.ProductUri, item.Availability));
+    }
 
     public async Task<ImportedShopCatalog> SynchronizeAsync(
         string externalShopId,
