@@ -51,3 +51,11 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/CompetitionUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/TournamentBracketUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/CapabilityCompositionUML.md'
+
+      - name: Pack shop connector companion (without publishing)
+        run: dotnet pack src/TheSingularityWorkshop.Economy.ShopConnectors/TheSingularityWorkshop.Economy.ShopConnectors.csproj --configuration Release --no-restore --output artifacts
+      - name: Verify connector package documentation
+        run: |
+          connector_package=$(find artifacts -maxdepth 1 -name 'TheSingularityWorkshop.Economy.ShopConnectors*.nupkg' -print -quit)
+          test -n "$connector_package"
+          unzip -Z1 "$connector_package" | grep -Fxq 'SHOP_CONNECTORS.md'
