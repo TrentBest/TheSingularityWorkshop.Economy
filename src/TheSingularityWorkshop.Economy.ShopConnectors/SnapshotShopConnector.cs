@@ -6,6 +6,7 @@ namespace TheSingularityWorkshop.Economy.ShopConnectors;
 public interface IShopCatalogSource
 {
     ShopProviderId Provider { get; }
+    ShopConnectorCapabilities Capabilities { get; }
     Task<ProviderShopSnapshot> ReadCatalogAsync(string externalShopId, CancellationToken cancellationToken = default);
 }
 
@@ -17,15 +18,13 @@ public sealed class SnapshotShopConnector : IShopConnector
     public SnapshotShopConnector(IShopCatalogSource source)
     {
         _source = source ?? throw new ArgumentNullException(nameof(source));
+        if (!_source.Capabilities.HasFlag(ShopConnectorCapabilities.ReadCatalog) ||
+            !_source.Capabilities.HasFlag(ShopConnectorCapabilities.SynchronizeCatalog))
+            throw new ArgumentException("A catalog source must support reading and synchronization.", nameof(source));
     }
 
     public ShopProviderId Provider => _source.Provider;
-
-    public ShopConnectorCapabilities Capabilities =>
-        ShopConnectorCapabilities.ReadCatalog |
-        ShopConnectorCapabilities.SynchronizeCatalog |
-        ShopConnectorCapabilities.ExternalProductLinks |
-        ShopConnectorCapabilities.ReadAvailability;
+    public ShopConnectorCapabilities Capabilities => _source.Capabilities;
 
     public async Task<ImportedShopCatalog> SynchronizeAsync(
         string externalShopId,
@@ -48,6 +47,9 @@ public sealed class SnapshotShopConnector : IShopConnector
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(item.ExternalItemId);
             ArgumentException.ThrowIfNullOrWhiteSpace(item.Name);
+
+            if (item.Availability is not null && !Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability))
+                throw new InvalidOperationException("The source returned availability without declaring that capability.");
 
             var itemReference = new ProviderItemReference(Provider, item.ExternalItemId, item.ProductUri);
             var itemId = identityMap.GetOrCreateItemId(itemReference);
