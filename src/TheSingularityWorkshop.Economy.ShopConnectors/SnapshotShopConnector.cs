@@ -51,7 +51,7 @@ public sealed class SnapshotShopConnector : IShopConnector
             if (item.Availability is not null && !Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability))
                 throw new InvalidOperationException("The source returned availability without declaring that capability.");
 
-            var itemReference = new ProviderItemReference(Provider, item.ExternalItemId, item.ProductUri);
+            var itemReference = new ProviderItemReference(Provider, snapshot.ExternalShopId, item.ExternalItemId, item.ProductUri);
             var itemId = identityMap.GetOrCreateItemId(itemReference);
             products.Add(new CommerceItem(itemId, seller, item.Name, item.Price, item.ProductUri));
             itemProvenance.Add(new ImportedItemProvenance(itemReference, item.ProductUri, item.Availability));
