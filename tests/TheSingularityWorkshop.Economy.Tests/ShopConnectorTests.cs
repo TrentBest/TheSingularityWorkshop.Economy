@@ -70,6 +70,46 @@ public sealed class ShopConnectorTests
         Assert.True(source.Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability));
     }
 
+    [Fact]
+    public async Task NativeInMemorySourceFeedsTheSameCanonicalConnectorContract()
+    {
+        var nativeShop = new ProviderShopSnapshot(
+            "workshop-shop-1",
+            "Native Creator Shop",
+            new Uri("https://workshop.example/shops/workshop-shop-1"),
+            DateTimeOffset.UtcNow,
+            new[]
+            {
+                new ProviderCatalogItem(
+                    "native-item-1",
+                    "Workshop sculpture",
+                    new Money(25m, "GLD"),
+                    new Uri("https://workshop.example/items/native-item-1"))
+            });
+        var source = new InMemoryShopCatalogSource(new[] { nativeShop });
+        var connector = new SnapshotShopConnector(source);
+
+        var imported = await connector.SynchronizeAsync(
+            "workshop-shop-1", EconomyEntityId.New(), new InMemoryShopIdentityMap());
+
+        Assert.Equal("Native Creator Shop", imported.Shop.Name);
+        Assert.Equal("Workshop sculpture", Assert.Single(imported.Shop.Products).Name);
+        Assert.Equal("workshop.native", imported.Provenance.ProviderShop.Provider.Value);
+    }
+
+    [Fact]
+    public void SameExternalItemIdInDifferentShopsDoesNotCollide()
+    {
+        var identities = new InMemoryShopIdentityMap();
+        var provider = new ShopProviderId("fixture");
+        var first = identities.GetOrCreateItemId(new ProviderItemReference(provider, "shop-a", "item-1"));
+        var second = identities.GetOrCreateItemId(new ProviderItemReference(provider, "shop-b", "item-1"));
+
+        Assert.NotEqual(first, second);
+        Assert.Equal(first, identities.GetOrCreateItemId(
+            new ProviderItemReference(provider, "shop-a", "item-1", new Uri("https://example.invalid/changed-url"))));
+    }
+
     private sealed class MutableCatalogSource : IShopCatalogSource
     {
         private readonly string _shopId;
