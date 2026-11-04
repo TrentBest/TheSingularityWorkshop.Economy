@@ -29,7 +29,7 @@ public readonly record struct ShopProviderId
 public sealed record ProviderShopReference(ShopProviderId Provider, string ExternalShopId, Uri? SourceUri = null);
 
 /// <summary>Provider-side item identity and provenance.</summary>
-public sealed record ProviderItemReference(ShopProviderId Provider, string ExternalItemId, Uri? SourceUri = null);
+public sealed record ProviderItemReference(ShopProviderId Provider, string ExternalShopId, string ExternalItemId, Uri? SourceUri = null);
 
 /// <summary>A provider's observation of an item's availability; it is not a reservation or inventory command.</summary>
 public sealed record ProviderAvailabilityObservation(bool IsAvailable, int? Quantity, DateTimeOffset ObservedAt);
@@ -88,7 +88,7 @@ public interface IShopConnector
 public sealed class InMemoryShopIdentityMap : IShopIdentityMap
 {
     private readonly Dictionary<(ShopProviderId Provider, string ExternalId), Guid> _shops = new();
-    private readonly Dictionary<(ShopProviderId Provider, string ExternalId), CommerceItemId> _items = new();
+    private readonly Dictionary<(ShopProviderId Provider, string ExternalShopId, string ExternalItemId), CommerceItemId> _items = new();
 
     public Guid GetOrCreateShopId(ProviderShopReference reference)
     {
@@ -102,7 +102,7 @@ public sealed class InMemoryShopIdentityMap : IShopIdentityMap
     public CommerceItemId GetOrCreateItemId(ProviderItemReference reference)
     {
         ArgumentNullException.ThrowIfNull(reference);
-        var key = (reference.Provider, reference.ExternalItemId);
+        var key = (reference.Provider, reference.ExternalShopId, reference.ExternalItemId);
         if (!_items.TryGetValue(key, out var id))
             _items.Add(key, id = CommerceItemId.New());
         return id;
