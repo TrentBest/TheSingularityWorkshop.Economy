@@ -4,7 +4,7 @@ The optional `TheSingularityWorkshop.Economy.ShopConnectors` companion adapts pr
 
 ## Current implementation
 
-- `IShopConnector` exposes provider identity, declared capabilities, and catalog synchronization.
+- `IShopConnector` exposes provider identity, declared capabilities, single-item reads, and catalog synchronization.
 - `IShopCatalogSource` is the narrow source boundary. A provider-specific adapter translates its API or storage into `ProviderShopSnapshot` and `ProviderCatalogItem` values.
 - `SnapshotShopConnector` maps those snapshots to `EconomyShop` and `CommerceItem`.
 - `IShopIdentityMap` maps provider/shop/item identities to stable Workshop IDs. The included `InMemoryShopIdentityMap` is for tests and ephemeral hosts; durable hosts must supply a persistent implementation.
@@ -14,7 +14,7 @@ Provider item identity is scoped by provider, external shop ID, and external ite
 
 ## Capabilities and safety boundary
 
-Capabilities are declared by each source. The initial contract distinguishes catalog read, catalog synchronization, external product links, and optional availability observations. Availability is descriptive provider data, not an inventory command.
+Capabilities are declared by each source. The initial contract distinguishes catalog read, single-item read, catalog synchronization, external product links, and optional availability observations. Availability is descriptive provider data, not an inventory command.
 
 The current connector does **not** implement checkout, purchase, reservation, stock mutation, refund, settlement, payment processing, account authentication, or provider credentials. A catalog read or external product URL must never be interpreted as authorization to perform those operations.
 
@@ -59,4 +59,4 @@ For production use, replace the in-memory source and identity map with host-owne
 - **Experiences:** own placement, eligibility, behavior, and presentation.
 - **WebPage:** owns publishing, discovery, embedding, visitor presentation, and host policy.
 
-The existing Experience composition test proves one canonical shop can be placed in two Experiences with different presentations. Connector tests separately prove provider identity mapping and synchronization. They do not yet prove durable persistence, a hosted storefront, or WebPage publication.
+The existing Experience composition test proves one canonical shop can be placed in two Experiences with different presentations. Connector tests separately prove provider identity mapping, single-item reads, synchronization, and reuse of an imported canonical shop across two Experience placements. They do not yet prove durable persistence, a hosted storefront, or WebPage publication.
