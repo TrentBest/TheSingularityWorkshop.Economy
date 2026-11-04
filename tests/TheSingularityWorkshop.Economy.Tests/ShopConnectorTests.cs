@@ -42,14 +42,13 @@ public sealed class ShopConnectorTests
     }
 
     [Fact]
-    public async Task CatalogCapabilitiesDoNotClaimCheckoutOrInventoryMutation()
+    public void ConnectorDoesNotClaimCheckoutOrInventoryMutation()
     {
         var connector = new SnapshotShopConnector(new MutableCatalogSource("fixture", "shop"));
         var capabilities = connector.Capabilities;
 
         Assert.True(capabilities.HasFlag(ShopConnectorCapabilities.ReadCatalog));
         Assert.True(capabilities.HasFlag(ShopConnectorCapabilities.SynchronizeCatalog));
-        Assert.False(capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability) == false);
         Assert.False(Enum.GetNames<ShopConnectorCapabilities>().Any(name =>
             name.Contains("Checkout", StringComparison.OrdinalIgnoreCase) ||
             name.Contains("Purchase", StringComparison.OrdinalIgnoreCase) ||
@@ -58,7 +57,7 @@ public sealed class ShopConnectorTests
     }
 
     [Fact]
-    public async Task AvailabilityIsRetainedAsAnObservationNotAnInventoryCommand()
+    public async Task AvailabilityIsRetainedOnlyWhenProviderDeclaresSupport()
     {
         var source = new MutableCatalogSource("fixture", "shop", includeAvailability: true);
         var result = await new SnapshotShopConnector(source).SynchronizeAsync(
@@ -68,6 +67,7 @@ public sealed class ShopConnectorTests
         Assert.NotNull(availability);
         Assert.Equal(7, availability.Quantity);
         Assert.True(availability.IsAvailable);
+        Assert.True(source.Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability));
     }
 
     private sealed class MutableCatalogSource : IShopCatalogSource
@@ -84,6 +84,11 @@ public sealed class ShopConnectorTests
         }
 
         public ShopProviderId Provider { get; }
+        public ShopConnectorCapabilities Capabilities =>
+            ShopConnectorCapabilities.ReadCatalog |
+            ShopConnectorCapabilities.SynchronizeCatalog |
+            ShopConnectorCapabilities.ExternalProductLinks |
+            (_includeAvailability ? ShopConnectorCapabilities.ReadAvailability : ShopConnectorCapabilities.None);
 
         public void RenameItem(string externalItemId, string name)
         {
