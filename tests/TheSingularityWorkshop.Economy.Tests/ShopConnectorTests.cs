@@ -49,11 +49,11 @@ public sealed class ShopConnectorTests
 
         Assert.True(capabilities.HasFlag(ShopConnectorCapabilities.ReadCatalog));
         Assert.True(capabilities.HasFlag(ShopConnectorCapabilities.SynchronizeCatalog));
-        Assert.False(Enum.GetNames<ShopConnectorCapabilities>().Any(name =>
+        Assert.DoesNotContain(Enum.GetNames<ShopConnectorCapabilities>(), name =>
             name.Contains("Checkout", StringComparison.OrdinalIgnoreCase) ||
             name.Contains("Purchase", StringComparison.OrdinalIgnoreCase) ||
             name.Contains("Reserve", StringComparison.OrdinalIgnoreCase) ||
-            name.Contains("InventoryMutation", StringComparison.OrdinalIgnoreCase)));
+            name.Contains("InventoryMutation", StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]
