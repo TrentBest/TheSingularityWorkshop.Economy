@@ -186,9 +186,25 @@ This avoids uploading thousands of temporary test bundles to Azure Blob. No bund
 
 Open questions for the design issue include the exact stable-ID format, ontology namespace/version rules, whether the first schema should be code-first or data-first, how capability configuration references ontology terms, and how schema migrations preserve historical simulation meaning.
 
-## 10. Current status
+## 10. First executable currency-model slice
 
-This is a design foundation, not an implemented ontology engine. Existing currency, ledger, casino, shop, and capability contracts remain as they are. The next implementation should begin with a source-mapped ontology vocabulary and a small versioned model definition, then prove one end-to-end Simoleans configuration without requiring WebPage, Profiles, FSM_REST, FSM_COS, or cloud storage.
+The first implementation now exists in `CurrencyModelDefinition.cs` and is covered by `CurrencyModelDefinitionTests.cs`.
+
+`CurrencyModelDefinition` wraps the existing `SimulatedCurrency` rather than replacing its identity or the `SimulationLedger`. It adds a creator-assigned model identifier, an explicit schema version, and a selected set of independently inspectable aspects:
+
+- **Issuance** requires an issuance-authority identifier. This names the policy authority; it is not an authentication credential and does not grant permission to call the ledger.
+- **Earning sources** requires at least one stable source identifier, such as `employment.wages` or `quest.rewards`.
+- **Sinks** requires at least one stable sink identifier, such as `shops.purchases` or `public-services.fees`.
+- **Peer transfers** records that the model selects the transfer aspect; actual movement remains the ledger's responsibility.
+- **Expiry** requires a positive duration in days. Supplying an expiry duration without selecting the aspect is also a validation error.
+
+The definition is immutable and snapshots its collections. `Validate()` reports missing or incompatible configuration rather than inventing defaults. External redemption is explicitly false for this simulated-currency model. The type does not execute issuance, wages, purchases, expiry, or transfers; those behaviors require separately implemented and authorized policies and ledger operations.
+
+The current tests prove a valid cartoon-town Simoleans configuration, missing-aspect configuration, expiry requirements, duplicate rejection, and model/schema identity validation. They do not yet prove JSON serialization, migration between schema versions, runtime policy execution, or persistence. Those remain follow-on work.
+
+## 11. Current status
+
+This is a design foundation with a first executable currency-model configuration contract, not a complete ontology engine. Existing currency, ledger, casino, shop, and capability contracts remain the foundation. The next step is to connect the selected model aspects to explicit, testable policy implementations and inspectable events without requiring WebPage, Profiles, FSM_REST, FSM_COS, or cloud storage.
 
 ---
 
