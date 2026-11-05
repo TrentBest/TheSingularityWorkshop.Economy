@@ -74,7 +74,9 @@ The example follows the shop/product composition covered by the [domain tests](t
 - [Exploratory Economy Experiences](docs/EXPLORATORY_ECONOMY_EXPERIENCES.md) — casino back-of-house encounters, simulated camera feeds, courtesy bankroll, free transit and paid driver roles, and multiplayer building construction.
 - [What is Economy?](docs/WHAT_IS_ECONOMY.md) — build the conceptual model and understand the intended boundary without starting from API details.
 - [Economy architecture](docs/ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
-- [Shop connectors](docs/SHOP_CONNECTORS.md) — optional provider adapters, stable imported identities, declared capabilities, and current limits.\n- [Game store patterns](docs/GAME_STORE_PATTERNS.md) — current API examples and Experience-owned store rules.
+- [Shop connectors](docs/SHOP_CONNECTORS.md) — optional provider adapters, stable imported identities, declared capabilities, and current limits.
+- [Economic ontology and composable models](docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md) — the theory/ontology/policy/execution distinction, composable currency aspects, Simoleans example, and optional MicroBundle boundary.
+- [Game store patterns](docs/GAME_STORE_PATTERNS.md) — current API examples and Experience-owned store rules.
 - [Getting started](docs/GETTING_STARTED.md) — create a first shop and understand exactly what the current API does and does not do.
 - [Economy theory learning path](docs/THEORY/README.md) — study value, scarcity, exchange, incentives, and the limits of economic models.
 - [Economic ontology and composable models](docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md) — understand the economic vocabulary and how creators can select coherent model aspects.
