@@ -8,7 +8,7 @@ public sealed class DiceRuleEvaluatorTests
     [Fact]
     public void SumRuleReturnsTotalWithoutPredicate()
     {
-        var result = DiceRuleEvaluator.Evaluate(Roll(2, 5, 6), DiceRuleDefinition.Sum);
+        var result = DiceRuleEvaluator.Evaluate(Roll(6, 2, 5, 6), DiceRuleDefinition.Sum);
 
         Assert.Equal(13, result.Value);
         Assert.Null(result.IsSatisfied);
@@ -45,7 +45,7 @@ public sealed class DiceRuleEvaluatorTests
     [InlineData(11, false)]
     public void ThresholdRuleComparesTheTotalToItsTarget(int target, bool expected)
     {
-        var result = DiceRuleEvaluator.Evaluate(Roll(4, 6), DiceRuleDefinition.AtLeastTotal(target));
+        var result = DiceRuleEvaluator.Evaluate(Roll(6, 4, 6), DiceRuleDefinition.AtLeastTotal(target));
 
         Assert.Equal(10, result.Value);
         Assert.Equal(expected, result.IsSatisfied);
