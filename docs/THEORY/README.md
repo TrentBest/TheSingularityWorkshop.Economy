@@ -22,7 +22,7 @@ Read the chapters in order. Each chapter distinguishes conceptual theory, assump
 | 02 | [Prediction markets and simulated wagering](02-PREDICTION-MARKETS-AND-WAGERING.md) | Separate events, markets, selections, odds, accepted bets, results, and settlement; design a provider-neutral sports-first wagering domain | Design chapter; proposed components not implemented |
 | 03 | [Teams, leagues, tournaments, and organized play](03-TEAMS-LEAGUES-AND-TOURNAMENTS.md) | Separate competitor identity, team rosters, competition administration, tournament formats, and activity rules | Initial implementation + theory |
 | 04 | [Composable economies and Experience capabilities](04-COMPOSABLE-ECONOMIES-AND-EXPERIENCE-CAPABILITIES.md) | Understand capability discovery, optional composition, configuration, and host-owned activation | Initial implementation + theory |
-| 05 | Money, units, and currency identity | Distinguish a numeric amount, a unit code, a currency system, and a claim on value | Planned |
+| 05 | Money, units, and currency identity | Distinguish a numeric amount, a unit code, a currency system, and a claim on value | Planned; see the [economic ontology and composable models design](../ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md) |
 | 06 | Accounts, transfers, and double-entry reasoning | Understand custody, conservation, issuance, sinks, and auditable records | Planned; implementation prerequisite |
 | 07 | Markets, prices, supply, and demand | Explore price formation and why a listing is not proof of available stock | Planned |
 | 08 | Labor, wages, and household choice | Model work, compensation, needs, and budget-constrained purchases | Planned |
@@ -42,7 +42,11 @@ The current source is a deliberately small starting point:
 
 The first chapter maps these boundaries to the economic ideas they can—and cannot—represent. The prediction-market chapter defines a future sports-first vertical slice while clearly separating proposed architecture from the current blackjack and ledger implementation. The organized-play chapter documents the implemented team/competition primitives and the still-planned tournament and fantasy systems.
 
-## 05 — Choose your next step
+## 05 — Ontology design bridge
+
+The [Economic ontology and composable models](../ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md) guide maps theory into a shared vocabulary, explains how a creator can compose a fictional currency such as Simoleans, and separates NuGet distribution from optional immutable MicroBundle packaging. It is a design foundation, not an implemented ontology engine.
+
+## 06 — Choose your next step
 
 - Start with [Chapter 01: Value, scarcity, and exchange](01-VALUE-SCARCITY-AND-EXCHANGE.md).
 - For optional feature composition, read [Chapter 04: Composable economies and Experience capabilities](04-COMPOSABLE-ECONOMIES-AND-EXPERIENCE-CAPABILITIES.md).
