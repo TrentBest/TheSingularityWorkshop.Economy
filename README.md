@@ -8,6 +8,7 @@
 [![NuGet downloads](https://img.shields.io/nuget/dt/TheSingularityWorkshop.Economy?logo=nuget&style=flat-square)](https://www.nuget.org/packages/TheSingularityWorkshop.Economy)
 [![Build and tests](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.Economy/dotnet-tests.yml?branch=development&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.Economy/actions/workflows/dotnet-tests.yml)
 
+[![Sith Policy](assets/sith-policy.svg)](https://github.com/TrentBest/TheSingularityWorkshop.Economy/actions/workflows/sith-policy.yml)
 <p align="center">
   <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Economy/development/docs/assets/economy-boundary.svg" alt="An Experience owns its presentation and policies; Economy provides shared commerce vocabulary, while simulation and any future real-provider execution remain distinct." width="100%">
 </p>
