@@ -12,7 +12,7 @@ A package is easier to learn and maintain when every public type has a discovera
 
 ### Public type inventory
 
-The current source scope is the 18 C# files under src/TheSingularityWorkshop.Economy. There are 67 public declarations in that scope.
+The current source scope is the 20 C# files under src/TheSingularityWorkshop.Economy. There are 73 public declarations in that scope.
 
 | Source file | Public declarations | Dedicated API page | UML/use-case companion |
 |---|---|---|---|
@@ -25,6 +25,8 @@ The current source scope is the 18 C# files under src/TheSingularityWorkshop.Eco
 | FeePolicy.cs | FeePolicy | Planned | Planned |
 | FinancialProvider.cs | FinancialProviderId, ExternalFinancialConnection, IFinancialProvider | Planned | Planned |
 | Money.cs | Money | Planned | Planned |
+| CurrencyModelDefinition.cs | CurrencyModelAspect, CurrencyModelIssue, CurrencyModelDefinition | Planned | Planned |
+| CurrencyModelRuntime.cs | CurrencyModelEventKind, CurrencyModelEvent, CurrencyModelRuntime | Planned | Planned |
 | Transfer.cs | TransferKind, EconomyTransfer | Planned | Planned |
 | SimulationLedger.cs | SimulatedCurrencyId, SimulatedCurrency, SimulatedAmount, SimulationAccount, SimulationLedgerOperationKind, SimulationLedgerEntry, SimulationLedgerPosting, SimulationLedgerReceipt, SimulationLedger | [SimulationLedger API](SimulationLedger.md) | [SimulationLedger UML](../UML/SimulationLedgerUML.md) |
 | CasinoWagerBook.cs | CasinoCashier, CasinoWagerOutcome, CasinoWagerBook, CasinoWager | [Casino and ledger API](SimulationLedger.md#casino-custody-and-wager-lifecycle) | [Casino wager UML](../UML/CasinoWagerBookUML.md) |
@@ -35,7 +37,7 @@ The current source scope is the 18 C# files under src/TheSingularityWorkshop.Eco
 | TournamentBracket.cs | TournamentMatchId, TournamentMatchStatus, TournamentMatch, SingleEliminationBracket | [Single-elimination bracket contract](../UML/TournamentBracketUML.md) | [Tournament bracket UML](../UML/TournamentBracketUML.md) |
 | CapabilityComposition.cs | CapabilityId, CapabilityMaturity, CapabilityConfigurationValueType, CapabilityConfigurationField, CapabilityDescriptor, CapabilityCatalog, CapabilitySelection, CapabilityCompositionIssue, CapabilityCompositionValidation, ExperienceCapabilityComposition | [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) | [Capability composition UML](../UML/CapabilityCompositionUML.md) |
 
-**Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 58 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 57 public declarations. No repository-wide documentation generator is claimed.
+**Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 64 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 64 public declarations. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
