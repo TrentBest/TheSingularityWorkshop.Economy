@@ -7,6 +7,7 @@ The README is the public front door. These guides have different jobs; use the o
 | Understand the concept without starting from code | [What is Economy?](docs/WHAT_IS_ECONOMY.md) |
 | Build and run a first shop example | [Getting started](docs/GETTING_STARTED.md) |
 | Study the economic concepts in a modular textbook path, including sports prediction, teams, leagues, tournaments, and organized play | [Economy theory index](docs/THEORY/README.md), [prediction markets chapter](docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md), and [teams/tournaments chapter](docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md) |
+| Understand the economic ontology, composable currency aspects such as Simoleans, and the optional MicroBundle packaging boundary | [Economic ontology and composable models](docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md) |
 | Understand the toy-store catalog model, optional Experience composition, narrative economies, regional competition data, and optional society systems | [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md), [RPG kingdom and global score reference compositions](docs/EXPERIENCE_COMPOSITION_EXAMPLES.md), and [capability composition contracts](docs/UML/CapabilityCompositionUML.md) |
 | See a source-backed example and its limits | [Gallery](docs/GALLERY.md) |
 | Explore the casino, simulated stock exchange, business, auction, work, and supply-chain playground roadmap | [Markets and economic playgrounds](docs/MARKETS_AND_PLAYGROUNDS.md) |
