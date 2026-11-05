@@ -188,7 +188,7 @@ Open questions for the design issue include the exact stable-ID format, ontology
 
 ## 10. First executable currency-model slice
 
-The first implementation now exists in `CurrencyModelDefinition.cs` and is covered by `CurrencyModelDefinitionTests.cs`.
+The first implementation now exists in `CurrencyModelDefinition.cs` and `CurrencyModelRuntime.cs`, with focused coverage in `CurrencyModelDefinitionTests.cs` and `CurrencyModelRuntimeTests.cs`.
 
 `CurrencyModelDefinition` wraps the existing `SimulatedCurrency` rather than replacing its identity or the `SimulationLedger`. It adds a creator-assigned model identifier, an explicit schema version, and a selected set of independently inspectable aspects:
 
@@ -198,13 +198,15 @@ The first implementation now exists in `CurrencyModelDefinition.cs` and is cover
 - **Peer transfers** records that the model selects the transfer aspect; actual movement remains the ledger's responsibility.
 - **Expiry** requires a positive duration in days. Supplying an expiry duration without selecting the aspect is also a validation error.
 
-The definition is immutable and snapshots its collections. `Validate()` reports missing or incompatible configuration rather than inventing defaults. External redemption is explicitly false for this simulated-currency model. The type does not execute issuance, wages, purchases, expiry, or transfers; those behaviors require separately implemented and authorized policies and ledger operations.
+The definition is immutable and snapshots its collections. `Validate()` reports missing or incompatible configuration rather than inventing defaults. External redemption is explicitly false for this simulated-currency model.
 
-The current tests prove a valid cartoon-town Simoleans configuration, missing-aspect configuration, expiry requirements, duplicate rejection, and model/schema identity validation. They do not yet prove JSON serialization, migration between schema versions, runtime policy execution, or persistence. Those remain follow-on work.
+`CurrencyModelRuntime` is the first executable policy seam. It refuses invalid model definitions at construction, then gates issuance on the declared authority and an allowed earning-source identifier, retirement on a declared sink, and peer transfers on the selected transfer aspect. It delegates every balance-changing operation to the existing `SimulationLedger`; it does not create a parallel balance store. The returned `CurrencyModelEvent` links the model, policy identifier, operation, and authoritative ledger receipt. A repeated operation therefore retains the ledger's idempotency and original receipt evidence.
+
+The current tests prove a valid cartoon-town Simoleans configuration, missing-aspect configuration, expiry requirements, duplicate rejection, model/schema identity validation, authority/source/sink enforcement, transfer gating, and the model-event/ledger boundary. They do not yet prove JSON serialization, migration between schema versions, expiry execution, persistence, or durable event storage. Those remain follow-on work.
 
 ## 11. Current status
 
-This is a design foundation with a first executable currency-model configuration contract, not a complete ontology engine. Existing currency, ledger, casino, shop, and capability contracts remain the foundation. The next step is to connect the selected model aspects to explicit, testable policy implementations and inspectable events without requiring WebPage, Profiles, FSM_REST, FSM_COS, or cloud storage.
+This is a design foundation with a first executable currency-model policy slice, not a complete ontology engine. Existing currency, ledger, casino, shop, and capability contracts remain the foundation. The next steps are schema serialization and migration, time-based expiry semantics, broader policy composition, and theory-to-implementation traceability—without requiring WebPage, Profiles, FSM_REST, FSM_COS, or cloud storage.
 
 ---
 
