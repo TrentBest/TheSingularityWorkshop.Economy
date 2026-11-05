@@ -77,6 +77,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 - [Shop connectors](docs/SHOP_CONNECTORS.md) — optional provider adapters, stable imported identities, declared capabilities, and current limits.\n- [Game store patterns](docs/GAME_STORE_PATTERNS.md) — current API examples and Experience-owned store rules.
 - [Getting started](docs/GETTING_STARTED.md) — create a first shop and understand exactly what the current API does and does not do.
 - [Economy theory learning path](docs/THEORY/README.md) — study value, scarcity, exchange, incentives, and the limits of economic models.
+- [Economic ontology and composable models](docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md) — understand the economic vocabulary and how creators can select coherent model aspects.
 - [Gallery](docs/GALLERY.md) — inspect the source-backed creator-shop composition proof and its boundaries.
 - [API reference index](docs/API/README.md) and [UML coverage index](docs/UML/README.md) — navigate the public type inventory and structural evidence.
 - [Documentation index](DOCUMENTATION_INDEX.md) — navigate the source, tests, and workflow by task.
