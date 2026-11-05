@@ -20,7 +20,8 @@
     <None Include="../../DOCUMENTATION_INDEX.md" Pack="true" PackagePath="/" />
     <None Include="../../ECONOMY_ARCHITECTURE.md" Pack="true" PackagePath="/" />
     <None Include="../../docs/ARCHITECTURE.md" Pack="true" PackagePath="docs/" />
-    <None Include="../../docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md" Pack="true" PackagePath="docs/" />\n    <None Include="../../docs/DICE_ACTIVITY.md" Pack="true" PackagePath="docs/" />
+    <None Include="../../docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md" Pack="true" PackagePath="docs/" />
+    <None Include="../../docs/DICE_ACTIVITY.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/EXPERIENCE_CAPABILITY_CATALOG.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/EXPERIENCE_COMPOSITION_EXAMPLES.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/WHAT_IS_ECONOMY.md" Pack="true" PackagePath="docs/" />
