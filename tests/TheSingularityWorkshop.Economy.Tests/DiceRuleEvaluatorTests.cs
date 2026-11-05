@@ -17,7 +17,7 @@ public sealed class DiceRuleEvaluatorTests
     [Fact]
     public void HighestRuleReturnsHighestFace()
     {
-        var result = DiceRuleEvaluator.Evaluate(Roll(2, 5, 6), DiceRuleDefinition.Highest);
+        var result = DiceRuleEvaluator.Evaluate(Roll(6, 2, 5, 6), DiceRuleDefinition.Highest);
 
         Assert.Equal(6, result.Value);
         Assert.Null(result.IsSatisfied);
@@ -37,7 +37,7 @@ public sealed class DiceRuleEvaluatorTests
     public void DoublesRuleRejectsAnythingOtherThanTwoDice()
     {
         Assert.Throws<ArgumentException>(() =>
-            DiceRuleEvaluator.Evaluate(Roll(1, 2, 3), DiceRuleDefinition.Doubles));
+            DiceRuleEvaluator.Evaluate(Roll(6, 1, 2, 3), DiceRuleDefinition.Doubles));
     }
 
     [Theory]
@@ -63,7 +63,7 @@ public sealed class DiceRuleEvaluatorTests
     public void EvaluatorRejectsFacesOutsideTheDeclaredDie()
     {
         Assert.Throws<ArgumentException>(() =>
-            DiceRuleEvaluator.Evaluate(Roll(1, 7), DiceRuleDefinition.Sum));
+            DiceRuleEvaluator.Evaluate(Roll(6, 7), DiceRuleDefinition.Sum));
     }
 
     private static DiceRoll Roll(int faceCount, params int[] faces) =>
