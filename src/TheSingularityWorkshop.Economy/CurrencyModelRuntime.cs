@@ -61,9 +61,7 @@ public sealed class CurrencyModelRuntime
         RequireAllowedIdentifier(_definition.EarningSources, earningSourceIdentifier, "earning source");
 
         var receipt = _ledger.Issue(operationId, accountId, amount, occurredAt);
-        return new CurrencyModelEvent(
-            _definition.ModelId, operationId, CurrencyModelEventKind.Issued, amount,
-            occurredAt, earningSourceIdentifier, receipt);
+        return CreateEvent(CurrencyModelEventKind.Issued, earningSourceIdentifier, receipt);
     }
 
     /// <summary>Retires value only for a sink explicitly declared by the model.</summary>
@@ -78,9 +76,7 @@ public sealed class CurrencyModelRuntime
         RequireAllowedIdentifier(_definition.Sinks, sinkIdentifier, "sink");
 
         var receipt = _ledger.Retire(operationId, accountId, amount, occurredAt);
-        return new CurrencyModelEvent(
-            _definition.ModelId, operationId, CurrencyModelEventKind.Retired, amount,
-            occurredAt, sinkIdentifier, receipt);
+        return CreateEvent(CurrencyModelEventKind.Retired, sinkIdentifier, receipt);
     }
 
     /// <summary>Transfers value only when peer transfers are enabled in the model.</summary>
@@ -94,10 +90,21 @@ public sealed class CurrencyModelRuntime
         RequireAspect(CurrencyModelAspect.PeerTransfers);
 
         var receipt = _ledger.Transfer(operationId, fromAccountId, toAccountId, amount, occurredAt);
-        return new CurrencyModelEvent(
-            _definition.ModelId, operationId, CurrencyModelEventKind.Transferred, amount,
-            occurredAt, null, receipt);
+        return CreateEvent(CurrencyModelEventKind.Transferred, null, receipt);
     }
+
+    private CurrencyModelEvent CreateEvent(
+        CurrencyModelEventKind kind,
+        string? policyIdentifier,
+        SimulationLedgerReceipt receipt) =>
+        new(
+            _definition.ModelId,
+            receipt.OperationId,
+            kind,
+            receipt.Amount,
+            receipt.OccurredAt,
+            policyIdentifier,
+            receipt);
 
     private void RequireAspect(CurrencyModelAspect aspect)
     {
