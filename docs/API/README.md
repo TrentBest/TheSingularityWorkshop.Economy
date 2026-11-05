@@ -12,7 +12,7 @@ A package is easier to learn and maintain when every public type has a discovera
 
 ### Public type inventory
 
-The current source scope is the 21 C# files under src/TheSingularityWorkshop.Economy. There are 78 public declarations in that scope.
+The current source scope is the 22 C# files under src/TheSingularityWorkshop.Economy. There are 82 public declarations in that scope.
 
 | Source file | Public declarations | Dedicated API page | UML/use-case companion |
 |---|---|---|---|
@@ -28,6 +28,7 @@ The current source scope is the 21 C# files under src/TheSingularityWorkshop.Eco
 | CurrencyModelDefinition.cs | CurrencyModelAspect, CurrencyModelIssue, CurrencyModelDefinition | Planned | Planned |
 | CurrencyModelRuntime.cs | CurrencyModelEventKind, CurrencyModelEvent, CurrencyModelRuntime | Planned | Planned |
 | Dice.cs | DiceDefinition, IDiceRandomSource, SystemDiceRandomSource, DiceRoll, DiceRoller | [Dice activity contract](../DICE_ACTIVITY.md) | Planned |
+| DiceRules.cs | DiceRuleKind, DiceRuleDefinition, DiceRuleEvaluation, DiceRuleEvaluator | [Dice activity contract](../DICE_ACTIVITY.md) | Planned |
 | Transfer.cs | TransferKind, EconomyTransfer | Planned | Planned |
 | SimulationLedger.cs | SimulatedCurrencyId, SimulatedCurrency, SimulatedAmount, SimulationAccount, SimulationLedgerOperationKind, SimulationLedgerEntry, SimulationLedgerPosting, SimulationLedgerReceipt, SimulationLedger | [SimulationLedger API](SimulationLedger.md) | [SimulationLedger UML](../UML/SimulationLedgerUML.md) |
 | CasinoWagerBook.cs | CasinoCashier, CasinoWagerOutcome, CasinoWagerBook, CasinoWager | [Casino and ledger API](SimulationLedger.md#casino-custody-and-wager-lifecycle) | [Casino wager UML](../UML/CasinoWagerBookUML.md) |
@@ -49,7 +50,7 @@ The current source scope is the 21 C# files under src/TheSingularityWorkshop.Eco
 - [Economy architecture](../ARCHITECTURE.md) — responsibility boundaries and maturity.
 - [Getting started](../GETTING_STARTED.md) — first shop construction.
 - [Theory learning path](../THEORY/README.md) — domain reasoning independent of the API.
-- [Dice activity contract](../DICE_ACTIVITY.md) — injected randomness, authoritative outcomes, and presentation/wager boundaries.
+- [Dice activity contract](../DICE_ACTIVITY.md) — injected randomness, deterministic rule evaluation, authoritative outcomes, and presentation/wager boundaries.
 
 ## 04 — See it in a minute
 
@@ -63,4 +64,4 @@ To inspect the exact implementation, open the [source directory](https://github.
 
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
-<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop avatar" width="200" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
