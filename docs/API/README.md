@@ -48,7 +48,8 @@ The current source scope is the 21 C# files under src/TheSingularityWorkshop.Eco
 - [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) — optional descriptor discovery, dependency/conflict checks, and Experience-owned configuration validation.
 - [Economy architecture](../ARCHITECTURE.md) — responsibility boundaries and maturity.
 - [Getting started](../GETTING_STARTED.md) — first shop construction.
-- [Theory learning path](../THEORY/README.md) — domain reasoning independent of the API.\n- [Dice activity contract](../DICE_ACTIVITY.md) — injected randomness, authoritative outcomes, and presentation/wager boundaries.
+- [Theory learning path](../THEORY/README.md) — domain reasoning independent of the API.
+- [Dice activity contract](../DICE_ACTIVITY.md) — injected randomness, authoritative outcomes, and presentation/wager boundaries.
 
 ## 04 — See it in a minute
 
