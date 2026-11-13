@@ -11,7 +11,7 @@
   ],
   "branch_count": 2,
   "status": "COMPLIANT",
-  "evaluated_at": "2026-11-12T12:52:14Z",
-  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.Economy/actions/runs/43221863808",
-  "triggering_commit": "408b4f36d032ae440aca16bbc312b8f243242d5b"
+  "evaluated_at": "2026-11-13T12:19:49Z",
+  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.Economy/actions/runs/43424188110",
+  "triggering_commit": "636dd5afab40a7788a44b753c2500c215bd7d334"
 }
