@@ -42,6 +42,7 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/THEORY/04-COMPOSABLE-ECONOMIES-AND-EXPERIENCE-CAPABILITIES.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/API/README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/API/SimulationLedger.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/API/Production.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/README.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/SimulationLedgerUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackRoundUML.md'
@@ -51,6 +52,7 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/CompetitionUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/TournamentBracketUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/CapabilityCompositionUML.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/UML/ProductionUML.md'
 
       - name: Pack shop connector companion (without publishing)
         run: dotnet pack src/TheSingularityWorkshop.Economy.ShopConnectors/TheSingularityWorkshop.Economy.ShopConnectors.csproj --configuration Release --no-restore --output artifacts
