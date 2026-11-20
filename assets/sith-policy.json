@@ -7,11 +7,12 @@
   ],
   "actual_branches": [
     "development",
+    "feature/production-capability",
     "master"
   ],
-  "branch_count": 2,
-  "status": "COMPLIANT",
-  "evaluated_at": "2026-11-19T13:25:27Z",
-  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.Economy/actions/runs/44533247923",
-  "triggering_commit": "cc903b7e360662764ef98e74adc0470e82cac372"
+  "branch_count": 3,
+  "status": "NON-COMPLIANT",
+  "evaluated_at": "2026-11-20T13:05:52Z",
+  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.Economy/actions/runs/44741264357",
+  "triggering_commit": "8d67cbf438d1e2ad90ce2fe44a0e6f963348973c"
 }
