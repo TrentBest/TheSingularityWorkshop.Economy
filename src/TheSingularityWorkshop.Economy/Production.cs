@@ -110,10 +110,15 @@ public sealed class ProductionRecipe
     private string BuildFingerprint()
     {
         static string Format(IEnumerable<ProductionResourceQuantity> quantities) =>
-            string.Join(",", quantities.OrderBy(item => item.ResourceId.Value, StringComparer.Ordinal)
-                .Select(item => $"{item.ResourceId.Value}={item.Quantity.ToString("G29", CultureInfo.InvariantCulture)}"));
+            string.Concat(quantities.OrderBy(item => item.ResourceId.Value, StringComparer.Ordinal)
+                .Select(item =>
+                {
+                    var resource = item.ResourceId.Value;
+                    var quantity = item.Quantity.ToString("G29", CultureInfo.InvariantCulture);
+                    return $"{resource.Length}:{resource}{quantity.Length}:{quantity}";
+                }));
 
-        return string.Join("|", Id, Version, Format(_inputs), Format(_capacity), Format(_outputs), Format(_waste));
+        return $"{Id.Length}:{Id}{Version.Length}:{Version}I{Format(_inputs)}C{Format(_capacity)}O{Format(_outputs)}W{Format(_waste)}";
     }
 }
 
@@ -259,6 +264,19 @@ public sealed class ProductionInventory
             var capacity = Scale(recipe.Capacity, batches);
             var yield = Scale(recipe.Outputs, batches);
             var waste = Scale(recipe.Waste, batches);
+
+            // Inputs and capacity must exist before the run begins; outputs cannot bootstrap their own inputs.
+            var consumed = new Dictionary<ProductionResourceId, decimal>();
+            AddDelta(consumed, inputs, 1m);
+            AddDelta(consumed, capacity, 1m);
+            foreach (var requirement in consumed)
+            {
+                _balances.TryGetValue(requirement.Key, out var available);
+                if (available < requirement.Value)
+                    throw new InvalidOperationException(
+                        $"Insufficient production resource '{requirement.Key}': required {requirement.Value}, available {available}.");
+            }
+
             var deltas = new Dictionary<ProductionResourceId, decimal>();
 
             static void AddDelta(
