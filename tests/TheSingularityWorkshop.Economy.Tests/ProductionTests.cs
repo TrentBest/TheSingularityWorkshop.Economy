@@ -123,19 +123,16 @@ public sealed class ProductionTests
     }
 
     [Fact]
-    public void FailedRunDoesNotReserveOperationId()
+    public void FailedRunDoesNotCreateReceiptOrMutateInventory()
     {
         var inventory = new ProductionInventory();
         var operationId = Guid.NewGuid();
 
         Assert.Throws<InvalidOperationException>(() =>
             inventory.Execute(operationId, SwordRecipe(), 1, DateTimeOffset.UnixEpoch));
-        Assert.Equal(0m, inventory.GetBalance(Sword));
 
-        var funded = Inventory();
-        // The same identifier remains available because the failed attempt committed no operation.
-        var receipt = funded.Execute(operationId, SwordRecipe(), 1, DateTimeOffset.UnixEpoch);
-        Assert.Equal(operationId, receipt.OperationId);
+        Assert.Empty(inventory.History);
+        Assert.Equal(0m, inventory.GetBalance(Sword));
     }
 
     [Fact]
