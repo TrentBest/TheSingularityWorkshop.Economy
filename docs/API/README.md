@@ -12,7 +12,7 @@ A package is easier to learn and maintain when every public type has a discovera
 
 ### Public type inventory
 
-The current source scope is the 22 C# files under src/TheSingularityWorkshop.Economy. There are 82 public declarations in that scope.
+The current source scope is the 23 C# files under src/TheSingularityWorkshop.Economy. There are 89 public declarations in that scope.
 
 | Source file | Public declarations | Dedicated API page | UML/use-case companion |
 |---|---|---|---|
@@ -38,12 +38,14 @@ The current source scope is the 22 C# files under src/TheSingularityWorkshop.Eco
 | Competition.cs | CompetitionId, CompetitorId, TeamMembershipId, CompetitorKind, CompetitionFormat, CompetitionStatus, Competitor, TeamMember, Team, Competition | [Competition and team contracts](../UML/CompetitionUML.md) | [Competition and team UML](../UML/CompetitionUML.md) |
 | TournamentBracket.cs | TournamentMatchId, TournamentMatchStatus, TournamentMatch, SingleEliminationBracket | [Single-elimination bracket contract](../UML/TournamentBracketUML.md) | [Tournament bracket UML](../UML/TournamentBracketUML.md) |
 | CapabilityComposition.cs | CapabilityId, CapabilityMaturity, CapabilityConfigurationValueType, CapabilityConfigurationField, CapabilityDescriptor, CapabilityCatalog, CapabilitySelection, CapabilityCompositionIssue, CapabilityCompositionValidation, ExperienceCapabilityComposition | [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) | [Capability composition UML](../UML/CapabilityCompositionUML.md) |
+| Production.cs | ProductionResourceId, ProductionResourceQuantity, ProductionRecipe, ProductionProvenanceKind, ProductionProvenance, ProductionRunReceipt, ProductionInventory | [Production API](Production.md) | [Production UML](../UML/ProductionUML.md) |
 
 **Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 69 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 69 public declarations. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
 - [SimulationLedger API](SimulationLedger.md) — typed simulated currency, wager accounting, blackjack rules, round lifecycle, and the host session/settlement seam.
+- [Production API](Production.md) — immutable recipes, atomic process-local inventory execution, capacity consumption, yield/waste receipts, and provenance.
 - [Competition and team contracts](../UML/CompetitionUML.md) — competitor identity, immutable team rosters, competition registration, capacity, and lifecycle.
 - [Tournament bracket contract](../UML/TournamentBracketUML.md) — deterministic single-elimination seeding, byes, validated winner advancement, and immutable bracket snapshots.
 - [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) — optional descriptor discovery, dependency/conflict checks, and Experience-owned configuration validation.
@@ -58,7 +60,7 @@ To inspect the exact implementation, open the [source directory](https://github.
 
 ## 05 — Choose your next step
 
-- Start with [SimulationLedger](SimulationLedger.md) for the newest API contract.
+- Start with [Production](Production.md) for the production recipe/execution contract, or [SimulationLedger](SimulationLedger.md) for simulated currency and custody.
 - Use the [UML inventory](../UML/README.md) to see structural-documentation coverage.
 - Expand the remaining type pages in dependency order, keeping each claim linked to source and tests.
 
