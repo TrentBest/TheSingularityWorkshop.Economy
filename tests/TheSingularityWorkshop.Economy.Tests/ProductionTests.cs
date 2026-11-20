@@ -164,6 +164,21 @@ public sealed class ProductionTests
     }
 
     [Fact]
+    public void CannotUseSameRunOutputToFundItsOwnInput()
+    {
+        var inventory = new ProductionInventory();
+        var selfFunding = new ProductionRecipe("ore.synthetic", "1",
+            new[] { new ProductionResourceQuantity(Ore, 5m) },
+            Array.Empty<ProductionResourceQuantity>(),
+            new[] { new ProductionResourceQuantity(Ore, 10m) });
+
+        Assert.Throws<InvalidOperationException>(() =>
+            inventory.Execute(Guid.NewGuid(), selfFunding, 1, DateTimeOffset.UnixEpoch));
+        Assert.Equal(0m, inventory.GetBalance(Ore));
+        Assert.Empty(inventory.History);
+    }
+
+    [Fact]
     public void AllowsAResourceToBeConsumedAndProducedInOneRun()
     {
         var inventory = new ProductionInventory(new[]
