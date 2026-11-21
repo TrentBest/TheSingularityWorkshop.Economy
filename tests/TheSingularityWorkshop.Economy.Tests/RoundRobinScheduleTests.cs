@@ -169,7 +169,8 @@ public sealed class RoundRobinScheduleTests
         Assert.Equal(3m, second.Points);
         Assert.Equal(2, first.Losses);
         Assert.Equal(1, second.Losses);
-        Assert.True(standings.IndexOf(second) < standings.IndexOf(first));
+        var orderedRows = standings.ToList();
+        Assert.True(orderedRows.IndexOf(second) < orderedRows.IndexOf(first));
         Assert.Same(policy, schedule.StandingsPolicy);
     }
 
