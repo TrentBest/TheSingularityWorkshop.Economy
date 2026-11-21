@@ -79,11 +79,11 @@ A participant can assemble a team, then register that team in a competition. The
 
 ## 05 — Choose your next step
 
-1. Implement tournament aggregate and deterministic single-elimination bracket with byes.
-2. Add match fixtures, result provenance, and validated winner advancement.
-3. Add round-robin schedule and standings as a second format.
-4. Add fantasy/dream team roster construction and scoring as a separate policy family.
-5. Reuse tournament administration for poker and blackjack without coupling their game rules to the competition core.
+1. Add a tournament aggregate coordinating registration, bracket state, withdrawals, disqualifications, ties, and explicit correction policy.
+2. Add round-robin schedule generation and configurable league standings.
+3. Add ladder matchmaking/challenge policies and controlled rating-history rebuilds.
+4. Add fantasy/dream-team roster construction and scoring as a separate policy family.
+5. Reuse tournament administration for card games and non-card activities without coupling activity rules to the competition core.
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
 <p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
