@@ -13,6 +13,28 @@ public sealed class ReferenceExperienceCompositionTests
     private static readonly CapabilityDescriptor Taxation = Descriptor("taxation", "Government", "Scenario-owned tax policy and treasury receipts.", new[] { Treasury.Id });
     private static readonly CapabilityDescriptor Registration = Descriptor("competition.registration", "Competition", "Competitor registration and eligibility.");
     private static readonly CapabilityDescriptor ScoreSubmissions = Descriptor("competition.scores", "Competition", "Validated score submissions with provenance.", new[] { Registration.Id });
+    private static readonly CapabilityDescriptor RoundRobin = new(
+        new CapabilityId("competition.round-robin"),
+        "Round-robin schedule",
+        "Competition",
+        "Deterministic pairings, byes, and configurable aggregate standings.",
+        "1.0",
+        CapabilityMaturity.Preview,
+        dependencies: new[] { Registration.Id },
+        configuration: new[]
+        {
+            new CapabilityConfigurationField("winPoints", CapabilityConfigurationValueType.Decimal, required: true),
+            new CapabilityConfigurationField("drawPoints", CapabilityConfigurationValueType.Decimal, required: true),
+            new CapabilityConfigurationField("lossPoints", CapabilityConfigurationValueType.Decimal, required: true),
+            new CapabilityConfigurationField("tieBreakProfile", CapabilityConfigurationValueType.Enumeration,
+                required: true, allowedValues: new[]
+                {
+                    "points-wins-competitor-id",
+                    "fewest-losses-points-competitor-id"
+                })
+        },
+        documentationReference: "docs/UML/RoundRobinScheduleUML.md");
+
     private static readonly CapabilityDescriptor RegionalAggregation = Descriptor("competition.regions", "Competition", "Aggregation of eligible scores by an Experience-assigned region.", new[] { ScoreSubmissions.Id });
     private static readonly CapabilityDescriptor Employment = Descriptor("society.employment", "Society", "Occupations, employment agreements, skills, and wage obligations.", new[] { Treasury.Id });
     private static readonly CapabilityDescriptor PropertyTitle = Descriptor("society.property-title", "Society", "Asset identity, title records, ownership interests, and transfer history.");
@@ -22,7 +44,7 @@ public sealed class ReferenceExperienceCompositionTests
     private static readonly CapabilityDescriptor CivicRegistry = Descriptor("society.civic-registry", "Society", "Public registries, permits, and civic records.");
     private static readonly CapabilityCatalog Catalog = new(new[]
     {
-        Treasury, Shops, Production, Training, Taxation, Registration, ScoreSubmissions, RegionalAggregation,
+         Treasury, Shops, Production, Training, Taxation, Registration, RoundRobin, ScoreSubmissions, RegionalAggregation,
         Employment, PropertyTitle, IncidentRecords, JusticeCases, InstitutionalIntegrity, CivicRegistry
     });
 
@@ -113,4 +135,34 @@ public sealed class ReferenceExperienceCompositionTests
         IEnumerable<CapabilityId>? dependencies = null) =>
         new(new CapabilityId(id), id, category, description, "1.0",
             CapabilityMaturity.Experimental, dependencies: dependencies);
+    [Fact]
+    public void RoundRobinExperienceSelectsScheduleAndExperienceOwnedStandingsPolicy()
+    {
+        var configuration = new Dictionary<string, string>
+        {
+            ["winPoints"] = "3",
+            ["drawPoints"] = "1.5",
+            ["lossPoints"] = "0",
+            ["tieBreakProfile"] = "fewest-losses-points-competitor-id"
+        };
+        var composition = new ExperienceCapabilityComposition(new[]
+        {
+            new CapabilitySelection(Registration.Id),
+            new CapabilitySelection(RoundRobin.Id, configuration)
+        });
+
+        Assert.True(composition.Validate(Catalog).IsValid);
+        var roundRobinSelection = composition.Selections.Single(item => item.CapabilityId == RoundRobin.Id);
+        Assert.Equal("1.5", roundRobinSelection.Configuration["drawPoints"]);
+        Assert.Equal(CapabilityMaturity.Preview,
+            Catalog.Descriptors.Single(item => item.Id == RoundRobin.Id).Maturity);
+
+        var missingRegistration = new ExperienceCapabilityComposition(new[]
+        {
+            new CapabilitySelection(RoundRobin.Id, configuration)
+        });
+        Assert.Contains(missingRegistration.Validate(Catalog).Issues,
+            issue => issue.Code == "missing-dependency");
+    }
+
 }
