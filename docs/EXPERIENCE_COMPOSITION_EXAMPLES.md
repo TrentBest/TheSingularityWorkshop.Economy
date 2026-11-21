@@ -56,6 +56,33 @@ if (!validation.IsValid)
 }
 ```
 
+## Round-robin competition
+
+An organized-play Experience can select registration and a round-robin schedule without selecting commerce, treasury, or wagering. Its scoring and tie-break configuration belongs to the Experience:
+
+```csharp
+var roundRobin = new ExperienceCapabilityComposition(new[]
+{
+    new CapabilitySelection(new CapabilityId("competition.registration")),
+    new CapabilitySelection(new CapabilityId("competition.round-robin"),
+        new Dictionary<string, string>
+        {
+            ["winPoints"] = "3",
+            ["drawPoints"] = "1.5",
+            ["lossPoints"] = "0",
+            ["tieBreakProfile"] = "fewest-losses-points-competitor-id"
+        })
+});
+
+var validation = roundRobin.Validate(sharedCatalog);
+if (!validation.IsValid)
+{
+    // The host rejects activation until the declared composition is corrected.
+}
+```
+
+The descriptor fixture validates the configuration's declared value shapes and its registration dependency. A host adapter maps the selected profile to the domain `RoundRobinStandingsPolicy`; the policy itself enforces `win > draw >= loss >= 0` and a final competitor-identity tie-break. Declarative composition validation does not create a schedule, adjudicate results, or execute matches.
+
 ## Society compositions (metadata fixtures)
 
 The same catalog can describe civic systems without making them mandatory:
@@ -63,11 +90,11 @@ The same catalog can describe civic systems without making them mandatory:
 - **Feudal kingdom:** property/title, incident records, justice cases, and institutional integrity. This can represent hereditary land grants, contested succession, theft allegations, and a compromised court.
 - **Modern city:** treasury, employment, property/title, civic registry, incident records, justice cases, and institutional integrity. This can represent jobs and wages, parcel ownership, permits, oversight, and appeals.
 
-These are currently descriptor fixtures and composition tests, not working employment, registry, theft-detection, corruption, or justice engines. See [issue #23](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/23) for the implementation plan.
+These are currently descriptor fixtures and composition tests, not working employment, registry, theft-detection, corruption, or justice engines. The round-robin descriptor is likewise a composition fixture; the independent schedule/scoring engine is implemented, but the descriptor does not activate it. See [issue #23](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/23) for the implementation plan.
 
 ## Executable evidence
 
-[`ReferenceExperienceCompositionTests.cs`](../tests/TheSingularityWorkshop.Economy.Tests/ReferenceExperienceCompositionTests.cs) verifies that the RPG kingdom, global score competition, feudal kingdom, and modern city can select distinct subsets from one shared catalog.
+[`ReferenceExperienceCompositionTests.cs`](../tests/TheSingularityWorkshop.Economy.Tests/ReferenceExperienceCompositionTests.cs) verifies that the RPG kingdom, global score competition, round-robin competition, feudal kingdom, and modern city can select distinct subsets from one shared catalog.
 
 The descriptors in that test are deliberately lightweight fixtures. They establish the shape of composition, not the existence of production implementations for every named capability. Production, training, taxation, score-submission, regional-aggregation, employment, property/title, incident, justice, and institutional-integrity engines remain future work.
 
