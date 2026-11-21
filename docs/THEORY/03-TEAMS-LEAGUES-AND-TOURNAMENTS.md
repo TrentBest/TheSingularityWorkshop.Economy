@@ -66,7 +66,7 @@ Implemented:
 - Competition format vocabulary, immutable entrant registration/capacity, and guarded lifecycle transitions.
 - Deterministic single-elimination bracket generation, explicit seed order, byes, immutable match snapshots, and winner advancement. `RecordResult` retains a stable result ID, timestamp, winner, and host evidence reference; exact duplicate submissions are idempotent and conflicting ID reuse is rejected. The legacy `RecordWinner` method remains a winner-only path without provenance.
 - Immutable Elo-style ladder ratings with configurable initial rating/K-factor, win/loss/draw accounting, deterministic ranking tie-breaks, append-only result identity, evidence references, duplicate-result idempotency, and timestamp-order validation.
-- Deterministic round-robin pairings using the circle method, automatic byes for odd fields, immutable host-adjudicated results, and standings using 3/1/0 points with documented deterministic tie-breaks.
+- Deterministic round-robin pairings using the circle method, automatic byes for odd fields, immutable host-adjudicated results, and configurable decimal scoring plus ordered aggregate tie-breaks. The default remains 3/1/0 points, then wins, then competitor identity.
 
 Not yet implemented:
 - A full Tournament aggregate coordinating registration, bracket lifecycle, withdrawals, disqualifications, ties, and result correction.
