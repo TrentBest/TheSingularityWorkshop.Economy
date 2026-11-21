@@ -64,14 +64,14 @@ The current blackjack slice is deterministic and simulation-only. Poker rules, p
 Implemented:
 - Individual/team competitor identity and immutable team roster changes.
 - Competition format vocabulary, immutable entrant registration/capacity, and guarded lifecycle transitions.
-- Deterministic single-elimination bracket generation, explicit seed order, byes, immutable match snapshots, and winner advancement.
+- Deterministic single-elimination bracket generation, explicit seed order, byes, immutable match snapshots, and winner advancement. `RecordResult` retains a stable result ID, timestamp, winner, and host evidence reference; exact duplicate submissions are idempotent and conflicting ID reuse is rejected. The legacy `RecordWinner` method remains a winner-only path without provenance.
 - Immutable Elo-style ladder ratings with configurable initial rating/K-factor, win/loss/draw accounting, deterministic ranking tie-breaks, append-only result identity, evidence references, duplicate-result idempotency, and timestamp-order validation.
 
 Not yet implemented:
 - A full Tournament aggregate coordinating registration, bracket lifecycle, withdrawals, disqualifications, ties, and result correction.
 - Round-robin scheduling and league points/standings policies.
 - Ladder matchmaking, challenge windows, seasons/resets, rating uncertainty, and correction/rebuild tooling.
-- Independent verification or durable retention of referenced match evidence.
+- Independent verification or durable retention of referenced match evidence. `TournamentMatchResult` and `LadderResult` preserve references only; the authoritative host must validate and retain the underlying evidence.
 
 ## 04 — See it in a minute
 
