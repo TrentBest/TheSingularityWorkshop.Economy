@@ -66,6 +66,7 @@ Implemented:
 - Competition format vocabulary, immutable entrant registration/capacity, and guarded lifecycle transitions.
 - Deterministic single-elimination bracket generation, explicit seed order, byes, immutable match snapshots, and winner advancement. `RecordResult` retains a stable result ID, timestamp, winner, and host evidence reference; exact duplicate submissions are idempotent and conflicting ID reuse is rejected. The legacy `RecordWinner` method remains a winner-only path without provenance.
 - Immutable Elo-style ladder ratings with configurable initial rating/K-factor, win/loss/draw accounting, deterministic ranking tie-breaks, append-only result identity, evidence references, duplicate-result idempotency, and timestamp-order validation.
+- Deterministic round-robin pairings using the circle method, automatic byes for odd fields, immutable host-adjudicated results, and standings using 3/1/0 points with documented deterministic tie-breaks.
 
 Not yet implemented:
 - A full Tournament aggregate coordinating registration, bracket lifecycle, withdrawals, disqualifications, ties, and result correction.
@@ -75,12 +76,11 @@ Not yet implemented:
 
 ## 04 — See it in a minute
 
-A participant can assemble a team, then register that team in a competition. The competition sees one competitor identity; the team preserves its internal roster and roles. A tournament or ladder engine consumes registered competitor identities without changing how a team is represented. `CompetitionLadder` applies only host-adjudicated results; the host must validate evidence before recording it.
+A participant can assemble a team, then register that team in a competition. The competition sees one competitor identity; the team preserves its internal roster and roles. A tournament, round-robin, or ladder engine consumes registered competitor identities without changing how a team is represented. `RoundRobinSchedule` derives its table from host-adjudicated results; `CompetitionLadder` applies only ordered host-adjudicated results. The host must validate evidence before recording it.
 
 ## 05 — Choose your next step
 
 1. Add a tournament aggregate coordinating registration, bracket state, withdrawals, disqualifications, ties, and explicit correction policy.
-2. Add round-robin schedule generation and configurable league standings.
 3. Add ladder matchmaking/challenge policies and controlled rating-history rebuilds.
 4. Add fantasy/dream-team roster construction and scoring as a separate policy family.
 5. Reuse tournament administration for card games and non-card activities without coupling activity rules to the competition core.
