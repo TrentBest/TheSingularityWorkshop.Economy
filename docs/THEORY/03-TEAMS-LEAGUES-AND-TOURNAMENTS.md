@@ -55,7 +55,7 @@ For example, single elimination needs seeding, bracket slots, byes, match result
 
 ### Poker and blackjack
 
-Poker and blackjack remain supported as activities, not as the organizing abstraction. They can run as casual tables, ranked ladders, leagues, or tournaments. Tournament administration can manage registration, seats, rounds, eliminations, and final placement while a game-specific rules engine owns hands, turns, and outcomes. The first single-elimination bracket primitive is implemented; full tournament lifecycle and poker mechanics remain future work.
+Poker and blackjack remain supported as activities, not as the organizing abstraction. They can run as casual tables, ranked ladders, leagues, or tournaments. Tournament administration can manage registration, seats, rounds, eliminations, and final placement while a game-specific rules engine owns hands, turns, and outcomes. The immutable single-elimination bracket and an Elo-style immutable competition ladder are implemented as separate progression primitives. Full tournament administration, round-robin scheduling, league tables, and poker mechanics remain future work.
 
 The current blackjack slice is deterministic and simulation-only. Poker rules, poker hand evaluation, dealing, tournament lifecycle, and multiplayer table coordination are not implemented by this chapter.
 
@@ -78,7 +78,7 @@ Not yet implemented:
 
 ## 04 — See it in a minute
 
-A participant can assemble a team, then register that team in a competition. The competition sees one competitor identity; the team preserves its internal roster and roles. A tournament engine can later consume registered competitors and build a bracket without changing how a team is represented.
+A participant can assemble a team, then register that team in a competition. The competition sees one competitor identity; the team preserves its internal roster and roles. A tournament or ladder engine consumes registered competitor identities without changing how a team is represented. `CompetitionLadder` applies only host-adjudicated results; the host must validate evidence before recording it.
 
 ## 05 — Choose your next step
 
