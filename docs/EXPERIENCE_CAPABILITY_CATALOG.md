@@ -142,9 +142,9 @@ Do not put a globe renderer in Economy. Do not infer a player's precise location
 
 ## Current proof versus intended platform
 
-Already implemented in the repository are reusable shop and commerce primitives, a process-local typed fictional-currency ledger, creator-shop composition contract tests, casino wager accounting and deterministic blackjack lifecycle, plus generic competitor/team/competition and single-elimination bracket foundations.
+Already implemented in the repository are reusable shop and commerce primitives, a process-local typed fictional-currency ledger, creator-shop composition contract tests, casino wager accounting and deterministic blackjack lifecycle, plus generic competitor/team/competition foundations, deterministic single-elimination progression, and an immutable Elo-style competition ladder.
 
-The creator-shop composition proof is a test-owned fixture, not a production editor or runtime catalog. Tournament brackets are not yet a full tournament administration service. Poker, fantasy roster policy, production/training workflows, scenario presets, capability discovery/activation, regional aggregation, globe visualization, and the society capability families are not implemented by this document. The society entries in the reference composition tests are metadata fixtures only.
+The creator-shop composition proof is a test-owned fixture, not a production editor or runtime catalog. The ladder is a rating/progression primitive, not matchmaking; hosts must validate referenced evidence. Tournament brackets are not yet a full tournament administration service. Poker, fantasy roster policy, production/training workflows, scenario presets, capability discovery/activation, regional aggregation, globe visualization, and the society capability families are not implemented by this document. The society entries in the reference composition tests are metadata fixtures only.
 
 ## Implementation sequence
 
