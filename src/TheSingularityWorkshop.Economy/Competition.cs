@@ -26,7 +26,7 @@ public enum CompetitorKind
 }
 
 /// <summary>Broad competition structures supported by the domain vocabulary.</summary>
-/// <remarks>These values describe intent; bracket generation and scheduling engines are not implemented yet.</remarks>
+/// <remarks>Each format is vocabulary; only explicitly implemented format engines provide progression or standings behavior.</remarks>
 public enum CompetitionFormat
 {
     Unspecified,
