@@ -55,7 +55,7 @@ For example, single elimination needs seeding, bracket slots, byes, match result
 
 ### Poker and blackjack
 
-Poker and blackjack remain supported as activities, not as the organizing abstraction. They can run as casual tables, ranked ladders, leagues, or tournaments. Tournament administration can manage registration, seats, rounds, eliminations, and final placement while a game-specific rules engine owns hands, turns, and outcomes. The immutable single-elimination bracket and an Elo-style immutable competition ladder are implemented as separate progression primitives. Full tournament administration, round-robin scheduling, league tables, and poker mechanics remain future work.
+Poker and blackjack remain supported as activities, not as the organizing abstraction. They can run as casual tables, ranked ladders, leagues, or tournaments. Tournament administration can manage registration, seats, rounds, eliminations, and final placement while a game-specific rules engine owns hands, turns, and outcomes. The immutable single-elimination bracket, deterministic round-robin schedule with a basic points table, and Elo-style immutable competition ladder are implemented as separate progression primitives. Full tournament administration, advanced league tie-breaks, and poker mechanics remain future work.
 
 The current blackjack slice is deterministic and simulation-only. Poker rules, poker hand evaluation, dealing, tournament lifecycle, and multiplayer table coordination are not implemented by this chapter.
 
@@ -69,7 +69,7 @@ Implemented:
 
 Not yet implemented:
 - A full Tournament aggregate coordinating registration, bracket lifecycle, withdrawals, disqualifications, ties, and result correction.
-- Round-robin scheduling and league points/standings policies.
+- Advanced league policies such as head-to-head, score differential, strength-of-schedule, home/away balancing, date/venue allocation, and season lifecycle.
 - Ladder matchmaking, challenge windows, seasons/resets, rating uncertainty, and correction/rebuild tooling.
 - Independent verification or durable retention of referenced match evidence. `TournamentMatchResult` and `LadderResult` preserve references only; the authoritative host must validate and retain the underlying evidence.
 
