@@ -67,8 +67,8 @@ public sealed class RoundRobinScheduleTests
         Assert.Null(schedule.FindMatch(firstMatch.Id).Result);
         var winner = updated.Standings.Single(row => row.CompetitorId == firstMatch.FirstCompetitorId);
         var loser = updated.Standings.Single(row => row.CompetitorId == firstMatch.SecondCompetitorId);
-        Assert.Equal((1, 1, 0, 0, 3), (winner.MatchesPlayed, winner.Wins, winner.Draws, winner.Losses, winner.Points));
-        Assert.Equal((1, 0, 0, 1, 0), (loser.MatchesPlayed, loser.Wins, loser.Draws, loser.Losses, loser.Points));
+        Assert.Equal((1, 1, 0, 0, 3m), (winner.MatchesPlayed, winner.Wins, winner.Draws, winner.Losses, winner.Points));
+        Assert.Equal((1, 0, 0, 1, 0m), (loser.MatchesPlayed, loser.Wins, loser.Draws, loser.Losses, loser.Points));
         Assert.All(updated.Standings, row => Assert.Equal(1, row.Byes));
     }
 
@@ -130,6 +130,94 @@ public sealed class RoundRobinScheduleTests
             RoundRobinResultId.New(), played.Id, RoundRobinOutcome.SecondWins,
             DateTimeOffset.UtcNow, "evidence://played/2");
         Assert.Throws<InvalidOperationException>(() => completed.RecordResult(secondResult));
+    }
+
+    [Fact]
+    public void CustomScoringAndTieBreakersAreAppliedAndPreservedAcrossSnapshots()
+    {
+        var entrants = new[]
+        {
+            CompetitorNamed("A"),
+            CompetitorNamed("B"),
+            CompetitorNamed("C"),
+            CompetitorNamed("D")
+        };
+        var policy = new RoundRobinStandingsPolicy(
+            winPoints: 3m,
+            drawPoints: 1.5m,
+            lossPoints: 0m,
+            tieBreakers: new[]
+            {
+                RoundRobinTieBreakCriterion.FewestLosses,
+                RoundRobinTieBreakCriterion.Points,
+                RoundRobinTieBreakCriterion.CompetitorId
+            });
+        var schedule = RoundRobinSchedule.Create(Guid.NewGuid(), entrants, policy);
+
+        schedule = Record(schedule, entrants[0].Id, entrants[1].Id, RoundRobinOutcome.FirstWins);
+        schedule = Record(schedule, entrants[2].Id, entrants[0].Id, RoundRobinOutcome.FirstWins);
+        schedule = Record(schedule, entrants[3].Id, entrants[0].Id, RoundRobinOutcome.FirstWins);
+        schedule = Record(schedule, entrants[1].Id, entrants[2].Id, RoundRobinOutcome.Draw);
+        schedule = Record(schedule, entrants[1].Id, entrants[3].Id, RoundRobinOutcome.Draw);
+        schedule = Record(schedule, entrants[2].Id, entrants[3].Id, RoundRobinOutcome.Draw);
+
+        var standings = schedule.Standings;
+        var first = standings.Single(row => row.CompetitorId == entrants[0].Id);
+        var second = standings.Single(row => row.CompetitorId == entrants[1].Id);
+
+        Assert.Equal(3m, first.Points);
+        Assert.Equal(3m, second.Points);
+        Assert.Equal(2, first.Losses);
+        Assert.Equal(1, second.Losses);
+        Assert.True(standings.IndexOf(second) < standings.IndexOf(first));
+        Assert.Same(policy, schedule.StandingsPolicy);
+    }
+
+    [Fact]
+    public void StandingsPolicyRejectsInvalidScoringAndAmbiguousTieBreakers()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new RoundRobinStandingsPolicy(
+            1m, 1m, 0m, new[] { RoundRobinTieBreakCriterion.CompetitorId }));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new RoundRobinStandingsPolicy(
+            3m, 1m, -1m, new[] { RoundRobinTieBreakCriterion.CompetitorId }));
+        Assert.Throws<ArgumentException>(() => new RoundRobinStandingsPolicy(
+            3m, 1m, 0m, new[]
+            {
+                RoundRobinTieBreakCriterion.Points,
+                RoundRobinTieBreakCriterion.Points,
+                RoundRobinTieBreakCriterion.CompetitorId
+            }));
+        Assert.Throws<ArgumentException>(() => new RoundRobinStandingsPolicy(
+            3m, 1m, 0m, new[]
+            {
+                RoundRobinTieBreakCriterion.CompetitorId,
+                RoundRobinTieBreakCriterion.Points
+            }));
+    }
+
+    private static RoundRobinSchedule Record(
+        RoundRobinSchedule schedule,
+        CompetitorId firstId,
+        CompetitorId secondId,
+        RoundRobinOutcome outcomeFromFirstId)
+    {
+        var match = schedule.Matches.Single(item =>
+            (item.FirstCompetitorId == firstId && item.SecondCompetitorId == secondId) ||
+            (item.FirstCompetitorId == secondId && item.SecondCompetitorId == firstId));
+        var outcome = match.FirstCompetitorId == firstId
+            ? outcomeFromFirstId
+            : outcomeFromFirstId switch
+            {
+                RoundRobinOutcome.FirstWins => RoundRobinOutcome.SecondWins,
+                RoundRobinOutcome.SecondWins => RoundRobinOutcome.FirstWins,
+                _ => RoundRobinOutcome.Draw
+            };
+        return schedule.RecordResult(new RoundRobinMatchResult(
+            RoundRobinResultId.New(),
+            match.Id,
+            outcome,
+            DateTimeOffset.UnixEpoch,
+            $"evidence://{match.Id.RoundNumber}/{match.Id.MatchNumber}"));
     }
 
 }
