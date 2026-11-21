@@ -15,9 +15,10 @@ public sealed class CompetitionLadderTests
         var second = CompetitorNamed("Second");
         var ladder = CompetitionLadder.Create(LadderId.New(), new[] { second, first }, 1200m);
 
-        Assert.Equal(1200m, ladder.Standings[0].Rating);
-        Assert.Equal(first.Id, ladder.Standings[0].CompetitorId);
         Assert.All(ladder.Standings, standing => Assert.Equal(1200m, standing.Rating));
+        Assert.Equal(
+            new[] { first.Id, second.Id }.OrderBy(id => id.Value),
+            ladder.Standings.Select(standing => standing.CompetitorId));
     }
 
     [Fact]
