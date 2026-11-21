@@ -6,6 +6,48 @@ public readonly record struct TournamentMatchId(Guid TournamentId, int RoundNumb
     public bool IsValid => TournamentId != Guid.Empty && RoundNumber > 0 && MatchNumber > 0;
 }
 
+/// <summary>Stable identity for one externally adjudicated tournament match result.</summary>
+public readonly record struct TournamentResultId(Guid Value)
+{
+    public static TournamentResultId New() => new(Guid.NewGuid());
+}
+
+/// <summary>
+/// An externally adjudicated match result. EvidenceReference points to the host's authoritative
+/// evidence; Economy stores the reference but does not verify the evidence or adjudicate play.
+/// </summary>
+public sealed record TournamentMatchResult
+{
+    public TournamentMatchResult(
+        TournamentResultId id,
+        TournamentMatchId matchId,
+        CompetitorId winnerId,
+        DateTimeOffset recordedAt,
+        string evidenceReference)
+    {
+        if (id.Value == Guid.Empty)
+            throw new ArgumentException("A result identifier is required.", nameof(id));
+        if (!matchId.IsValid)
+            throw new ArgumentException("A valid match identity is required.", nameof(matchId));
+        if (winnerId.Value == Guid.Empty)
+            throw new ArgumentException("A winner identity is required.", nameof(winnerId));
+        if (string.IsNullOrWhiteSpace(evidenceReference))
+            throw new ArgumentException("An evidence reference is required.", nameof(evidenceReference));
+
+        Id = id;
+        MatchId = matchId;
+        WinnerId = winnerId;
+        RecordedAt = recordedAt;
+        EvidenceReference = evidenceReference.Trim();
+    }
+
+    public TournamentResultId Id { get; }
+    public TournamentMatchId MatchId { get; }
+    public CompetitorId WinnerId { get; }
+    public DateTimeOffset RecordedAt { get; }
+    public string EvidenceReference { get; }
+}
+
 /// <summary>Lifecycle state of one bracket slot pairing.</summary>
 public enum TournamentMatchStatus
 {
@@ -21,7 +63,7 @@ public sealed record TournamentMatch(
     CompetitorId? FirstCompetitorId,
     CompetitorId? SecondCompetitorId,
     TournamentMatchStatus Status,
-    CompetitorId? WinnerId);
+    CompetitorId? WinnerId,\n    TournamentMatchResult? Result = null);
 
 /// <summary>
 /// Deterministic single-elimination bracket with explicit seeding, byes, and winner advancement.
@@ -128,6 +170,61 @@ public sealed class SingleEliminationBracket
         }
 
         return new SingleEliminationBracket(tournamentId, rounds);
+    }
+
+    /// <summary>
+    /// Records a host-validated result with stable identity and evidence provenance, then advances
+    /// the winner. Repeating the exact result is idempotent; conflicting reuse of its ID is rejected.
+    /// </summary>
+    public SingleEliminationBracket RecordResult(TournamentMatchResult result)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        if (result.MatchId.TournamentId != TournamentId)
+            throw new ArgumentException("The result belongs to a different tournament.", nameof(result));
+
+        var existing = _rounds.SelectMany(round => round)
+            .Select(match => match.Result)
+            .FirstOrDefault(item => item?.Id == result.Id);
+        if (existing is not null)
+        {
+            if (existing == result)
+                return this;
+            throw new InvalidOperationException("A result identifier cannot be reused for different result data.");
+        }
+
+        var match = FindMatch(result.MatchId);
+        if (match.Status != TournamentMatchStatus.Ready)
+            throw new InvalidOperationException("Only a ready match with two competitors can accept a result.");
+        if (result.WinnerId != match.FirstCompetitorId && result.WinnerId != match.SecondCompetitorId)
+            throw new ArgumentException("The winner must be one of the two competitors in this match.", nameof(result));
+
+        var rounds = _rounds.Select(round => round.ToList()).ToList();
+        var roundIndex = result.MatchId.RoundNumber - 1;
+        var matchIndex = result.MatchId.MatchNumber - 1;
+        var completed = match with
+        {
+            Status = TournamentMatchStatus.Completed,
+            WinnerId = result.WinnerId,
+            Result = result
+        };
+        rounds[roundIndex][matchIndex] = completed;
+        if (roundIndex < rounds.Count - 1)
+            Advance(rounds, completed, matchIndex);
+
+        return new SingleEliminationBracket(TournamentId, rounds);
+    }
+
+    /// <summary>Finds a match by its stable tournament-scoped identity.</summary>
+    public TournamentMatch FindMatch(TournamentMatchId matchId)
+    {
+        if (!matchId.IsValid || matchId.TournamentId != TournamentId)
+            throw new ArgumentException("The match identity does not belong to this tournament.", nameof(matchId));
+        var roundIndex = matchId.RoundNumber - 1;
+        var matchIndex = matchId.MatchNumber - 1;
+        if (roundIndex < 0 || roundIndex >= _rounds.Count ||
+            matchIndex < 0 || matchIndex >= _rounds[roundIndex].Count)
+            throw new KeyNotFoundException("The requested tournament match does not exist.");
+        return _rounds[roundIndex][matchIndex];
     }
 
     /// <summary>Records a validated winner and advances that competitor into the next round.</summary>
