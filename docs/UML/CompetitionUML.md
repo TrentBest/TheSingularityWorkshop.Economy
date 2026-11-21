@@ -10,7 +10,7 @@ These primitives are intended to support sports, esports, poker tables, blackjac
 
 A competition platform must not assume that every participant is one person or that every event is a single match. A team may be a real-world squad, a fantasy roster assembled from athletes, a group of creators, or a temporary team formed for one event. Competition format is also independent of activity rules: a poker tournament and an esports tournament can share tournament administration while using entirely different rules engines.
 
-The first implementation deliberately separates identity and registration from scheduling, scoring, and payouts. That prevents a shallow Tournament class from pretending to implement brackets, standings, or match adjudication before those contracts exist.
+The implementation separates identity and registration from game-specific scheduling, adjudication, and payouts. Deterministic single-elimination progression and an Elo-style rating ladder now exist as separate immutable engines; neither is a live match coordinator.
 
 ## 03 — How
 
@@ -52,7 +52,7 @@ classDiagram
     }
     Team *-- TeamMember : roster snapshot
     Team ..> Competitor : projects as team competitor
-    Competition o-- Competitor : registered entrants
+    Competition o-- Competitor : registered entrants\n    class CompetitionLadder {\n      +LadderId Id\n      +decimal InitialRating\n      +decimal KFactor\n      +IReadOnlyList~LadderResult~ Results\n      +IReadOnlyList~LadderStanding~ Standings\n      +Create(id, entrants) CompetitionLadder\n      +RecordResult(result) CompetitionLadder\n    }\n    class LadderResult {\n      +LadderResultId Id\n      +CompetitorId FirstCompetitorId\n      +CompetitorId SecondCompetitorId\n      +CompetitionOutcome Outcome\n      +DateTimeOffset RecordedAt\n      +string EvidenceReference\n    }\n    CompetitionLadder o-- LadderResult : append-only result history
 ```
 
 ### Registration lifecycle
@@ -78,13 +78,13 @@ stateDiagram-v2
 - Registration is capacity-limited when a maximum is supplied.
 - Only an open registration accepts entrants; closing requires at least two entrants.
 - Competition lifecycle transitions are explicit and return new snapshots.
-- Competition format values describe supported vocabulary; they do not claim a scheduler or bracket engine exists.
+- Competition format values describe vocabulary; only explicit format engines implement progression.\n- Ladder results require distinct registered competitors, unique result identity, a non-empty evidence reference, and nondecreasing timestamps. Exact duplicate submissions are idempotent; conflicting reuse is rejected.
 
 ### Explicit maturity boundary
 
-Implemented: competitor identity, individual/team kind, team roster membership, immutable roster edits, competition registration, entrant capacity, and competition lifecycle transitions.
+Implemented: competitor identity, individual/team kind, immutable team roster edits, competition registration/capacity/lifecycle, deterministic single-elimination brackets, and immutable Elo-style ladder ratings with ordered result history.
 
-Not implemented: tournament bracket generation, byes, round advancement, round-robin scheduling, standings, seeding policies, drafts, fantasy scoring, player statistics, roster salary caps, eligibility rules, team ownership, match adjudication, tournament entry fees, prize distribution, or persistent storage.
+Not implemented: full tournament aggregate/lifecycle, round-robin scheduling, league points and tie-break policies, ladder matchmaking/challenges/seasons, rating-history correction tooling, independent evidence verification, durable storage, drafts, fantasy scoring, player statistics, roster salary caps, eligibility rules, team ownership, tournament entry fees, or prize distribution.
 
 ## 04 — See it in a minute
 
