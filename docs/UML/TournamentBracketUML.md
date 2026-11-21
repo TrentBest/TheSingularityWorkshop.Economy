@@ -24,21 +24,21 @@ classDiagram
       +FirstRound
       +CompetitorId? Champion
       +Create(tournamentId, entrants, seedOrder)
-      +RecordWinner(matchId, winnerId)
+      +FindMatch(matchId)\n      +RecordWinner(matchId, winnerId)\n      +RecordResult(result)
     }
     class TournamentMatch {
       +TournamentMatchId Id
       +CompetitorId? FirstCompetitorId
       +CompetitorId? SecondCompetitorId
       +TournamentMatchStatus Status
-      +CompetitorId? WinnerId
+      +CompetitorId? WinnerId\n      +TournamentMatchResult? Result
     }
-    class Competitor {
+    class TournamentMatchResult {\n      +TournamentResultId Id\n      +TournamentMatchId MatchId\n      +CompetitorId WinnerId\n      +DateTimeOffset RecordedAt\n      +string EvidenceReference\n    }\n    class Competitor {
       +CompetitorId Id
       +string DisplayName
       +CompetitorKind Kind
     }
-    SingleEliminationBracket *-- TournamentMatch : rounds
+    SingleEliminationBracket *-- TournamentMatch : rounds\n    TournamentMatch o-- TournamentMatchResult : optional provenance
     SingleEliminationBracket ..> Competitor : registered entrant identities
 ```
 
@@ -73,13 +73,13 @@ flowchart TD
 - A bye automatically advances its only competitor and cannot be manually resolved.
 - A result can be recorded only for a Ready match with two competitors.
 - The winner must be one of the match's competitors.
-- A match can be completed only once.
+- A match can be completed only once.\n- `RecordResult` retains stable result identity, timestamp, winner, and a nonempty host evidence reference.\n- Replaying the exact result ID and data is idempotent; conflicting reuse of the same result ID is rejected.\n- The evidence reference is not verified by Economy; the host remains responsible for validation and durable evidence retention.
 - A result advances into the corresponding slot of the next round.
 - The prior bracket snapshot remains unchanged after recording a result.
 
 ### Explicit maturity boundary
 
-Implemented: deterministic single-elimination bracket creation, standard seeding order, first-round byes, immutable match snapshots, validated winner recording, and round advancement.
+Implemented: deterministic single-elimination bracket creation, standard seeding order, first-round byes, immutable match snapshots, validated winner recording, provenance-aware `RecordResult`, duplicate-result idempotency, and round advancement.
 
 Not implemented: a full Tournament aggregate, scheduling/time slots, activity result validation, ties, withdrawals, disqualification, bracket correction/reopen, double elimination, Swiss, round robin, standings, persistence, distributed coordination, entry fees, or prize distribution.
 
@@ -93,15 +93,15 @@ var bracket = SingleEliminationBracket.Create(
 
 var firstMatch = bracket.FirstRound[0];
 // The host runs the match and validates its result.
-var nextBracket = bracket.RecordWinner(firstMatch.Id, validatedWinnerId);
+var result = new TournamentMatchResult(\n    TournamentResultId.New(), firstMatch.Id, validatedWinnerId,\n    DateTimeOffset.UtcNow, authoritativeEvidenceReference);\nvar nextBracket = bracket.RecordResult(result);
 ```
 
-The bracket owns the progression rule, not the game. The caller must supply a winner that is supported by the activity's own result evidence.
+The bracket owns the progression rule, not the game. The caller must validate the activity outcome and retain the referenced evidence. `RecordWinner` remains available as a winner-only compatibility path; use `RecordResult` when result provenance is required.
 
 ## 05 — Choose your next step
 
 - Add a Tournament aggregate that binds a competition registration snapshot to its bracket.
-- Define result provenance and explicit tie, withdrawal, disqualification, and correction policies.
+- Extend the result contract with explicit tie, withdrawal, disqualification, and correction policies; current evidence references are host-supplied pointers, not verified artifacts.
 - Add round-robin scheduling and standings after the elimination contract is proven.
 - Add persistence and recovery before multiplayer or crash-resilient tournament hosting.
 
