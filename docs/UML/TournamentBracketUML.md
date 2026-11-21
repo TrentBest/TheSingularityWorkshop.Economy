@@ -24,21 +24,32 @@ classDiagram
       +FirstRound
       +CompetitorId? Champion
       +Create(tournamentId, entrants, seedOrder)
-      +FindMatch(matchId)\n      +RecordWinner(matchId, winnerId)\n      +RecordResult(result)
+      +FindMatch(matchId)
+      +RecordWinner(matchId, winnerId)
+      +RecordResult(result)
     }
     class TournamentMatch {
       +TournamentMatchId Id
       +CompetitorId? FirstCompetitorId
       +CompetitorId? SecondCompetitorId
       +TournamentMatchStatus Status
-      +CompetitorId? WinnerId\n      +TournamentMatchResult? Result
+      +CompetitorId? WinnerId
+      +TournamentMatchResult? Result
     }
-    class TournamentMatchResult {\n      +TournamentResultId Id\n      +TournamentMatchId MatchId\n      +CompetitorId WinnerId\n      +DateTimeOffset RecordedAt\n      +string EvidenceReference\n    }\n    class Competitor {
+    class TournamentMatchResult {
+      +TournamentResultId Id
+      +TournamentMatchId MatchId
+      +CompetitorId WinnerId
+      +DateTimeOffset RecordedAt
+      +string EvidenceReference
+    }
+    class Competitor {
       +CompetitorId Id
       +string DisplayName
       +CompetitorKind Kind
     }
-    SingleEliminationBracket *-- TournamentMatch : rounds\n    TournamentMatch o-- TournamentMatchResult : optional provenance
+    SingleEliminationBracket *-- TournamentMatch : rounds
+    TournamentMatch o-- TournamentMatchResult : optional provenance
     SingleEliminationBracket ..> Competitor : registered entrant identities
 ```
 
@@ -73,7 +84,10 @@ flowchart TD
 - A bye automatically advances its only competitor and cannot be manually resolved.
 - A result can be recorded only for a Ready match with two competitors.
 - The winner must be one of the match's competitors.
-- A match can be completed only once.\n- `RecordResult` retains stable result identity, timestamp, winner, and a nonempty host evidence reference.\n- Replaying the exact result ID and data is idempotent; conflicting reuse of the same result ID is rejected.\n- The evidence reference is not verified by Economy; the host remains responsible for validation and durable evidence retention.
+- A match can be completed only once.
+- `RecordResult` retains stable result identity, timestamp, winner, and a nonempty host evidence reference.
+- Replaying the exact result ID and data is idempotent; conflicting reuse of the same result ID is rejected.
+- The evidence reference is not verified by Economy; the host remains responsible for validation and durable evidence retention.
 - A result advances into the corresponding slot of the next round.
 - The prior bracket snapshot remains unchanged after recording a result.
 
@@ -93,7 +107,10 @@ var bracket = SingleEliminationBracket.Create(
 
 var firstMatch = bracket.FirstRound[0];
 // The host runs the match and validates its result.
-var result = new TournamentMatchResult(\n    TournamentResultId.New(), firstMatch.Id, validatedWinnerId,\n    DateTimeOffset.UtcNow, authoritativeEvidenceReference);\nvar nextBracket = bracket.RecordResult(result);
+var result = new TournamentMatchResult(
+    TournamentResultId.New(), firstMatch.Id, validatedWinnerId,
+    DateTimeOffset.UtcNow, authoritativeEvidenceReference);
+var nextBracket = bracket.RecordResult(result);
 ```
 
 The bracket owns the progression rule, not the game. The caller must validate the activity outcome and retain the referenced evidence. `RecordWinner` remains available as a winner-only compatibility path; use `RecordResult` when result provenance is required.
