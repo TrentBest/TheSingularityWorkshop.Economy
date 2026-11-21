@@ -32,10 +32,10 @@ public sealed class MarketEconomyScenarioTests
     public void WageFlowSeparatesClearingAcceptanceFromFinalHouseholdCredit()
     {
         var result = MarketEconomyScenario.Run();
-        var accepted = Assert.Single(result.Events.Where(
-            item => item.Kind == MarketEconomyEventKind.WageAcceptedForClearing));
-        var settled = Assert.Single(result.Events.Where(
-            item => item.Kind == MarketEconomyEventKind.WageSettled));
+        var accepted = Assert.Single(result.Events,
+            item => item.Kind == MarketEconomyEventKind.WageAcceptedForClearing);
+        var settled = Assert.Single(result.Events,
+            item => item.Kind == MarketEconomyEventKind.WageSettled);
 
         Assert.Equal(40m, accepted.Amount.Value);
         Assert.Equal(40m, settled.Amount.Value);
