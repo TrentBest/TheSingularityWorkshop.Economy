@@ -207,15 +207,20 @@ public sealed class RoundRobinSchedule
             .ToArray());
     }
 
+    /// <summary>Creates a schedule using the default 3/1/0 standings policy.</summary>
+    public static RoundRobinSchedule Create(Guid competitionId, IReadOnlyList<Competitor> entrants) =>
+        Create(competitionId, entrants, RoundRobinStandingsPolicy.Default);
+
+    /// <summary>Creates a schedule using the supplied immutable standings policy.</summary>
     public static RoundRobinSchedule Create(
         Guid competitionId,
         IReadOnlyList<Competitor> entrants,
-        RoundRobinStandingsPolicy? standingsPolicy = null)
+        RoundRobinStandingsPolicy standingsPolicy)
     {
         if (competitionId == Guid.Empty)
             throw new ArgumentException("A competition identifier is required.", nameof(competitionId));
         ArgumentNullException.ThrowIfNull(entrants);
-        standingsPolicy ??= RoundRobinStandingsPolicy.Default;
+        ArgumentNullException.ThrowIfNull(standingsPolicy);
         if (entrants.Count < 2)
             throw new ArgumentException("A round-robin schedule requires at least two competitors.", nameof(entrants));
         if (entrants.Any(entrant => entrant is null))
