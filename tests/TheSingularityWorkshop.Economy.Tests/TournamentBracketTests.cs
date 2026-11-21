@@ -102,4 +102,61 @@ public sealed class TournamentBracketTests
                 .Rounds[1][0].Status);
         Assert.Equal(TournamentMatchStatus.Waiting, bracket.Rounds[1][0].Status);
     }
+
+    [Fact]
+    public void ResultRecordsIdentityAndEvidenceAndIsIdempotent()
+    {
+        var entrants = new[] { CompetitorNamed("A"), CompetitorNamed("B") };
+        var bracket = SingleEliminationBracket.Create(Guid.NewGuid(), entrants);
+        var match = bracket.FirstRound[0];
+        var result = new TournamentMatchResult(
+            TournamentResultId.New(),
+            match.Id,
+            entrants[0].Id,
+            DateTimeOffset.Parse("2026-11-21T09:00:00Z"),
+            "server-sc2://matches/match-42/replay");
+
+        var completed = bracket.RecordResult(result);
+
+        Assert.Equal(TournamentMatchStatus.Completed, completed.FirstRound[0].Status);
+        Assert.Equal(result, completed.FirstRound[0].Result);
+        Assert.Equal(entrants[0].Id, completed.Champion);
+        Assert.Same(completed, completed.RecordResult(result));
+        Assert.Null(bracket.FirstRound[0].Result);
+        Assert.Equal(TournamentMatchStatus.Ready, bracket.FirstRound[0].Status);
+    }
+
+    [Fact]
+    public void ResultRejectsConflictingIdentityAndInvalidProvenance()
+    {
+        var entrants = new[] { CompetitorNamed("A"), CompetitorNamed("B") };
+        var bracket = SingleEliminationBracket.Create(Guid.NewGuid(), entrants);
+        var match = bracket.FirstRound[0];
+        var resultId = TournamentResultId.New();
+        var result = new TournamentMatchResult(
+            resultId, match.Id, entrants[0].Id, DateTimeOffset.UtcNow, "evidence://match/1");
+
+        var completed = bracket.RecordResult(result);
+        var conflicting = new TournamentMatchResult(
+            resultId, match.Id, entrants[1].Id, result.RecordedAt, "evidence://match/2");
+
+        Assert.Throws<InvalidOperationException>(() => completed.RecordResult(conflicting));
+        Assert.Throws<ArgumentException>(() => new TournamentMatchResult(
+            TournamentResultId.New(), match.Id, entrants[0].Id, DateTimeOffset.UtcNow, " "));
+        Assert.Throws<ArgumentException>(() => bracket.RecordResult(new TournamentMatchResult(
+            TournamentResultId.New(), match.Id, CompetitorId.New(), DateTimeOffset.UtcNow, "evidence://match/3")));
+    }
+
+    [Fact]
+    public void ResultCannotBeAppliedToAnotherTournamentOrMatch()
+    {
+        var entrants = new[] { CompetitorNamed("A"), CompetitorNamed("B") };
+        var bracket = SingleEliminationBracket.Create(Guid.NewGuid(), entrants);
+        var otherTournamentMatch = new TournamentMatchId(Guid.NewGuid(), 1, 1);
+        var result = new TournamentMatchResult(
+            TournamentResultId.New(), otherTournamentMatch, entrants[0].Id,
+            DateTimeOffset.UtcNow, "evidence://match/4");
+
+        Assert.Throws<ArgumentException>(() => bracket.RecordResult(result));
+    }
 }
