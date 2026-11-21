@@ -40,6 +40,17 @@ A future catalog entry should describe at least:
 
 The catalog is descriptive metadata, not permission to execute. Activation belongs to the host and must validate dependencies and authority before the capability participates in an Experience.
 
+## MicroBundle packaging boundary
+
+The current Economy contract is a declarative capability catalog and domain API, not a MicroBundle loader or publisher. Keep these responsibilities separate:
+
+- **Economy** owns stable semantic capability IDs, domain contracts, configuration metadata, validation rules, and the standalone NuGet developer API.
+- **Experience manifests** own the selected capability IDs, descriptor/schema versions, and world-specific configuration.
+- **MicroBundles** are the future packaging/distribution unit for executable Experience capabilities. A manifest may reference an immutable, content-addressed bundle that implements a selected capability; bundle identity and packaging metadata must be defined by the Workshop bundle contract, not invented as an Economy-specific package format.
+- **FSM_COS / host** owns bundle resolution, composition, activation order, authorization, runtime lifecycle, and failure handling.
+
+The Economy package must not depend on FSM_COS, a bundle store, cloud storage, or a particular Experience runtime. A `CapabilityDescriptor` is metadata; its `Version` is not proof that a matching executable MicroBundle exists. The current code does not resolve bundle references, verify bundle hashes, activate implementations, or upload artifacts. Local tests and composition validation remain in-memory and must not publish bundles.
+
 ## Composition model
 
 The intended composition flow is:
