@@ -4,6 +4,49 @@
 
 `RoundRobinSchedule` creates a deterministic, immutable schedule for every entrant pair. It uses the circle method: an even field plays `n - 1` rounds; an odd field adds a virtual slot and plays `n` rounds, with exactly one automatic bye in each round.
 
+## Structural view
+
+```mermaid
+classDiagram
+    class RoundRobinSchedule {
+        +Guid CompetitionId
+        +Rounds
+        +Matches
+        +Standings
+        +Create(competitionId, entrants)
+        +RecordResult(result)
+        +FindMatch(matchId)
+    }
+    class RoundRobinMatch {
+        +RoundRobinMatchId Id
+        +CompetitorId FirstCompetitorId
+        +CompetitorId SecondCompetitorId
+        +CompetitorId ByeCompetitorId
+        +RoundRobinMatchResult Result
+        +IsBye
+        +IsCompleted
+    }
+    class RoundRobinMatchResult {
+        +RoundRobinResultId Id
+        +RoundRobinMatchId MatchId
+        +RoundRobinOutcome Outcome
+        +DateTimeOffset RecordedAt
+        +string EvidenceReference
+    }
+    class RoundRobinStanding {
+        +CompetitorId CompetitorId
+        +int MatchesPlayed
+        +int Wins
+        +int Draws
+        +int Losses
+        +int Byes
+        +int Points
+    }
+    RoundRobinSchedule "1" *-- "many" RoundRobinMatch : immutable rounds
+    RoundRobinMatch "0..1" --> RoundRobinMatchResult : host result
+    RoundRobinSchedule ..> RoundRobinStanding : derives
+```
+
 ## Public contract
 
 - `RoundRobinMatchId` identifies a competition, round, and match.
