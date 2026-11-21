@@ -1,6 +1,6 @@
 # Deterministic Market Economy Scenario
 
-**Maturity: source-implemented; automated CI verification pending.** This is the first small, closed, deterministic scenario for the multi-institution market-economy direction. It is a fictional simulation, not a financial service.
+**Maturity: source-implemented; .NET build and test workflow passed on the current scenario implementation (`f683a7001a9574027936df8d7950b705ee549f93`).** This is the first small, closed, deterministic scenario for the multi-institution market-economy direction. It is a fictional simulation, not a financial service.
 
 ## What runs
 
