@@ -12,7 +12,7 @@ A package is easier to learn and maintain when every public type has a discovera
 
 ### Public type inventory
 
-The current source scope is the 22 C# files under src/TheSingularityWorkshop.Economy. There are 82 public declarations in that scope.
+The current source scope is the 23 C# files under src/TheSingularityWorkshop.Economy. There are 88 public declarations in that scope.
 
 | Source file | Public declarations | Dedicated API page | UML/use-case companion |
 |---|---|---|---|
@@ -36,15 +36,15 @@ The current source scope is the 22 C# files under src/TheSingularityWorkshop.Eco
 | BlackjackRound.cs | BlackjackShoe, BlackjackRoundState, BlackjackRound | [Blackjack round API](SimulationLedger.md#blackjack-round-lifecycle) | [Blackjack round UML](../UML/BlackjackRoundUML.md) |
 | BlackjackSession.cs | BlackjackSession | [Blackjack session API](SimulationLedger.md#blackjack-session-coordination) | [Blackjack session UML](../UML/BlackjackSessionUML.md); [opening protocol](../UML/BlackjackSessionOpeningUML.md) |
 | Competition.cs | CompetitionId, CompetitorId, TeamMembershipId, CompetitorKind, CompetitionFormat, CompetitionStatus, Competitor, TeamMember, Team, Competition | [Competition and team contracts](../UML/CompetitionUML.md) | [Competition and team UML](../UML/CompetitionUML.md) |
-| TournamentBracket.cs | TournamentMatchId, TournamentMatchStatus, TournamentMatch, SingleEliminationBracket | [Single-elimination bracket contract](../UML/TournamentBracketUML.md) | [Tournament bracket UML](../UML/TournamentBracketUML.md) |
+| TournamentBracket.cs | TournamentMatchId, TournamentMatchStatus, TournamentMatch, SingleEliminationBracket | [Single-elimination bracket contract](../UML/TournamentBracketUML.md) | [Tournament bracket UML](../UML/TournamentBracketUML.md) |\n| CompetitionLadder.cs | LadderId, LadderResultId, CompetitionOutcome, LadderResult, LadderStanding, CompetitionLadder | [Competition and ladder contracts](../UML/CompetitionUML.md) | [Competition and ladder UML](../UML/CompetitionUML.md) |
 | CapabilityComposition.cs | CapabilityId, CapabilityMaturity, CapabilityConfigurationValueType, CapabilityConfigurationField, CapabilityDescriptor, CapabilityCatalog, CapabilitySelection, CapabilityCompositionIssue, CapabilityCompositionValidation, ExperienceCapabilityComposition | [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) | [Capability composition UML](../UML/CapabilityCompositionUML.md) |
 
-**Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 69 declarations in the other source files have no API page yet. This is not per-type completion: individual type pages remain to be created for all 69 public declarations. No repository-wide documentation generator is claimed.
+**Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 79 declarations in the other source files have no dedicated API page yet. This is not per-type completion: individual type pages remain to be created for all 79 public declarations. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
 - [SimulationLedger API](SimulationLedger.md) — typed simulated currency, wager accounting, blackjack rules, round lifecycle, and the host session/settlement seam.
-- [Competition and team contracts](../UML/CompetitionUML.md) — competitor identity, immutable team rosters, competition registration, capacity, and lifecycle.
+- [Competition and team contracts](../UML/CompetitionUML.md) — competitor identity, immutable team rosters, competition registration, capacity, lifecycle, and Elo-style ladder ratings.
 - [Tournament bracket contract](../UML/TournamentBracketUML.md) — deterministic single-elimination seeding, byes, validated winner advancement, and immutable bracket snapshots.
 - [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) — optional descriptor discovery, dependency/conflict checks, and Experience-owned configuration validation.
 - [Economy architecture](../ARCHITECTURE.md) — responsibility boundaries and maturity.
