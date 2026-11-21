@@ -1,8 +1,8 @@
 # Reference Experience compositions
 
-**Status: executable composition-contract examples.** The tests build metadata descriptors and validate selections. They do not activate production, taxation, score submission, or regional aggregation runtimes.
+**Status: executable composition-contract examples.** The tests build metadata descriptors and validate selections. They do not activate production, taxation, score submission, regional aggregation, or round-robin runtimes.
 
-The point of these two examples is that one catalog can offer many capabilities while each Experience selects only a small, intentional subset.
+These reference examples show how one catalog can offer many capabilities while each Experience selects only a small, intentional subset.
 
 ## RPG kingdom
 
