@@ -70,6 +70,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 - [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) — the toy-store model, optional capability selection, narrative economies, shared transaction workflows, and regional competition data.
 - [Markets and economic playgrounds](docs/MARKETS_AND_PLAYGROUNDS.md) — casino, simulated stock exchange, businesses, auctions, jobs, and supply-chain experiments.
+- [Deterministic market-economy scenario](docs/MARKET_ECONOMY_SCENARIO.md) — first source-implemented multi-institution scenario, its ledger-backed event trail, expected balances, and explicit limits.
 - [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — Singularity City, Digiten-scale measurement, reusable/reskinnable creator shops, adoption, and the first vertical slice.
 - [Singularity currency and casino contract](docs/SINGULARITY_CURRENCY_AND_CASINO.md) — non-redeemable in-world currency, casino chip custody, wager lifecycle, house accounting, and the first authoritative simulation slice.
 - [Exploratory Economy Experiences](docs/EXPLORATORY_ECONOMY_EXPERIENCES.md) — casino back-of-house encounters, simulated camera feeds, courtesy bankroll, free transit and paid driver roles, and multiplayer building construction.
