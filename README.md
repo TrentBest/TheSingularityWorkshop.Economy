@@ -21,7 +21,7 @@ Economy gives an Experience shared concepts for money-like values, products, sho
 
 The first major proving ground is **Singularity City**: a simulated economy populated by Digitens, with businesses and creator-owned shops that can eventually be reused, reskinned, and composed into different Experiences. In-world economic behavior must be testable without a real-money provider.
 
-Economy also supplies game-neutral organized-play primitives: immutable competitor/team/competition registration, deterministic single-elimination brackets, circle-method round-robin schedules with basic points standings, and an Elo-style competition ladder. These primitives do not schedule game sessions or adjudicate game rules; a host validates match evidence and submits results.
+Economy also supplies game-neutral organized-play primitives: immutable competitor/team/competition registration, deterministic single-elimination brackets, circle-method round-robin schedules with configurable scoring and aggregate tie-break policies, and an Elo-style competition ladder. These primitives do not schedule game sessions or adjudicate game rules; a host validates match evidence and submits results.
 
 The broader product direction is a **discoverable catalog of optional capabilities**. Developers should be able to browse the possibilities, experiment with examples, and compose only what their Experience needs—rather than adopting one giant economy. See the [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) design.
 
