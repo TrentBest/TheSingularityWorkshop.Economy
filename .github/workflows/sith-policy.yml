@@ -40,14 +40,33 @@ jobs:
           trap 'rm -f "$branch_file"' EXIT
           status="UNVERIFIED"
           branches=()
+          permanent_branches=()
+          temporary_branches=()
+          unexpected_branches=()
           branch_count="unknown"
+          permanent_branch_count="unknown"
 
           if gh api --paginate "repos/$GH_REPO/branches?per_page=100" --jq '.[].name' > "$branch_file"; then
             mapfile -t branches < <(sort -u "$branch_file")
             branch_count="${#branches[@]}"
-            if [[ "$branch_count" -eq 2 &&
-                  "${branches[0]}" == "development" &&
-                  "${branches[1]}" == "master" ]]; then
+            for branch in "${branches[@]}"; do
+              case "$branch" in
+                master|development)
+                  permanent_branches+=("$branch")
+                  ;;
+                feature/*)
+                  temporary_branches+=("$branch")
+                  ;;
+                *)
+                  unexpected_branches+=("$branch")
+                  ;;
+              esac
+            done
+            permanent_branch_count="${#permanent_branches[@]}"
+            if [[ "$permanent_branch_count" -eq 2 &&
+                  "${permanent_branches[0]}" == "development" &&
+                  "${permanent_branches[1]}" == "master" &&
+                  "${#unexpected_branches[@]}" -eq 0 ]]; then
               status="COMPLIANT"
             else
               status="NON-COMPLIANT"
@@ -57,7 +76,7 @@ jobs:
           case "$status" in
             COMPLIANT)
               headline="THE DUEL CONTINUES"
-              detail="2 branches · master + development"
+              detail="2 permanent branches · master + development · ${#temporary_branches[@]} temporary"
               accent="#36d399"
               glow="#36d399"
               scene_markup='
@@ -75,7 +94,7 @@ jobs:
               ;;
             NON-COMPLIANT)
               headline="THE TRAINING GROUND IS EMPTY"
-              detail="$branch_count branches · exactly 2 required"
+              detail="$permanent_branch_count permanent · master + development required"
               accent="#ff4d6d"
               glow="#ff1744"
               scene_markup='
@@ -104,6 +123,10 @@ jobs:
           evaluated_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           branch_json="$(printf '%s\n' "${branches[@]:-}" | jq -R 'select(length > 0)' | jq -s '.')"
           branch_count_json="$(if [[ "$branch_count" == "unknown" ]]; then echo null; else echo "$branch_count"; fi)"
+          permanent_branch_json="$(printf '%s\n' "${permanent_branches[@]:-}" | jq -R 'select(length > 0)' | jq -s '.')"
+          temporary_branch_json="$(printf '%s\n' "${temporary_branches[@]:-}" | jq -R 'select(length > 0)' | jq -s '.')"
+          unexpected_branch_json="$(printf '%s\n' "${unexpected_branches[@]:-}" | jq -R 'select(length > 0)' | jq -s '.')"
+          permanent_branch_count_json="$(if [[ "$permanent_branch_count" == "unknown" ]]; then echo null; else echo "$permanent_branch_count"; fi)"
           jq -n \
             --arg repository "$GH_REPO" \
             --arg status "$status" \
@@ -111,13 +134,21 @@ jobs:
             --arg workflow_run "https://github.com/$GH_REPO/actions/runs/$GITHUB_RUN_ID" \
             --arg commit "$GITHUB_SHA" \
             --argjson branch_count "$branch_count_json" \
+            --argjson permanent_branch_count "$permanent_branch_count_json" \
             --argjson branches "$branch_json" \
+            --argjson permanent_branches "$permanent_branch_json" \
+            --argjson temporary_branches "$temporary_branch_json" \
+            --argjson unexpected_branches "$unexpected_branch_json" \
             '{
               repository: $repository,
-              policy: "exactly-master-and-development",
-              required_branches: ["development", "master"],
+              policy: "two-permanent-branches-master-development; temporary-feature-branches-allowed",
+              required_permanent_branches: ["development", "master"],
               actual_branches: $branches,
+              permanent_branches: $permanent_branches,
+              temporary_feature_branches: $temporary_branches,
+              unexpected_branches: $unexpected_branches,
               branch_count: $branch_count,
+              permanent_branch_count: $permanent_branch_count,
               status: $status,
               evaluated_at: $evaluated_at,
               workflow_run: $workflow_run,
@@ -170,8 +201,11 @@ jobs:
           {
             echo "## Sith Policy: $status"
             echo
-            printf '%s\n' '- Required branches: `master`, `development`'
-            echo "- Actual branch count: $branch_count"
+            printf '%s\n' '- Required permanent branches: `master`, `development`'
+            echo "- Total branches: $branch_count"
+            echo "- Permanent branches: $permanent_branch_count"
+            echo "- Temporary `feature/*` branches: ${#temporary_branches[@]}"
+            echo "- Unexpected branches: ${#unexpected_branches[@]}"
             echo "- Actual branches:"
             if (("${#branches[@]}" == 0)); then
               echo "  - unavailable"
@@ -182,6 +216,6 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
           if [[ "$status" != "COMPLIANT" ]]; then
-            echo "::error::Sith Policy requires exactly master and development; status is $status."
+            echo "::error::Sith Policy requires exactly the permanent branches master and development, allows temporary feature/* branches, and rejects other branch names; status is $status."
             exit 1
           fi

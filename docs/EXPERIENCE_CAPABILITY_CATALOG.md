@@ -1,6 +1,6 @@
 # Experience Capability Catalog and Composition
 
-**Status: product architecture and implementation plan.** This document defines the intended developer experience. It is not a claim that a production capability browser, manifest resolver, editor, or runtime activation service exists today.
+**Status: product architecture and implementation plan, with an experimental production execution primitive implemented.** This document defines the intended developer experience. A production capability browser, manifest resolver, editor, and runtime activation service do not exist today.
 
 ## The toy-store principle
 
@@ -142,16 +142,16 @@ Do not put a globe renderer in Economy. Do not infer a player's precise location
 
 ## Current proof versus intended platform
 
-Already implemented in the repository are reusable shop and commerce primitives, a process-local typed fictional-currency ledger, creator-shop composition contract tests, casino wager accounting and deterministic blackjack lifecycle, plus generic competitor/team/competition and single-elimination bracket foundations.
+Already implemented in the repository are reusable shop and commerce primitives, a process-local typed fictional-currency ledger, an experimental process-local production recipe/inventory executor with atomic runs and provenance receipts, creator-shop composition contract tests, casino wager accounting and deterministic blackjack lifecycle, plus generic competitor/team/competition and single-elimination bracket foundations.
 
-The creator-shop composition proof is a test-owned fixture, not a production editor or runtime catalog. Tournament brackets are not yet a full tournament administration service. Poker, fantasy roster policy, production/training workflows, scenario presets, capability discovery/activation, regional aggregation, globe visualization, and the society capability families are not implemented by this document. The society entries in the reference composition tests are metadata fixtures only.
+The creator-shop composition proof is a test-owned fixture, not a production editor or runtime catalog. Tournament brackets are not yet a full tournament administration service. The production executor currently supports deterministic, declared quantities in one process; it does not provide durable inventory, distributed coordination, scheduling, worker assignment, variable yield, or automatic currency/account effects. Training workflows, poker, fantasy roster policy, scenario presets, capability discovery/activation, regional aggregation, globe visualization, and the society capability families remain unimplemented. The society entries in the reference composition tests are metadata fixtures only.
 
 ## Implementation sequence
 
 1. Finish tournament administration and validated result provenance under issue #21.
 2. Define capability descriptor and Experience composition contracts without building a universal editor.
 3. Prove optional composition with two sharply different reference Experiences.
-4. Extend shared transaction workflows beyond shops and wagers, beginning with production and training.
+4. Extend shared transaction workflows beyond shops and wagers. The first experimental production recipe/inventory executor now exists; next validate it with a second independent consumer, then design training as a separate capability.
 5. Add explicit scenario configuration and event history for narrative economic distortion.
 6. Add region assignment and aggregation to competition results; leave globe rendering to the Experience/Visualize layer.
 7. Add activity adapters (poker, sports, gladiators, creator challenges) independently of the shared transaction core.
