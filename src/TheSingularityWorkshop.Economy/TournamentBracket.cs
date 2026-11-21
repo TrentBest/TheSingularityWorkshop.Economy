@@ -63,7 +63,8 @@ public sealed record TournamentMatch(
     CompetitorId? FirstCompetitorId,
     CompetitorId? SecondCompetitorId,
     TournamentMatchStatus Status,
-    CompetitorId? WinnerId,\n    TournamentMatchResult? Result = null);
+    CompetitorId? WinnerId,
+    TournamentMatchResult? Result = null);
 
 /// <summary>
 /// Deterministic single-elimination bracket with explicit seeding, byes, and winner advancement.
