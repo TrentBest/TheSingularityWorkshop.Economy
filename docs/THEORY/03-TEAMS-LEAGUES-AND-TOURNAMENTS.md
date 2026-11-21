@@ -61,20 +61,17 @@ The current blackjack slice is deterministic and simulation-only. Poker rules, p
 
 ### Current implementation boundary
 
-Implemented in the first competition slice:
-- Individual/team competitor identity.
-- Team roster memberships with generic roles.
-- Immutable team add/remove operations.
-- Competition format vocabulary.
-- Immutable entrant registration and capacity.
-- Explicit draft → registration open → registration closed → in progress → completed lifecycle, with cancellation paths.\n- Deterministic single-elimination bracket generation, standard seed order, first-round byes, immutable match snapshots, and validated winner advancement.
+Implemented:
+- Individual/team competitor identity and immutable team roster changes.
+- Competition format vocabulary, immutable entrant registration/capacity, and guarded lifecycle transitions.
+- Deterministic single-elimination bracket generation, explicit seed order, byes, immutable match snapshots, and winner advancement.
+- Immutable Elo-style ladder ratings with configurable initial rating/K-factor, win/loss/draw accounting, deterministic ranking tie-breaks, append-only result identity, evidence references, duplicate-result idempotency, and timestamp-order validation.
 
 Not yet implemented:
-- Tournament aggregate, bracket generation, byes, seeding, round advancement, and standings.
-- Fantasy player pools, drafts, roster slots, scoring, and lock windows.
-- League schedules and season results.
-- Poker domain and tournament game mechanics.
-- Persistence, multiplayer coordination, external sports-data providers, and live-stat feeds.
+- A full Tournament aggregate coordinating registration, bracket lifecycle, withdrawals, disqualifications, ties, and result correction.
+- Round-robin scheduling and league points/standings policies.
+- Ladder matchmaking, challenge windows, seasons/resets, rating uncertainty, and correction/rebuild tooling.
+- Independent verification or durable retention of referenced match evidence.
 
 ## 04 — See it in a minute
 
