@@ -40,7 +40,7 @@ The current source scope is the 23 C# files under src/TheSingularityWorkshop.Eco
 | CompetitionLadder.cs | LadderId, LadderResultId, CompetitionOutcome, LadderResult, LadderStanding, CompetitionLadder | [Competition and ladder contracts](../UML/CompetitionUML.md) | [Competition and ladder UML](../UML/CompetitionUML.md) |
 | CapabilityComposition.cs | CapabilityId, CapabilityMaturity, CapabilityConfigurationValueType, CapabilityConfigurationField, CapabilityDescriptor, CapabilityCatalog, CapabilitySelection, CapabilityCompositionIssue, CapabilityCompositionValidation, ExperienceCapabilityComposition | [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) | [Capability composition UML](../UML/CapabilityCompositionUML.md) |
 
-**Coverage status:** one combined API page currently explains the 9 declarations in SimulationLedger.cs; 79 declarations in the other source files have no dedicated API page yet. This is not per-type completion: individual type pages remain to be created for all 75 public declarations. No repository-wide documentation generator is claimed.
+**Coverage status:** the combined SimulationLedger API page covers 9 declarations, while the Dice activity contract documents the dice-specific surface. Individual API pages remain to be created for 75 of the 88 public declarations. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
