@@ -68,6 +68,64 @@ public sealed record RoundRobinMatch(
     public bool IsCompleted => Result is not null;
 }
 
+/// <summary>Supported general-purpose standings tie-break criteria.</summary>
+public enum RoundRobinTieBreakCriterion
+{
+    Points,
+    Wins,
+    Draws,
+    FewestLosses,
+    CompetitorId
+}
+
+/// <summary>
+/// Immutable scoring and ordering policy for round-robin standings.
+/// It contains only result aggregates; activity-specific metrics must be supplied by a separate policy.
+/// </summary>
+public sealed class RoundRobinStandingsPolicy
+{
+    public static RoundRobinStandingsPolicy Default { get; } = new(
+        winPoints: 3m,
+        drawPoints: 1m,
+        lossPoints: 0m,
+        tieBreakers: new[]
+        {
+            RoundRobinTieBreakCriterion.Points,
+            RoundRobinTieBreakCriterion.Wins,
+            RoundRobinTieBreakCriterion.CompetitorId
+        });
+
+    public RoundRobinStandingsPolicy(
+        decimal winPoints,
+        decimal drawPoints,
+        decimal lossPoints,
+        IEnumerable<RoundRobinTieBreakCriterion> tieBreakers)
+    {
+        if (lossPoints < 0m || drawPoints < lossPoints || winPoints <= drawPoints)
+            throw new ArgumentOutOfRangeException(nameof(winPoints),
+                "Scoring must satisfy win points > draw points >= loss points >= 0.");
+
+        ArgumentNullException.ThrowIfNull(tieBreakers);
+        var snapshot = tieBreakers.ToArray();
+        if (snapshot.Length == 0 || snapshot.Any(value => !Enum.IsDefined(value)))
+            throw new ArgumentException("At least one valid tie-break criterion is required.", nameof(tieBreakers));
+        if (snapshot.Distinct().Count() != snapshot.Length)
+            throw new ArgumentException("Tie-break criteria must be unique.", nameof(tieBreakers));
+        if (snapshot[^1] != RoundRobinTieBreakCriterion.CompetitorId)
+            throw new ArgumentException("CompetitorId must be the final tie-break criterion.", nameof(tieBreakers));
+
+        WinPoints = winPoints;
+        DrawPoints = drawPoints;
+        LossPoints = lossPoints;
+        TieBreakers = Array.AsReadOnly(snapshot);
+    }
+
+    public decimal WinPoints { get; }
+    public decimal DrawPoints { get; }
+    public decimal LossPoints { get; }
+    public IReadOnlyList<RoundRobinTieBreakCriterion> TieBreakers { get; }
+}
+
 /// <summary>One competitor's derived standings row.</summary>
 public sealed record RoundRobinStanding(
     CompetitorId CompetitorId,
@@ -76,7 +134,7 @@ public sealed record RoundRobinStanding(
     int Draws,
     int Losses,
     int Byes,
-    int Points);
+    decimal Points);
 
 /// <summary>
 /// Immutable, deterministic round-robin schedule and result history.
@@ -101,7 +159,7 @@ public sealed class RoundRobinSchedule
         {
             var rows = _rounds.SelectMany(round => round)
                 .SelectMany(match => match.Result is null
-                    ? Array.Empty<(CompetitorId Id, int Played, int Wins, int Draws, int Losses, int Byes, int Points)>()
+                    ? Array.Empty<(CompetitorId Id, int Played, int Wins, int Draws, int Losses, int Byes, decimal Points)>()
                     : GetResultRows(match))
                 .GroupBy(row => row.Id)
                 .ToDictionary(
@@ -150,7 +208,7 @@ public sealed class RoundRobinSchedule
             .ToArray());
     }
 
-    public static RoundRobinSchedule Create(Guid competitionId, IReadOnlyList<Competitor> entrants)
+    public static RoundRobinSchedule Create(\n        Guid competitionId,\n        IReadOnlyList<Competitor> entrants,\n        RoundRobinStandingsPolicy? standingsPolicy = null)
     {
         if (competitionId == Guid.Empty)
             throw new ArgumentException("A competition identifier is required.", nameof(competitionId));
@@ -196,7 +254,7 @@ public sealed class RoundRobinSchedule
             rotating[1] = last;
         }
 
-        return new RoundRobinSchedule(competitionId, ids.Where(id => id.Value != Guid.Empty).ToArray(), rounds);
+        return new RoundRobinSchedule(competitionId, ids.Where(id => id.Value != Guid.Empty).ToArray(), rounds, standingsPolicy);
     }
 
     public RoundRobinSchedule RecordResult(RoundRobinMatchResult result)
@@ -221,7 +279,7 @@ public sealed class RoundRobinSchedule
 
         var updated = _rounds.Select(round => round.Select(item =>
             item.Id == result.MatchId ? item with { Result = result } : item).ToArray()).ToArray();
-        return new RoundRobinSchedule(CompetitionId, _entrantIds, updated);
+        return new RoundRobinSchedule(CompetitionId, _entrantIds, updated, StandingsPolicy);
     }
 
     public RoundRobinMatch FindMatch(RoundRobinMatchId matchId)
@@ -235,7 +293,7 @@ public sealed class RoundRobinSchedule
         return _rounds[roundIndex][matchIndex];
     }
 
-    private static IEnumerable<(CompetitorId Id, int Played, int Wins, int Draws, int Losses, int Byes, int Points)>
+    private IEnumerable<RoundRobinStanding> OrderStandings(IEnumerable<RoundRobinStanding> standings)\n    {\n        IOrderedEnumerable<RoundRobinStanding>? ordered = null;\n        foreach (var criterion in StandingsPolicy.TieBreakers)\n        {\n            ordered = criterion switch\n            {\n                RoundRobinTieBreakCriterion.Points => ordered is null\n                    ? standings.OrderByDescending(row => row.Points)\n                    : ordered.ThenByDescending(row => row.Points),\n                RoundRobinTieBreakCriterion.Wins => ordered is null\n                    ? standings.OrderByDescending(row => row.Wins)\n                    : ordered.ThenByDescending(row => row.Wins),\n                RoundRobinTieBreakCriterion.Draws => ordered is null\n                    ? standings.OrderByDescending(row => row.Draws)\n                    : ordered.ThenByDescending(row => row.Draws),\n                RoundRobinTieBreakCriterion.FewestLosses => ordered is null\n                    ? standings.OrderBy(row => row.Losses)\n                    : ordered.ThenBy(row => row.Losses),\n                RoundRobinTieBreakCriterion.CompetitorId => ordered is null\n                    ? standings.OrderBy(row => row.CompetitorId.Value)\n                    : ordered.ThenBy(row => row.CompetitorId.Value),\n                _ => throw new InvalidOperationException("The standings policy contains an unsupported tie-break criterion.")\n            };\n        }\n\n        return ordered ?? throw new InvalidOperationException("The standings policy has no tie-break criteria.");\n    }\n\n    private IEnumerable<(CompetitorId Id, int Played, int Wins, int Draws, int Losses, int Byes, decimal Points)>
         GetResultRows(RoundRobinMatch match)
     {
         var first = match.FirstCompetitorId!.Value;
@@ -245,8 +303,8 @@ public sealed class RoundRobinSchedule
         var secondWins = result.Outcome == RoundRobinOutcome.SecondWins;
         var draw = result.Outcome == RoundRobinOutcome.Draw;
         yield return (first, 1, firstWins ? 1 : 0, draw ? 1 : 0, secondWins ? 1 : 0,
-            0, firstWins ? 3 : draw ? 1 : 0);
+            0, firstWins ? StandingsPolicy.WinPoints : draw ? StandingsPolicy.DrawPoints : StandingsPolicy.LossPoints);
         yield return (second, 1, secondWins ? 1 : 0, draw ? 1 : 0, firstWins ? 1 : 0,
-            0, secondWins ? 3 : draw ? 1 : 0);
+            0, secondWins ? StandingsPolicy.WinPoints : draw ? StandingsPolicy.DrawPoints : StandingsPolicy.LossPoints);
     }
 }
