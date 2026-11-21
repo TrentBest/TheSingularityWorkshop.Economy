@@ -1,6 +1,6 @@
 # Experience Capability Catalog and Composition
 
-**Status: product architecture and implementation plan.** This document defines the intended developer experience. It is not a claim that a production capability browser, manifest resolver, editor, or runtime activation service exists today.
+**Status: declarative catalog/composition contracts implemented; product architecture and runtime plan.** The current library provides in-memory descriptors and composition validation. It does not provide a production capability browser, manifest resolver, editor, MicroBundle loader, or runtime activation service.
 
 ## The toy-store principle
 
@@ -37,6 +37,8 @@ A future catalog entry should describe at least:
 - Required persistence, scheduling, authority, or external services.
 - Explicit exclusions and known limitations.
 - Documentation, UML, tests, and sample Experience references.
+
+The current `CapabilityDescriptor` implements stable ID, name/category/description, descriptor version, maturity, direct dependencies/conflicts, typed configuration-field metadata, and a documentation reference. Optional dependencies, compatible implementation versions, declared events/contracts, extension points, persistence requirements, defaults, and safe operational limits remain future metadata work.
 
 The catalog is descriptive metadata, not permission to execute. Activation belongs to the host and must validate dependencies and authority before the capability participates in an Experience.
 
