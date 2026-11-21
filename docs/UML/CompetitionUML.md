@@ -52,7 +52,25 @@ classDiagram
     }
     Team *-- TeamMember : roster snapshot
     Team ..> Competitor : projects as team competitor
-    Competition o-- Competitor : registered entrants\n    class CompetitionLadder {\n      +LadderId Id\n      +decimal InitialRating\n      +decimal KFactor\n      +IReadOnlyList~LadderResult~ Results\n      +IReadOnlyList~LadderStanding~ Standings\n      +Create(id, entrants) CompetitionLadder\n      +RecordResult(result) CompetitionLadder\n    }\n    class LadderResult {\n      +LadderResultId Id\n      +CompetitorId FirstCompetitorId\n      +CompetitorId SecondCompetitorId\n      +CompetitionOutcome Outcome\n      +DateTimeOffset RecordedAt\n      +string EvidenceReference\n    }\n    CompetitionLadder o-- LadderResult : append-only result history
+    Competition o-- Competitor : registered entrants
+    class CompetitionLadder {
+      +LadderId Id
+      +decimal InitialRating
+      +decimal KFactor
+      +IReadOnlyList~LadderResult~ Results
+      +IReadOnlyList~LadderStanding~ Standings
+      +Create(id, entrants) CompetitionLadder
+      +RecordResult(result) CompetitionLadder
+    }
+    class LadderResult {
+      +LadderResultId Id
+      +CompetitorId FirstCompetitorId
+      +CompetitorId SecondCompetitorId
+      +CompetitionOutcome Outcome
+      +DateTimeOffset RecordedAt
+      +string EvidenceReference
+    }
+    CompetitionLadder o-- LadderResult : append-only result history
 ```
 
 ### Registration lifecycle
@@ -78,7 +96,8 @@ stateDiagram-v2
 - Registration is capacity-limited when a maximum is supplied.
 - Only an open registration accepts entrants; closing requires at least two entrants.
 - Competition lifecycle transitions are explicit and return new snapshots.
-- Competition format values describe vocabulary; only explicit format engines implement progression.\n- Ladder results require distinct registered competitors, unique result identity, a non-empty evidence reference, and nondecreasing timestamps. Exact duplicate submissions are idempotent; conflicting reuse is rejected.
+- Competition format values describe vocabulary; only explicit format engines implement progression.
+- Ladder results require distinct registered competitors, unique result identity, a non-empty evidence reference, and nondecreasing timestamps. Exact duplicate submissions are idempotent; conflicting reuse is rejected.
 
 ### Explicit maturity boundary
 
