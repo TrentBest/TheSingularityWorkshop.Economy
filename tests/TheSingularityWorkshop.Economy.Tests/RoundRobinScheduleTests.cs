@@ -110,4 +110,26 @@ public sealed class RoundRobinScheduleTests
         Assert.Throws<ArgumentException>(() => new RoundRobinMatchResult(
             RoundRobinResultId.New(), match.Id, (RoundRobinOutcome)999, DateTimeOffset.UtcNow, "evidence://invalid"));
     }
+    [Fact]
+    public void ByesAndAlreadyCompletedMatchesRejectAdditionalResults()
+    {
+        var entrants = new[] { CompetitorNamed("A"), CompetitorNamed("B"), CompetitorNamed("C") };
+        var schedule = RoundRobinSchedule.Create(Guid.NewGuid(), entrants);
+        var bye = schedule.Matches.Single(match => match.IsBye);
+        var byeResult = new RoundRobinMatchResult(
+            RoundRobinResultId.New(), bye.Id, RoundRobinOutcome.FirstWins,
+            DateTimeOffset.UtcNow, "evidence://invalid-bye");
+        Assert.Throws<InvalidOperationException>(() => schedule.RecordResult(byeResult));
+
+        var played = schedule.Matches.Single(match => !match.IsBye);
+        var firstResult = new RoundRobinMatchResult(
+            RoundRobinResultId.New(), played.Id, RoundRobinOutcome.FirstWins,
+            DateTimeOffset.UtcNow, "evidence://played/1");
+        var completed = schedule.RecordResult(firstResult);
+        var secondResult = new RoundRobinMatchResult(
+            RoundRobinResultId.New(), played.Id, RoundRobinOutcome.SecondWins,
+            DateTimeOffset.UtcNow, "evidence://played/2");
+        Assert.Throws<InvalidOperationException>(() => completed.RecordResult(secondResult));
+    }
+
 }
