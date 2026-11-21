@@ -51,6 +51,7 @@ jobs:
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/BlackjackSessionOpeningUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/CompetitionUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/TournamentBracketUML.md'
+          unzip -Z1 "$package" | grep -Fxq 'docs/UML/RoundRobinScheduleUML.md'
           unzip -Z1 "$package" | grep -Fxq 'docs/UML/CapabilityCompositionUML.md'
 
       - name: Pack shop connector companion (without publishing)
