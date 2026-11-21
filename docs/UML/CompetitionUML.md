@@ -128,9 +128,10 @@ The code creates a team and registers it as one competitor. The competition does
 
 ## 05 — Choose your next step
 
-- Add explicit tournament instances, seedings, bracket slots, and deterministic advancement.
+- Add full tournament administration and validated result provenance around the bracket engine.
+- Add round-robin and league standings policies.
+- Add ladder matchmaking, challenge windows, seasons, and controlled history rebuilds.
 - Add fantasy roster policies: eligible player pool, positions, roster size, draft, lock time, and scoring rules.
-- Add league/season scheduling and standings as separate policies.
 - Connect match results to prediction markets only after event identity and result provenance are defined.
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
