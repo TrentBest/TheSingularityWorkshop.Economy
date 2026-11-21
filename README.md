@@ -21,7 +21,7 @@ Economy gives an Experience shared concepts for money-like values, products, sho
 
 The first major proving ground is **Singularity City**: a simulated economy populated by Digitens, with businesses and creator-owned shops that can eventually be reused, reskinned, and composed into different Experiences. In-world economic behavior must be testable without a real-money provider.
 
-The broader product direction is a **discoverable catalog of optional capabilities**. Developers should be able to browse the possibilities, experiment with examples, and compose only what their Experience needs—rather than adopting one giant economy. See the [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) design.
+Economy also supplies game-neutral organized-play primitives: immutable competitor/team/competition registration, deterministic single-elimination brackets, and an Elo-style competition ladder. These primitives do not schedule game sessions or adjudicate game rules; a host validates match evidence and submits results.\n\nThe broader product direction is a **discoverable catalog of optional capabilities**. Developers should be able to browse the possibilities, experiment with examples, and compose only what their Experience needs—rather than adopting one giant economy. See the [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) design.
 
 ## 🟣 02 Why
 
@@ -68,7 +68,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 
 ## 🟪 05 Available documentation and theory
 
-- [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) — the toy-store model, optional capability selection, narrative economies, shared transaction workflows, and regional competition data.
+- [Teams, leagues, tournaments, and organized play](docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md) — implemented bracket and rating-ladder foundations, plus explicit gaps.\n- [Experience Capability Catalog and Composition](docs/EXPERIENCE_CAPABILITY_CATALOG.md) — the toy-store model, optional capability selection, narrative economies, shared transaction workflows, and regional competition data.
 - [Markets and economic playgrounds](docs/MARKETS_AND_PLAYGROUNDS.md) — casino, simulated stock exchange, businesses, auctions, jobs, and supply-chain experiments.
 - [Deterministic market-economy scenario](docs/MARKET_ECONOMY_SCENARIO.md) — first source-implemented multi-institution scenario, its ledger-backed event trail, expected balances, and explicit limits.
 - [Simulated economies and creator commerce](docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — Singularity City, Digiten-scale measurement, reusable/reskinnable creator shops, adoption, and the first vertical slice.
