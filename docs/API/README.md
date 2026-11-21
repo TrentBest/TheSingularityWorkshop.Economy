@@ -12,7 +12,7 @@ A package is easier to learn and maintain when every public type has a discovera
 
 ### Public type inventory
 
-The current source scope is the 24 C# files under src/TheSingularityWorkshop.Economy. There are 97 public declarations in that scope.
+The current source scope is the 24 C# files under src/TheSingularityWorkshop.Economy. There are 99 public declarations in that scope.
 
 | Source file | Public declarations | Dedicated API page | UML/use-case companion |
 |---|---|---|---|
@@ -38,17 +38,17 @@ The current source scope is the 24 C# files under src/TheSingularityWorkshop.Eco
 | Competition.cs | CompetitionId, CompetitorId, TeamMembershipId, CompetitorKind, CompetitionFormat, CompetitionStatus, Competitor, TeamMember, Team, Competition | [Competition and team contracts](../UML/CompetitionUML.md) | [Competition and team UML](../UML/CompetitionUML.md) |
 | TournamentBracket.cs | TournamentMatchId, TournamentResultId, TournamentMatchResult, TournamentMatchStatus, TournamentMatch, SingleEliminationBracket | [Single-elimination bracket contract](../UML/TournamentBracketUML.md) | [Tournament bracket UML](../UML/TournamentBracketUML.md) |
 | CompetitionLadder.cs | LadderId, LadderResultId, CompetitionOutcome, LadderResult, LadderStanding, CompetitionLadder | [Competition and ladder contracts](../UML/CompetitionUML.md) | [Competition and ladder UML](../UML/CompetitionUML.md) |
-| RoundRobinSchedule.cs | RoundRobinMatchId, RoundRobinOutcome, RoundRobinResultId, RoundRobinMatchResult, RoundRobinMatch, RoundRobinStanding, RoundRobinSchedule | [Round-robin schedule and standings contract](../UML/RoundRobinScheduleUML.md) | [Round-robin schedule UML](../UML/RoundRobinScheduleUML.md) |
+| RoundRobinSchedule.cs | RoundRobinMatchId, RoundRobinOutcome, RoundRobinResultId, RoundRobinMatchResult, RoundRobinMatch, RoundRobinTieBreakCriterion, RoundRobinStandingsPolicy, RoundRobinStanding, RoundRobinSchedule | [Round-robin schedule and standings contract](../UML/RoundRobinScheduleUML.md) | [Round-robin schedule UML](../UML/RoundRobinScheduleUML.md) |
 | CapabilityComposition.cs | CapabilityId, CapabilityMaturity, CapabilityConfigurationValueType, CapabilityConfigurationField, CapabilityDescriptor, CapabilityCatalog, CapabilitySelection, CapabilityCompositionIssue, CapabilityCompositionValidation, ExperienceCapabilityComposition | [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) | [Capability composition UML](../UML/CapabilityCompositionUML.md) |
 
-**Coverage status:** the combined SimulationLedger API page covers 9 declarations, while the Dice activity contract documents the dice-specific surface. Individual API pages remain to be created for 84 of the 97 public declarations. No repository-wide documentation generator is claimed.
+**Coverage status:** the combined SimulationLedger API page covers 9 declarations, while the Dice activity contract documents the dice-specific surface. Individual API pages remain to be created for 86 of the 99 public declarations. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
 - [SimulationLedger API](SimulationLedger.md) — typed simulated currency, wager accounting, blackjack rules, round lifecycle, and the host session/settlement seam.
 - [Competition and team contracts](../UML/CompetitionUML.md) — competitor identity, immutable team rosters, competition registration, capacity, lifecycle, and Elo-style ladder ratings.
 - [Tournament bracket contract](../UML/TournamentBracketUML.md) — deterministic single-elimination seeding, byes, validated winner advancement, optional result identity/timestamp/evidence-reference provenance, and immutable bracket snapshots.
-- [Round-robin schedule and standings contract](../UML/RoundRobinScheduleUML.md) — deterministic pairings, odd-field byes, host-supplied result provenance, 3/1/0 points, and explicit standings tie-break order.
+- [Round-robin schedule and standings contract](../UML/RoundRobinScheduleUML.md) — deterministic pairings, odd-field byes, host-supplied result provenance, configurable decimal scoring, and explicit aggregate tie-break order (default 3/1/0).
 - [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) — optional descriptor discovery, dependency/conflict checks, and Experience-owned configuration validation.
 - [Economy architecture](../ARCHITECTURE.md) — responsibility boundaries and maturity.
 - [Getting started](../GETTING_STARTED.md) — first shop construction.
