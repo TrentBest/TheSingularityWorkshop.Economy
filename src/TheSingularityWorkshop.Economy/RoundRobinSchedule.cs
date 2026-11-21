@@ -91,16 +91,6 @@ public sealed class RoundRobinSchedule
 {
     private readonly IReadOnlyList<IReadOnlyList<RoundRobinMatch>> _rounds;
 
-    private RoundRobinSchedule(
-        Guid competitionId,
-        IEnumerable<IEnumerable<RoundRobinMatch>> rounds)
-    {
-        CompetitionId = competitionId;
-        _rounds = Array.AsReadOnly(rounds
-            .Select(round => (IReadOnlyList<RoundRobinMatch>)Array.AsReadOnly(round.ToArray()))
-            .ToArray());
-    }
-
     public Guid CompetitionId { get; }
     public IReadOnlyList<IReadOnlyList<RoundRobinMatch>> Rounds => _rounds;
     public IReadOnlyList<RoundRobinMatch> Matches => Array.AsReadOnly(_rounds.SelectMany(round => round).ToArray());
@@ -152,9 +142,12 @@ public sealed class RoundRobinSchedule
         Guid competitionId,
         IReadOnlyList<CompetitorId> entrantIds,
         IEnumerable<IEnumerable<RoundRobinMatch>> rounds)
-        : this(competitionId, rounds)
     {
+        CompetitionId = competitionId;
         _entrantIds = Array.AsReadOnly(entrantIds.ToArray());
+        _rounds = Array.AsReadOnly(rounds
+            .Select(round => (IReadOnlyList<RoundRobinMatch>)Array.AsReadOnly(round.ToArray()))
+            .ToArray());
     }
 
     public static RoundRobinSchedule Create(Guid competitionId, IReadOnlyList<Competitor> entrants)
