@@ -90,7 +90,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 - [Documentation index](DOCUMENTATION_INDEX.md) — navigate the source, tests, and workflow by task.
 - [Domain tests](tests/TheSingularityWorkshop.Economy.Tests/EconomyTests.cs) and [execution-result tests](tests/TheSingularityWorkshop.Economy.Tests/EconomicExecutionResultTests.cs) — inspect the invariants currently exercised.
 - [Build and test workflow](.github/workflows/dotnet-tests.yml) — see the automated restore, build, test, and package-content verification.
-- [Pages preview workflow](.github/workflows/pages-build.yml) — build and upload the documentation site artifact without deploying it.
+- [Pages publishing workflow](.github/workflows/pages-build.yml) — build and publish the documentation site on pushes to `development`; pull requests build without deploying.
 
 ## Ecosystem fit and status
 
