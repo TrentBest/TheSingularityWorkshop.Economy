@@ -87,4 +87,62 @@ public sealed class CreatorShopCompositionTests
         EconomyShop Shop,
         string ExperienceId,
         ShopPresentation Presentation);
+    [Fact]
+    public void PublicConstructorTakesAnImmutableCatalogSnapshot()
+    {
+        var owner = EconomyEntityId.New();
+        var products = new List<CommerceItem>
+        {
+            new(CommerceItemId.New(), owner, "Original item", new Money(2m, "GLD"))
+        };
+
+        var shop = new EconomyShop(Guid.NewGuid(), owner, "  Snapshot Shop  ", products);
+        products.Add(new CommerceItem(
+            CommerceItemId.New(), owner, "Later item", new Money(3m, "GLD")));
+
+        Assert.Equal("Snapshot Shop", shop.Name);
+        Assert.Single(shop.Products);
+        Assert.True(Assert.IsAssignableFrom<IList<CommerceItem>>(shop.Products).IsReadOnly);
+    }
+
+    [Fact]
+    public void ShopRejectsProductsOwnedByAnotherSeller()
+    {
+        var owner = EconomyEntityId.New();
+        var otherSeller = EconomyEntityId.New();
+        var product = new CommerceItem(
+            CommerceItemId.New(), otherSeller, "Foreign product", new Money(2m, "GLD"));
+
+        Assert.Throws<ArgumentException>(() =>
+            new EconomyShop(Guid.NewGuid(), owner, "Shop", new[] { product }));
+    }
+
+    [Fact]
+    public void ShopRejectsDuplicateProductIdentities()
+    {
+        var owner = EconomyEntityId.New();
+        var productId = CommerceItemId.New();
+        var products = new[]
+        {
+            new CommerceItem(productId, owner, "First", new Money(2m, "GLD")),
+            new CommerceItem(productId, owner, "Second", new Money(3m, "GLD"))
+        };
+
+        Assert.Throws<ArgumentException>(() =>
+            new EconomyShop(Guid.NewGuid(), owner, "Shop", products));
+    }
+
+    [Fact]
+    public void ShopRejectsInvalidIdentityAndNegativeProductPrice()
+    {
+        var owner = EconomyEntityId.New();
+        var product = new CommerceItem(
+            CommerceItemId.New(), owner, "Invalid price", new Money(-1m, "GLD"));
+
+        Assert.Throws<ArgumentException>(() =>
+            new EconomyShop(Guid.Empty, owner, "Shop", Array.Empty<CommerceItem>()));
+        Assert.Throws<ArgumentException>(() =>
+            new EconomyShop(Guid.NewGuid(), owner, "Shop", new[] { product }));
+    }
+
 }
