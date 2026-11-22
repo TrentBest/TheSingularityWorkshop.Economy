@@ -183,7 +183,35 @@ public sealed class CapabilityCatalog
                     nameof(descriptors));
         }
 
+        var visitStates = new Dictionary<CapabilityId, byte>();
+        foreach (var id in byId.Keys)
+        {
+            if (!HasAcyclicDependencies(id, byId, visitStates))
+                throw new ArgumentException("Capability dependencies cannot contain a cycle.", nameof(descriptors));
+        }
+
         _descriptors = new System.Collections.ObjectModel.ReadOnlyDictionary<CapabilityId, CapabilityDescriptor>(byId);
+
+    private static bool HasAcyclicDependencies(
+        CapabilityId id,
+        IReadOnlyDictionary<CapabilityId, CapabilityDescriptor> descriptors,
+        IDictionary<CapabilityId, byte> visitStates)
+    {
+        if (visitStates.TryGetValue(id, out var state))
+            return state == 2;
+
+        visitStates[id] = 1;
+        foreach (var dependency in descriptors[id].Dependencies)
+        {
+            if (visitStates.TryGetValue(dependency, out state) && state == 1)
+                return false;
+            if (state != 2 && !HasAcyclicDependencies(dependency, descriptors, visitStates))
+                return false;
+        }
+
+        visitStates[id] = 2;
+        return true;
+    }
     }
 
     public IReadOnlyCollection<CapabilityDescriptor> Descriptors => _descriptors.Values.ToArray();
