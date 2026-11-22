@@ -107,7 +107,7 @@ public sealed class RoundRobinScheduleTests
             new RoundRobinMatchResult(id, match.Id, RoundRobinOutcome.SecondWins,
                 result.RecordedAt, "evidence://match/2")));
         Assert.Throws<ArgumentException>(() => RoundRobinSchedule.Create(Guid.NewGuid(), new[] { entrants[0], entrants[0] }));
-        Assert.Throws<ArgumentException>(() => new RoundRobinMatchResult(
+        Assert.Throws<ArgumentOutOfRangeException>(() => new RoundRobinMatchResult(
             RoundRobinResultId.New(), match.Id, (RoundRobinOutcome)999, DateTimeOffset.UtcNow, "evidence://invalid"));
     }
     [Fact]
@@ -115,7 +115,7 @@ public sealed class RoundRobinScheduleTests
     {
         var entrants = new[] { CompetitorNamed("A"), CompetitorNamed("B"), CompetitorNamed("C") };
         var schedule = RoundRobinSchedule.Create(Guid.NewGuid(), entrants);
-        var bye = schedule.Matches.Single(match => match.IsBye);
+        var bye = schedule.Matches.First(match => match.IsBye);
         var byeResult = new RoundRobinMatchResult(
             RoundRobinResultId.New(), bye.Id, RoundRobinOutcome.FirstWins,
             DateTimeOffset.UtcNow, "evidence://invalid-bye");
