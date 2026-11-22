@@ -136,13 +136,11 @@ public sealed class CreatorShopCompositionTests
     public void ShopRejectsInvalidIdentityAndNegativeProductPrice()
     {
         var owner = EconomyEntityId.New();
-        var product = new CommerceItem(
-            CommerceItemId.New(), owner, "Invalid price", new Money(-1m, "GLD"));
-
         Assert.Throws<ArgumentException>(() =>
             new EconomyShop(Guid.Empty, owner, "Shop", Array.Empty<CommerceItem>()));
         Assert.Throws<ArgumentException>(() =>
-            new EconomyShop(Guid.NewGuid(), owner, "Shop", new[] { product }));
+            new CommerceItem(
+                CommerceItemId.New(), owner, "Invalid price", new Money(-1m, "GLD")));
     }
 
 }
