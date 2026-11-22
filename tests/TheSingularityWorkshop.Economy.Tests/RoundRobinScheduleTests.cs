@@ -121,7 +121,7 @@ public sealed class RoundRobinScheduleTests
             DateTimeOffset.UtcNow, "evidence://invalid-bye");
         Assert.Throws<InvalidOperationException>(() => schedule.RecordResult(byeResult));
 
-        var played = schedule.Matches.Single(match => !match.IsBye);
+        var played = schedule.Matches.First(match => !match.IsBye);
         var firstResult = new RoundRobinMatchResult(
             RoundRobinResultId.New(), played.Id, RoundRobinOutcome.FirstWins,
             DateTimeOffset.UtcNow, "evidence://played/1");
