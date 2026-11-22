@@ -42,6 +42,21 @@ public sealed class CapabilityCompositionTests
     }
 
     [Fact]
+    public void CatalogRejectsDirectAndIndirectDependencyCycles()
+    {
+        var first = Capability("first", new[] { new CapabilityId("second") });
+        var second = Capability("second", new[] { first.Id });
+
+        Assert.Throws<ArgumentException>(() => new CapabilityCatalog(new[] { first, second }));
+
+        var root = Capability("root", new[] { new CapabilityId("middle") });
+        var middle = Capability("middle", new[] { new CapabilityId("leaf") });
+        var leaf = Capability("leaf", new[] { root.Id });
+
+        Assert.Throws<ArgumentException>(() => new CapabilityCatalog(new[] { root, middle, leaf }));
+    }
+
+    [Fact]
     public void CompositionCanSelectNoCapabilitiesOrOnlyOneOptionalCapability()
     {
         var ledger = Capability("ledger");
