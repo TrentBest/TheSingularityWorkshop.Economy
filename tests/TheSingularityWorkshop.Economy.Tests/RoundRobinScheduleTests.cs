@@ -48,7 +48,7 @@ public sealed class RoundRobinScheduleTests
             Assert.Equal(2, round.Count(match => !match.IsBye));
         });
         Assert.All(entrants, entrant =>
-            Assert.Single(schedule.Matches.Where(match => match.ByeCompetitorId == entrant.Id)));
+            Assert.Single(schedule.Matches, match => match.ByeCompetitorId == entrant.Id));
     }
 
     [Fact]
