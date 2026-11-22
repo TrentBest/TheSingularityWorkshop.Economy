@@ -28,7 +28,7 @@ The README is the public front door. These guides have different jobs; use the o
 | Browse UML and evidence coverage | [UML inventory](docs/UML/README.md) |
 | Read the ledger API and structural neighborhood | [SimulationLedger API](docs/API/SimulationLedger.md) and [SimulationLedger UML](docs/UML/SimulationLedgerUML.md) |
 | Run tests and verify package contents | [Test project](tests/TheSingularityWorkshop.Economy.Tests/TheSingularityWorkshop.Economy.Tests.csproj) and [CI workflow](.github/workflows/dotnet-tests.yml) |
-| Build the Pages site artifact without deployment | [Pages preview workflow](.github/workflows/pages-build.yml) |
+| Build and publish the Pages site on `development` pushes; validate without publishing on pull requests | [Pages publishing workflow](.github/workflows/pages-build.yml) |
 
 ## Status and authority
 
