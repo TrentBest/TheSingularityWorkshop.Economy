@@ -44,7 +44,7 @@ public sealed class RoundRobinScheduleTests
         Assert.All(schedule.Rounds, round =>
         {
             Assert.Equal(3, round.Count);
-            Assert.Single(round.Where(match => match.IsBye));
+            Assert.Single(round, match => match.IsBye);
             Assert.Equal(2, round.Count(match => !match.IsBye));
         });
         Assert.All(entrants, entrant =>
