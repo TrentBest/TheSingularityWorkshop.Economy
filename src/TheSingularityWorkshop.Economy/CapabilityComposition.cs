@@ -191,6 +191,7 @@ public sealed class CapabilityCatalog
         }
 
         _descriptors = new System.Collections.ObjectModel.ReadOnlyDictionary<CapabilityId, CapabilityDescriptor>(byId);
+    }
 
     private static bool HasAcyclicDependencies(
         CapabilityId id,
@@ -211,7 +212,6 @@ public sealed class CapabilityCatalog
 
         visitStates[id] = 2;
         return true;
-    }
     }
 
     public IReadOnlyCollection<CapabilityDescriptor> Descriptors => _descriptors.Values.ToArray();
