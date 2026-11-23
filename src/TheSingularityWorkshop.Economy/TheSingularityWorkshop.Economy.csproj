@@ -29,6 +29,7 @@
     <None Include="../../docs/GALLERY.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/MARKETS_AND_PLAYGROUNDS.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/MARKET_ECONOMY_SCENARIO.md" Pack="true" PackagePath="docs/" />
+    <None Include="../../docs/PROJECT_FINANCE_AND_CAPITAL_PLANNING.md" Pack="true" PackagePath="docs/" />
     <None Include="../../docs/THEORY/README.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/THEORY/01-VALUE-SCARCITY-AND-EXCHANGE.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/THEORY/02-PREDICTION-MARKETS-AND-WAGERING.md" Pack="true" PackagePath="docs/THEORY/" />
