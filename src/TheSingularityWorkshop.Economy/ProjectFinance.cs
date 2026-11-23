@@ -204,6 +204,8 @@ public sealed record ProjectBudgetBaseline
         var snapshot = lines.ToArray();
         if (snapshot.Length == 0)
             throw new ArgumentException("A budget baseline requires at least one line.", nameof(lines));
+        if (snapshot.Any(line => line is null))
+            throw new ArgumentException("A budget baseline cannot contain null lines.", nameof(lines));
         if (snapshot.Select(line => line.Id).Distinct().Count() != snapshot.Length)
             throw new ArgumentException("Budget-line identifiers must be unique.", nameof(lines));
 
