@@ -35,6 +35,7 @@ title: Economy Learning Center
 - [Markets and economic playgrounds](MARKETS_AND_PLAYGROUNDS.md) — casino, simulated stock exchange, businesses, auctions, jobs, and supply-chain experiments.
 - [Singularity currency and casino contract](SINGULARITY_CURRENCY_AND_CASINO.md) — the staged casino custody and wager model.
 - [Simulated economies and creator commerce](SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — the Singularity City direction and first Digiten loop.
+- [Project finance and capital planning](PROJECT_FINANCE_AND_CAPITAL_PLANNING.md) — fund, authorize, track, forecast, and close simulated projects.
 
 ## Verify claims
 
