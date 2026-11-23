@@ -12,7 +12,7 @@ A package is easier to learn and maintain when every public type has a discovera
 
 ### Public type inventory
 
-The current source scope is the 24 C# files under src/TheSingularityWorkshop.Economy. There are 99 public declarations in that scope.
+The current source scope is the 25 C# files under src/TheSingularityWorkshop.Economy. There are 118 public declarations in that scope.
 
 | Source file | Public declarations | Dedicated API page | UML/use-case companion |
 |---|---|---|---|
@@ -42,7 +42,7 @@ The current source scope is the 24 C# files under src/TheSingularityWorkshop.Eco
 | CapabilityComposition.cs | CapabilityId, CapabilityMaturity, CapabilityConfigurationValueType, CapabilityConfigurationField, CapabilityDescriptor, CapabilityCatalog, CapabilitySelection, CapabilityCompositionIssue, CapabilityCompositionValidation, ExperienceCapabilityComposition | [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) | [Capability composition UML](../UML/CapabilityCompositionUML.md) |
 | ProjectFinance.cs | CapitalProjectId, ProjectCostLineId, ProjectFundingSourceId, ProjectFundingCommitmentId, ProjectCostRecordId, ProjectInvoiceId, ProjectPaymentId, CapitalProject, ProjectBudgetLine, ProjectBudgetBaseline, ProjectFundingSource, ProjectFundingCommitment, ProjectCostRecord, ProjectInvoice, ProjectPayment | [Project finance API](ProjectFinance.md) | [Project finance UML](../UML/ProjectFinanceUML.md) |
 
-**Coverage status:** the combined SimulationLedger API page covers 9 declarations, while the Dice activity contract documents the dice-specific surface. Individual API pages remain to be created for 86 of the 99 public declarations. No repository-wide documentation generator is claimed.
+**Coverage status:** the combined SimulationLedger API page covers its ledger and casino declarations; the Dice activity contract documents the dice-specific surface; the ProjectFinance API page documents the initial project/budget/funding/cost/invoice/payment vocabulary. Individual pages remain incomplete for the wider public surface. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
