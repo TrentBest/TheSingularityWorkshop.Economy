@@ -1,4 +1,8 @@
-# Teams, leagues, tournaments, and organized play
+# Teams, Leagues, Tournaments, and Organized Play
+
+**Sourcebook ID:** `economy.domain.organized-play`  
+**Edition:** `0.1.0`  
+
 
 ## 01 — What
 
