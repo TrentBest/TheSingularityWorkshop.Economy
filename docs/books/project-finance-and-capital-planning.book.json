@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "economy.domain.project-finance-and-capital-planning",
+  "category": "Domain",
+  "lod": 2,
+  "title": "Project Finance and Capital Planning",
+  "version": "0.1.0",
+  "familyId": "project-finance-and-capital-planning",
+  "cover": "docs/books/covers/project-finance-and-capital-planning.svg",
+  "lodBadge": "https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem/development/docs/assets/rulebook-lod-2.svg",
+  "publisher": "The Singularity Workshop",
+  "publisherMoniker": "https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg",
+  "source": "docs/PROJECT_FINANCE_AND_CAPITAL_PLANNING.md",
+  "repository": "https://github.com/TrentBest/TheSingularityWorkshop.Economy",
+  "edition": "0.1.0",
+  "status": "draft",
+  "scope": "Provider-neutral project funding, capital structure, budgets, commitments, procurement, cost recognition, cash flow, forecasting, risk, and closeout for simulated projects; not a bank or financial service."
+}
