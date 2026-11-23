@@ -20,6 +20,7 @@ Economy should support more than a shop and a casino. It should provide reusable
 - auctions where players compare bids, reserve prices, and different allocation rules;
 - city jobs and households where work, wages, budgets, needs, and purchases connect;
 - supply-chain experiments where scarcity, production constraints, transport costs, and shocks affect prices.
+- a capital-project workshop where sponsors allocate funding, approve budgets, commit resources, track delivery costs, and forecast completion.
 
 These are different experiences over shared economic foundations—not separate wallets or unrelated counter systems.
 
@@ -98,6 +99,7 @@ This is a target journey, not a claim that these connected experiences exist tod
 - [Casino currency and custody contract](SINGULARITY_CURRENCY_AND_CASINO.md) — first playable casino vertical slice.
 - [Simulated stock exchange issue](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/20) — proposed deterministic market implementation.
 - [Simulated economy and creator commerce](SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md) — city and creator-commerce architecture.
+- [Project finance and capital planning](PROJECT_FINANCE_AND_CAPITAL_PLANNING.md) — project funding, budget baselines, commitments, cost recognition, cash flow, and closeout.
 - [Economy architecture](ARCHITECTURE.md) — current ownership and implementation boundaries.
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
