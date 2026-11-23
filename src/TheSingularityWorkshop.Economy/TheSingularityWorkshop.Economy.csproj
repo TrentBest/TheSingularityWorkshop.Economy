@@ -37,6 +37,7 @@
     <None Include="../../docs/THEORY/04-COMPOSABLE-ECONOMIES-AND-EXPERIENCE-CAPABILITIES.md" Pack="true" PackagePath="docs/THEORY/" />
     <None Include="../../docs/API/README.md" Pack="true" PackagePath="docs/API/" />
     <None Include="../../docs/API/SimulationLedger.md" Pack="true" PackagePath="docs/API/" />
+    <None Include="../../docs/API/ProjectFinance.md" Pack="true" PackagePath="docs/API/" />
     <None Include="../../docs/UML/README.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/SimulationLedgerUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/CasinoWagerBookUML.md" Pack="true" PackagePath="docs/UML/" />
