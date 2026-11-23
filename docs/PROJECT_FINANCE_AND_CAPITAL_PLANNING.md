@@ -1,12 +1,16 @@
 ---
 layout: default
-title: Project finance and capital planning
+title: Project Finance and Capital Planning
 ---
 
 <!-- The Singularity Workshop moniker -->
 <p align="center"><a href="https://github.com/TrentBest"><img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop animated moniker" width="720" /></a></p>
 
-# Project finance and capital planning
+# Project Finance and Capital Planning
+
+**Sourcebook ID:** `economy.domain.project-finance-and-capital-planning`  
+**Edition:** `0.1.0`  
+
 
 **Status: domain design and implementation contract.** This guide defines a provider-neutral, simulation-first capability for planning and controlling projects that consume money, materials, labor, time, and capacity. It does not describe a production accounting system, lender, bank, investment product, or financial service.
 
