@@ -74,6 +74,7 @@ The shared economic foundation should make different operations understandable a
 Examples of named operations include:
 
 - **Production:** consume materials and capacity; create a declared output quantity; record waste, yield, and provenance.
+- **Project finance:** define funding sources, budget baselines, spending authority, commitments, incurred costs, invoices, forecasts, and closeout without treating every record as a cash movement.
 - **Training:** consume currency, materials, time, or capacity; advance a unit's declared training state.
 - **Purchase:** quote, reserve availability, accept an order, post value movement, and record fulfillment separately.
 - **Upkeep:** charge recurring costs for units, buildings, fleets, equipment, or services.
