@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "economy.domain.economic-ontology-and-composable-models",
+  "category": "Domain",
+  "lod": 1,
+  "title": "Economic Ontology and Composable Models",
+  "version": "0.1.0",
+  "familyId": "economic-ontology-and-composable-models",
+  "cover": "docs/books/covers/economic-ontology-and-composable-models.svg",
+  "lodBadge": "https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem/development/docs/assets/rulebook-lod-1.svg",
+  "publisher": "The Singularity Workshop",
+  "publisherMoniker": "https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg",
+  "source": "docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md",
+  "repository": "https://github.com/TrentBest/TheSingularityWorkshop.Economy",
+  "edition": "0.1.0",
+  "status": "draft",
+  "scope": "Shared economic vocabulary, economic theory, composable model aspects, currency composition, and the boundary between ontology, policy, simulation, and execution."
+}
