@@ -1,5 +1,9 @@
 # Simulated Economies, Creator Shops, and Adoption
 
+**Sourcebook ID:** `economy.domain.simulated-economies-and-creator-commerce`  
+**Edition:** `0.1.0`  
+
+
 **Status: direction and proof plan for the exploratory Economy alpha.** This document clarifies the intended product path. It does not claim that the full city simulation, creator storefront builder, reskinning pipeline, scale test, or real-money integration is already implemented.
 
 ## The first economy is a world that works
