@@ -1,0 +1,36 @@
+name: SURPS Sourcebook Validation
+
+on:
+  push:
+    branches: [development]
+    paths:
+      - ".surps/participation.json"
+      - "docs/books/**"
+      - "docs/books/covers/**"
+      - "scripts/validate_surps_participation.py"
+      - ".github/workflows/surps-sourcebook-validation.yml"
+  pull_request:
+    branches: [development]
+    paths:
+      - ".surps/participation.json"
+      - "docs/books/**"
+      - "docs/books/covers/**"
+      - "scripts/validate_surps_participation.py"
+      - ".github/workflows/surps-sourcebook-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate SURPS sourcebook declaration
+        run: python scripts/validate_surps_participation.py
