@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "repository": "TrentBest/TheSingularityWorkshop.Economy",
+  "domain": "Economic ontology, exchange, currency, commerce, project finance, production, logistics, and organized play",
+  "participationStatus": "integrated-not-enrolled",
+  "contributionType": [
+    "domain-economy",
+    "sourcebook-publication"
+  ],
+  "contributionSummary": "Owns provider-neutral economic vocabulary and simulation primitives: currency identity, products, shops, offers, transfer intent, fictional-currency ledger semantics, competition registration and scheduling, project cost/funding models, production/resource concepts, and economic-domain sourcebooks. Experiences retain UI, inventory meaning, policy, authorization, and execution choices. Economy does not claim to be a financial service, durable distributed ledger, payment processor, or settlement provider.",
+  "cataloguePath": "docs/books/index.md",
+  "books": [
+    {
+      "id": "economy.domain.economic-ontology-and-composable-models",
+      "title": "Economic Ontology and Composable Models",
+      "category": "Domain",
+      "lod": 1,
+      "version": "0.1.0",
+      "status": "draft",
+      "bookPath": "docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md",
+      "descriptorPath": "docs/books/economic-ontology-and-composable-models.book.json",
+      "coverPath": "docs/books/covers/economic-ontology-and-composable-models.svg"
+    },
+    {
+      "id": "economy.domain.singularity-currency-and-casino",
+      "title": "Singularity Currency and Casino Contract",
+      "category": "Domain",
+      "lod": 2,
+      "version": "0.1.0",
+      "status": "draft",
+      "bookPath": "docs/SINGULARITY_CURRENCY_AND_CASINO.md",
+      "descriptorPath": "docs/books/singularity-currency-and-casino.book.json",
+      "coverPath": "docs/books/covers/singularity-currency-and-casino.svg"
+    },
+    {
+      "id": "economy.domain.organized-play",
+      "title": "Teams, Leagues, Tournaments, and Organized Play",
+      "category": "Domain",
+      "lod": 2,
+      "version": "0.1.0",
+      "status": "draft",
+      "bookPath": "docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md",
+      "descriptorPath": "docs/books/organized-play.book.json",
+      "coverPath": "docs/books/covers/organized-play.svg"
+    },
+    {
+      "id": "economy.domain.project-finance-and-capital-planning",
+      "title": "Project Finance and Capital Planning",
+      "category": "Domain",
+      "lod": 2,
+      "version": "0.1.0",
+      "status": "draft",
+      "bookPath": "docs/PROJECT_FINANCE_AND_CAPITAL_PLANNING.md",
+      "descriptorPath": "docs/books/project-finance-and-capital-planning.book.json",
+      "coverPath": "docs/books/covers/project-finance-and-capital-planning.svg"
+    },
+    {
+      "id": "economy.domain.markets-and-economic-playgrounds",
+      "title": "Markets and Economic Playgrounds",
+      "category": "Domain",
+      "lod": 2,
+      "version": "0.1.0",
+      "status": "proposed",
+      "bookPath": "docs/MARKETS_AND_PLAYGROUNDS.md",
+      "descriptorPath": "docs/books/markets-and-economic-playgrounds.book.json",
+      "coverPath": "docs/books/covers/markets-and-economic-playgrounds.svg"
+    },
+    {
+      "id": "economy.domain.simulated-economies-and-creator-commerce",
+      "title": "Simulated Economies, Creator Shops, and Adoption",
+      "category": "Domain",
+      "lod": 2,
+      "version": "0.1.0",
+      "status": "proposed",
+      "bookPath": "docs/SIMULATED_ECONOMIES_AND_CREATOR_COMMERCE.md",
+      "descriptorPath": "docs/books/simulated-economies-and-creator-commerce.book.json",
+      "coverPath": "docs/books/covers/simulated-economies-and-creator-commerce.svg"
+    }
+  ],
+  "rulebookCoordination": {
+    "authorityRepository": "TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem",
+    "authorityBranch": "development",
+    "masterBacklogPath": ".surps/rulebook-backlog.json",
+    "masterMapPath": "docs/rulebook-backlog/index.md",
+    "participationContractPath": "docs/repository-participation.md",
+    "canonicalParticipationStandard": "https://github.com/TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem/blob/development/docs/repository-participation.md",
+    "ownershipClaimTemplate": "https://github.com/TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem/blob/development/.github/ISSUE_TEMPLATE/rulebook-owner-sign-in.yml",
+    "repositoryEnrollmentTemplate": "https://github.com/TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem/blob/development/.github/ISSUE_TEMPLATE/surps-repository-participation.yml",
+    "coordinationIssue": "https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/32",
+    "policy": "SURPS is the canonical cross-repository registry. Economy owns provider-neutral economic domain models and simulation primitives; Experiences own their presentation, policy, inventory meaning, and execution authorization. Real-money provider execution, durable distributed settlement, and regulated financial services are outside the current package contract."
+  },
+  "admissionReadiness": {
+    "status": "blocked",
+    "blockers": [
+      "Six Economy sourcebooks are declared; two remain proposed roadmaps and must not be presented as implemented capabilities.",
+      "All six ownership claims require independent SURPS review and confirmation of Economy versus Experience, Physics, City, and host-execution boundaries.",
+      "The final development-branch manifest and catalogue snapshot must be verified and recorded as central admission evidence.",
+      "The repository-local sourcebook validator and CI gate must run successfully before active admission."
+    ]
+  }
+}
