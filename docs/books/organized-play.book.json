@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "economy.domain.organized-play",
+  "category": "Domain",
+  "lod": 2,
+  "title": "Teams, Leagues, Tournaments, and Organized Play",
+  "version": "0.1.0",
+  "familyId": "organized-play",
+  "cover": "docs/books/covers/organized-play.svg",
+  "lodBadge": "https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem/development/docs/assets/rulebook-lod-2.svg",
+  "publisher": "The Singularity Workshop",
+  "publisherMoniker": "https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg",
+  "source": "docs/THEORY/03-TEAMS-LEAGUES-AND-TOURNAMENTS.md",
+  "repository": "https://github.com/TrentBest/TheSingularityWorkshop.Economy",
+  "edition": "0.1.0",
+  "status": "draft",
+  "scope": "Competitor and team registration, competition formats, deterministic brackets, round-robin schedules, standings, ratings, and host-owned match evidence; gameplay rules remain with activity providers."
+}
