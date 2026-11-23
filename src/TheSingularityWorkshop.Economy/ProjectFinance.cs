@@ -144,6 +144,8 @@ public sealed record ProjectBudgetLine
             throw new ArgumentException("A budget-line identifier is required.", nameof(id));
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentException.ThrowIfNullOrWhiteSpace(estimateBasis);
+        if (amount.CurrencyId.Value == Guid.Empty)
+            throw new ArgumentException("A simulated currency identity is required.", nameof(amount));
 
         Id = id;
         Name = name.Trim();
