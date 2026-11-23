@@ -1,4 +1,8 @@
-# Economic ontology and composable models
+# Economic Ontology and Composable Models
+
+**Sourcebook ID:** `economy.domain.economic-ontology-and-composable-models`  
+**Edition:** `0.1.0`  
+
 
 > Status: initial design foundation for issue [#25](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/25). This document proposes vocabulary and boundaries; it does not claim that a complete ontology engine or configurable currency builder exists in the current package.
 
