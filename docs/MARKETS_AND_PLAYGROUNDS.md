@@ -1,12 +1,16 @@
 ---
 layout: default
-title: Markets and economic playgrounds
+title: Markets and Economic Playgrounds
 ---
 
 <!-- The Singularity Workshop moniker -->
 <p align="center"><a href="https://github.com/TrentBest"><img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop animated moniker" width="720" /></a></p>
 
-# Markets and economic playgrounds
+# Markets and Economic Playgrounds
+
+**Sourcebook ID:** `economy.domain.markets-and-economic-playgrounds`  
+**Edition:** `0.1.0`  
+
 
 **Status: design roadmap.** The activities described here are proposed simulation experiences, not implemented games or a production financial service. The first goal is to let a visitor learn by experimenting with a coherent fictional economy.
 
