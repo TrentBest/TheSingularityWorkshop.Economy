@@ -12,7 +12,7 @@ A package is easier to learn and maintain when every public type has a discovera
 
 ### Public type inventory
 
-The current source scope is the 25 C# files under src/TheSingularityWorkshop.Economy. There are 118 public declarations in that scope.
+The current source scope is the 26 C# files under src/TheSingularityWorkshop.Economy. There are 125 public declarations in that scope.
 
 | Source file | Public declarations | Dedicated API page | UML/use-case companion |
 |---|---|---|---|
@@ -41,6 +41,7 @@ The current source scope is the 25 C# files under src/TheSingularityWorkshop.Eco
 | RoundRobinSchedule.cs | RoundRobinMatchId, RoundRobinOutcome, RoundRobinResultId, RoundRobinMatchResult, RoundRobinMatch, RoundRobinTieBreakCriterion, RoundRobinStandingsPolicy, RoundRobinStanding, RoundRobinSchedule | [Round-robin schedule and standings contract](../UML/RoundRobinScheduleUML.md) | [Round-robin schedule UML](../UML/RoundRobinScheduleUML.md) |
 | CapabilityComposition.cs | CapabilityId, CapabilityMaturity, CapabilityConfigurationValueType, CapabilityConfigurationField, CapabilityDescriptor, CapabilityCatalog, CapabilitySelection, CapabilityCompositionIssue, CapabilityCompositionValidation, ExperienceCapabilityComposition | [Capability catalog and composition contract](../UML/CapabilityCompositionUML.md) | [Capability composition UML](../UML/CapabilityCompositionUML.md) |
 | ProjectFinance.cs | CapitalProjectId, ProjectCostLineId, ProjectFundingSourceId, ProjectFundingCommitmentId, ProjectCostRecordId, ProjectInvoiceId, ProjectPaymentId, CapitalProject, ProjectBudgetLine, ProjectBudgetBaseline, ProjectFundingSource, ProjectFundingCommitment, ProjectCostRecord, ProjectInvoice, ProjectPayment | [Project finance API](ProjectFinance.md) | [Project finance UML](../UML/ProjectFinanceUML.md) |
+| Production.cs | ProductionResourceId, ProductionResourceQuantity, ProductionRecipe, ProductionProvenanceKind, ProductionProvenance, ProductionRunReceipt, ProductionInventory | [Production API](Production.md) | [Production UML](../UML/ProductionUML.md) |
 
 **Coverage status:** the combined SimulationLedger API page covers its ledger and casino declarations; the Dice activity contract documents the dice-specific surface; the ProjectFinance API page documents the initial project/budget/funding/cost/invoice/payment vocabulary. Individual pages remain incomplete for the wider public surface. No repository-wide documentation generator is claimed.
 
