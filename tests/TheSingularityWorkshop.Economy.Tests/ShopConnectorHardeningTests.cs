@@ -81,6 +81,23 @@ public sealed class ShopConnectorHardeningTests
             connector.SynchronizeAsync("shop-1", EconomyEntityId.New(), new InMemoryShopIdentityMap()));
     }
 
+    [Fact]
+    public async Task IndividualItemReadDoesNotRequireCatalogSynchronizationCapabilities()
+    {
+        var source = new FixtureCatalogSource(
+            "item-only-provider",
+            SnapshotWith(new ProviderCatalogItem("item-1", "Single item", new Money(3m, "USD"))),
+            ShopConnectorCapabilities.ReadItem);
+        var connector = new SnapshotShopConnector(source);
+
+        var imported = await connector.ReadItemAsync(
+            "shop-1", "item-1", EconomyEntityId.New(), new InMemoryShopIdentityMap());
+
+        Assert.Equal("Single item", imported.Item.Name);
+        await Assert.ThrowsAsync<NotSupportedException>(() =>
+            connector.SynchronizeAsync("shop-1", EconomyEntityId.New(), new InMemoryShopIdentityMap()));
+    }
+
     private static ProviderShopSnapshot SnapshotWith(ProviderCatalogItem item) =>
         new("shop-1", "Creator shop", null, DateTimeOffset.UtcNow, new[] { item });
 
