@@ -16,7 +16,7 @@ Before mapping any items, the snapshot adapter validates the complete catalog: s
 
 ## Capabilities and safety boundary
 
-Capabilities are declared by each source. The initial contract distinguishes catalog read, single-item read, catalog synchronization, external product links, and optional availability observations. Availability is descriptive provider data, not an inventory command.
+Capabilities are declared by each source and are independent: a provider may support an individual item read without supporting full-catalog reads or synchronization. Catalog synchronization requires both catalog-read and synchronization capabilities. The initial contract also distinguishes external product links and optional availability observations. Availability is descriptive provider data, not an inventory command.
 
 The current connector does **not** implement checkout, purchase, reservation, stock mutation, refund, settlement, payment processing, account authentication, or provider credentials. A catalog read or external product URL must never be interpreted as authorization to perform those operations.
 
