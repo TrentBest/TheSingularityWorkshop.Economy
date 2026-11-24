@@ -21,9 +21,6 @@ public sealed class SnapshotShopConnector : IShopConnector
         _source = source ?? throw new ArgumentNullException(nameof(source));
         if (string.IsNullOrWhiteSpace(_source.Provider.Value))
             throw new ArgumentException("A catalog source must declare a provider identity.", nameof(source));
-        if (!_source.Capabilities.HasFlag(ShopConnectorCapabilities.ReadCatalog) ||
-            !_source.Capabilities.HasFlag(ShopConnectorCapabilities.SynchronizeCatalog))
-            throw new ArgumentException("A catalog source must support reading and synchronization.", nameof(source));
     }
 
     public ShopProviderId Provider => _source.Provider;
@@ -60,6 +57,9 @@ public sealed class SnapshotShopConnector : IShopConnector
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(externalShopId);
         ArgumentNullException.ThrowIfNull(identityMap);
+        if (!Capabilities.HasFlag(ShopConnectorCapabilities.ReadCatalog) ||
+            !Capabilities.HasFlag(ShopConnectorCapabilities.SynchronizeCatalog))
+            throw new NotSupportedException("This provider does not support catalog synchronization.");
 
         var snapshot = await _source.ReadCatalogAsync(externalShopId, cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException("The catalog source returned no snapshot.");
