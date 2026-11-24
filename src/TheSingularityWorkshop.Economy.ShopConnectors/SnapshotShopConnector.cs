@@ -19,6 +19,8 @@ public sealed class SnapshotShopConnector : IShopConnector
     public SnapshotShopConnector(IShopCatalogSource source)
     {
         _source = source ?? throw new ArgumentNullException(nameof(source));
+        if (string.IsNullOrWhiteSpace(_source.Provider.Value))
+            throw new ArgumentException("A catalog source must declare a provider identity.", nameof(source));
         if (!_source.Capabilities.HasFlag(ShopConnectorCapabilities.ReadCatalog) ||
             !_source.Capabilities.HasFlag(ShopConnectorCapabilities.SynchronizeCatalog))
             throw new ArgumentException("A catalog source must support reading and synchronization.", nameof(source));
@@ -26,7 +28,6 @@ public sealed class SnapshotShopConnector : IShopConnector
 
     public ShopProviderId Provider => _source.Provider;
     public ShopConnectorCapabilities Capabilities => _source.Capabilities;
-
 
     public async Task<ImportedShopItem> ReadItemAsync(
         string externalShopId,
@@ -42,10 +43,9 @@ public sealed class SnapshotShopConnector : IShopConnector
             throw new NotSupportedException("This provider does not support reading an individual item.");
 
         var item = await _source.ReadItemAsync(externalShopId, externalItemId, cancellationToken).ConfigureAwait(false);
+        ValidateItem(item);
         if (!string.Equals(item.ExternalItemId, externalItemId, StringComparison.Ordinal))
             throw new InvalidOperationException("The catalog source returned a different external item identity.");
-        if (item.Availability is not null && !Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability))
-            throw new InvalidOperationException("The source returned availability without declaring that capability.");
 
         var reference = new ProviderItemReference(Provider, externalShopId, item.ExternalItemId, item.ProductUri);
         var canonical = new CommerceItem(identityMap.GetOrCreateItemId(reference), seller, item.Name, item.Price, item.ProductUri);
@@ -61,9 +61,21 @@ public sealed class SnapshotShopConnector : IShopConnector
         ArgumentException.ThrowIfNullOrWhiteSpace(externalShopId);
         ArgumentNullException.ThrowIfNull(identityMap);
 
-        var snapshot = await _source.ReadCatalogAsync(externalShopId, cancellationToken).ConfigureAwait(false);
+        var snapshot = await _source.ReadCatalogAsync(externalShopId, cancellationToken).ConfigureAwait(false)
+            ?? throw new InvalidOperationException("The catalog source returned no snapshot.");
         if (!string.Equals(snapshot.ExternalShopId, externalShopId, StringComparison.Ordinal))
             throw new InvalidOperationException("The catalog source returned a different external shop identity.");
+        ArgumentException.ThrowIfNullOrWhiteSpace(snapshot.Name);
+        ArgumentNullException.ThrowIfNull(snapshot.Items);
+
+        // Validate the entire snapshot before mutating the identity map.
+        var seenItemIds = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var item in snapshot.Items)
+        {
+            ValidateItem(item);
+            if (!seenItemIds.Add(item.ExternalItemId))
+                throw new InvalidOperationException($"The catalog contains duplicate external item ID '{item.ExternalItemId}'.");
+        }
 
         var shopReference = new ProviderShopReference(Provider, snapshot.ExternalShopId, snapshot.ShopUri);
         var products = new List<CommerceItem>(snapshot.Items.Count);
@@ -71,12 +83,6 @@ public sealed class SnapshotShopConnector : IShopConnector
 
         foreach (var item in snapshot.Items)
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(item.ExternalItemId);
-            ArgumentException.ThrowIfNullOrWhiteSpace(item.Name);
-
-            if (item.Availability is not null && !Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability))
-                throw new InvalidOperationException("The source returned availability without declaring that capability.");
-
             var itemReference = new ProviderItemReference(Provider, snapshot.ExternalShopId, item.ExternalItemId, item.ProductUri);
             var itemId = identityMap.GetOrCreateItemId(itemReference);
             products.Add(new CommerceItem(itemId, seller, item.Name, item.Price, item.ProductUri));
@@ -92,5 +98,19 @@ public sealed class SnapshotShopConnector : IShopConnector
         return new ImportedShopCatalog(
             shop,
             new ImportedShopProvenance(shopReference, snapshot.RetrievedAt, Array.AsReadOnly(itemProvenance.ToArray())));
+    }
+
+    private void ValidateItem(ProviderCatalogItem item)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+        ArgumentException.ThrowIfNullOrWhiteSpace(item.ExternalItemId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(item.Name);
+
+        if (item.ProductUri is not null && !Capabilities.HasFlag(ShopConnectorCapabilities.ExternalProductLinks))
+            throw new InvalidOperationException("The source returned a product URL without declaring external product-link support.");
+        if (item.Availability is not null && !Capabilities.HasFlag(ShopConnectorCapabilities.ReadAvailability))
+            throw new InvalidOperationException("The source returned availability without declaring that capability.");
+        if (item.Availability?.Quantity is < 0)
+            throw new InvalidOperationException("The source returned a negative availability quantity.");
     }
 }
