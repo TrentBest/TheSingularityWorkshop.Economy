@@ -81,6 +81,7 @@ The example follows the shop/product composition covered by the [domain tests](t
 - [What is Economy?](docs/WHAT_IS_ECONOMY.md) — build the conceptual model and understand the intended boundary without starting from API details.
 - [Economy architecture](docs/ARCHITECTURE.md) — inspect current types, ownership boundaries, and the proposed path from simulation to any future provider-backed operations.
 - [Shop connectors](docs/SHOP_CONNECTORS.md) — optional provider adapters, stable imported identities, declared capabilities, and current limits.
+- [Production API](docs/API/Production.md) and [production contract/UML](docs/UML/ProductionUML.md) — recipe-driven, process-local resource conversion with atomic inventory updates, idempotent operation replay, and provenance receipts.
 - [Economic ontology and composable models](docs/ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md) — the theory/ontology/policy/execution distinction, composable currency aspects, Simoleans example, and optional MicroBundle boundary.
 - [SURPS sourcebook catalogue](docs/books/index.md) and [participation manifest](.surps/participation.json) — Economy's six declared domain books, with proposed roadmaps clearly distinguished from draft contracts.
 - [Game store patterns](docs/GAME_STORE_PATTERNS.md) — current API examples and Experience-owned store rules.
