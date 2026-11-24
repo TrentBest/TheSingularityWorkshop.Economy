@@ -1,6 +1,6 @@
 # Experience Capability Catalog and Composition
 
-**Status: declarative catalog/composition contracts implemented; product architecture and runtime plan.** The current library provides in-memory descriptors and composition validation. It does not provide a production capability browser, manifest resolver, editor, MicroBundle loader, or runtime activation service.
+**Status: declarative catalog/composition contracts implemented; experimental process-local production execution implemented; broader product architecture and runtime plan.** The current library provides in-memory descriptors and composition validation. It does not provide a production capability browser, manifest resolver, editor, MicroBundle loader, or runtime activation service.
 
 ## The toy-store principle
 
@@ -165,7 +165,7 @@ The creator-shop composition proof is a test-owned fixture, not a production edi
 1. Finish tournament administration and validated result provenance under issue #21.
 2. Define capability descriptor and Experience composition contracts without building a universal editor.
 3. Prove optional composition with two sharply different reference Experiences.
-4. Extend shared transaction workflows beyond shops and wagers, beginning with production and training.
+4. Validate the experimental production executor with a second independent consumer; then design training as a separate capability.
 5. Add explicit scenario configuration and event history for narrative economic distortion.
 6. Add region assignment and aggregation to competition results; leave globe rendering to the Experience/Visualize layer.
 7. Add activity adapters (poker, sports, gladiators, creator challenges) independently of the shared transaction core.
