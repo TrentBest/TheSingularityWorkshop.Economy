@@ -6,6 +6,12 @@ This is the canonical local catalogue for Economy-owned domain sourcebooks. The 
 
 **Repository status:** integrated, not enrolled. Four sourcebooks are draft domain contracts; two are proposed roadmaps. A proposed book is not evidence that the described experience or capability is implemented.
 
+## SURPS living rulebook and behavior-adapter standard
+
+This repository adopts the shared SURPS [Living Rulebook and Experience Standard](https://github.com/TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem/blob/development/docs/living-rulebook-standard.md) and [Behavior Model and Adapters](https://github.com/TrentBest/TheSingularityWorkshop.SingularityUniversalRoleplayingSystem/blob/development/docs/behavior-and-adapters.md). Economy owns accounts, ledgers, markets, production, labor, logistics, and transactional invariants. Paper economic procedures should be derived from the same economic behavior model used by digital experiences.
+
+The standard requires a big-picture-first guide, concise Player path, deep Game Master/Workshop path, living pictures for major concepts, worked demonstrations for mechanics, and honest status labels. The tabletop adapter is derived from underlying behavior during workshop calibration; the digital adapter uses compiled behavior with live state. Neither is a separate source of truth. Adoption work: [repository issue](https://github.com/TrentBest/TheSingularityWorkshop.Economy/issues/33).
+
 | Sourcebook | LOD | Status | Descriptor | Cover |
 |---|---:|---|---|---|
 | [Economic Ontology and Composable Models](../ECONOMIC_ONTOLOGY_AND_COMPOSABLE_MODELS.md) | 1 | Draft | [Descriptor](economic-ontology-and-composable-models.book.json) | [Cover](covers/economic-ontology-and-composable-models.svg) |
