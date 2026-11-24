@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using TheSingularityWorkshop.Economy;
 
 namespace TheSingularityWorkshop.Economy.ShopConnectors;
@@ -92,24 +93,31 @@ public interface IShopConnector
 /// <summary>Maps external identities to Workshop IDs for tests and ephemeral hosts. Use durable storage in production.</summary>
 public sealed class InMemoryShopIdentityMap : IShopIdentityMap
 {
-    private readonly Dictionary<(ShopProviderId Provider, string ExternalId), Guid> _shops = new();
-    private readonly Dictionary<(ShopProviderId Provider, string ExternalShopId, string ExternalItemId), CommerceItemId> _items = new();
+    private readonly ConcurrentDictionary<(ShopProviderId Provider, string ExternalId), Guid> _shops = new();
+    private readonly ConcurrentDictionary<(ShopProviderId Provider, string ExternalShopId, string ExternalItemId), CommerceItemId> _items = new();
 
     public Guid GetOrCreateShopId(ProviderShopReference reference)
     {
         ArgumentNullException.ThrowIfNull(reference);
-        var key = (reference.Provider, reference.ExternalShopId);
-        if (!_shops.TryGetValue(key, out var id))
-            _shops.Add(key, id = Guid.NewGuid());
-        return id;
+        ArgumentException.ThrowIfNullOrWhiteSpace(reference.ExternalShopId);
+        EnsureProvider(reference.Provider);
+        return _shops.GetOrAdd((reference.Provider, reference.ExternalShopId), static _ => Guid.NewGuid());
     }
 
     public CommerceItemId GetOrCreateItemId(ProviderItemReference reference)
     {
         ArgumentNullException.ThrowIfNull(reference);
-        var key = (reference.Provider, reference.ExternalShopId, reference.ExternalItemId);
-        if (!_items.TryGetValue(key, out var id))
-            _items.Add(key, id = CommerceItemId.New());
-        return id;
+        ArgumentException.ThrowIfNullOrWhiteSpace(reference.ExternalShopId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(reference.ExternalItemId);
+        EnsureProvider(reference.Provider);
+        return _items.GetOrAdd(
+            (reference.Provider, reference.ExternalShopId, reference.ExternalItemId),
+            static _ => CommerceItemId.New());
+    }
+
+    private static void EnsureProvider(ShopProviderId provider)
+    {
+        if (string.IsNullOrWhiteSpace(provider.Value))
+            throw new ArgumentException("A provider identity is required.", nameof(provider));
     }
 }
