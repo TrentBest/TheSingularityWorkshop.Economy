@@ -38,9 +38,11 @@
     <None Include="../../docs/API/README.md" Pack="true" PackagePath="docs/API/" />
     <None Include="../../docs/API/SimulationLedger.md" Pack="true" PackagePath="docs/API/" />
     <None Include="../../docs/API/ProjectFinance.md" Pack="true" PackagePath="docs/API/" />
+    <None Include="../../docs/API/Production.md" Pack="true" PackagePath="docs/API/" />
     <None Include="../../docs/UML/README.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/SimulationLedgerUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/ProjectFinanceUML.md" Pack="true" PackagePath="docs/UML/" />
+    <None Include="../../docs/UML/ProductionUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/CasinoWagerBookUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/BlackjackRulesUML.md" Pack="true" PackagePath="docs/UML/" />
     <None Include="../../docs/UML/BlackjackRoundUML.md" Pack="true" PackagePath="docs/UML/" />
