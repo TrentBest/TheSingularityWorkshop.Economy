@@ -43,11 +43,12 @@ The current source scope is the 26 C# files under src/TheSingularityWorkshop.Eco
 | ProjectFinance.cs | CapitalProjectId, ProjectCostLineId, ProjectFundingSourceId, ProjectFundingCommitmentId, ProjectCostRecordId, ProjectInvoiceId, ProjectPaymentId, CapitalProject, ProjectBudgetLine, ProjectBudgetBaseline, ProjectFundingSource, ProjectFundingCommitment, ProjectCostRecord, ProjectInvoice, ProjectPayment | [Project finance API](ProjectFinance.md) | [Project finance UML](../UML/ProjectFinanceUML.md) |
 | Production.cs | ProductionResourceId, ProductionResourceQuantity, ProductionRecipe, ProductionProvenanceKind, ProductionProvenance, ProductionRunReceipt, ProductionInventory | [Production API](Production.md) | [Production UML](../UML/ProductionUML.md) |
 
-**Coverage status:** the combined SimulationLedger API page covers its ledger and casino declarations; the Dice activity contract documents the dice-specific surface; the ProjectFinance API page documents the initial project/budget/funding/cost/invoice/payment vocabulary. Individual pages remain incomplete for the wider public surface. No repository-wide documentation generator is claimed.
+**Coverage status:** the combined SimulationLedger API page covers its ledger and casino declarations; the Dice activity contract documents the dice-specific surface; the ProjectFinance API page documents the initial project/budget/funding/cost/invoice/payment vocabulary; the Production API page documents the experimental process-local recipe/inventory executor. Individual pages remain incomplete for the wider public surface. No repository-wide documentation generator is claimed.
 
 ### Current contract references
 
 - [SimulationLedger API](SimulationLedger.md) — typed simulated currency, wager accounting, blackjack rules, round lifecycle, and the host session/settlement seam.
+- [Production API](Production.md) — immutable resource recipes, atomic process-local inventory execution, capacity consumption, yield/waste receipts, idempotent operation replay, and provenance.
 - [Competition and team contracts](../UML/CompetitionUML.md) — competitor identity, immutable team rosters, competition registration, capacity, lifecycle, and Elo-style ladder ratings.
 - [Tournament bracket contract](../UML/TournamentBracketUML.md) — deterministic single-elimination seeding, byes, validated winner advancement, optional result identity/timestamp/evidence-reference provenance, and immutable bracket snapshots.
 - [Round-robin schedule and standings contract](../UML/RoundRobinScheduleUML.md) — deterministic pairings, odd-field byes, host-supplied result provenance, configurable decimal scoring, and explicit aggregate tie-break order (default 3/1/0).
@@ -63,7 +64,7 @@ To inspect the exact implementation, open the [source directory](https://github.
 
 ## 05 — Choose your next step
 
-- Start with [SimulationLedger](SimulationLedger.md) for the newest API contract.
+- Start with [Production](Production.md) for the experimental production recipe/execution contract, or [SimulationLedger](SimulationLedger.md) for simulated currency and custody.
 - Use the [UML inventory](../UML/README.md) to see structural-documentation coverage.
 - Expand the remaining type pages in dependency order, keeping each claim linked to source and tests.
 
