@@ -10,7 +10,9 @@ The optional `TheSingularityWorkshop.Economy.ShopConnectors` companion adapts pr
 - `IShopIdentityMap` maps provider/shop/item identities to stable Workshop IDs. The included `InMemoryShopIdentityMap` is for tests and ephemeral hosts; durable hosts must supply a persistent implementation.
 - `InMemoryShopCatalogSource` is the native Workshop source for the first vertical slice. The tests also use a deterministic fake marketplace source to prove the contract is not tied to the native provider.
 
-Provider item identity is scoped by provider, external shop ID, and external item ID. A provider changing a product URL or display name therefore does not create a new Workshop item. A durable identity-map implementation is required to preserve those IDs across process restarts.
+Provider item identity is scoped by provider, external shop ID, and external item ID. A provider changing a product URL or display name therefore does not create a new Workshop item. The in-memory identity map is concurrency-safe within one process, but a durable identity-map implementation is required to preserve those IDs across process restarts or across hosts.
+
+Before mapping any items, the snapshot adapter validates the complete catalog: shop identity/name, non-empty item IDs/names, unique external item IDs, declared support for returned product URLs and availability observations, and non-negative observed quantities. Invalid snapshots are rejected before the identity map is mutated. A provider that does not declare external-product-link support cannot silently supply product URLs.
 
 ## Capabilities and safety boundary
 
@@ -59,4 +61,4 @@ For production use, replace the in-memory source and identity map with host-owne
 - **Experiences:** own placement, eligibility, behavior, and presentation.
 - **WebPage:** owns publishing, discovery, embedding, visitor presentation, and host policy.
 
-The existing Experience composition test proves one canonical shop can be placed in two Experiences with different presentations. Connector tests separately prove provider identity mapping, single-item reads, synchronization, and reuse of an imported canonical shop across two Experience placements. They do not yet prove durable persistence, a hosted storefront, or WebPage publication.
+The existing Experience composition test proves one canonical shop can be placed in two Experiences with different presentations. Connector tests separately prove provider identity mapping, single-item reads, synchronization, reuse of an imported canonical shop across two Experience placements, concurrent identity-map access, and rejection of malformed or capability-inconsistent snapshots. They do not yet prove durable persistence, a hosted storefront, or WebPage publication.
