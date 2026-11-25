@@ -41,15 +41,8 @@ jobs:
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/development'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-24.04
     needs: build
     permissions:
       pages: write
       id-token: write
-    steps:
-      - name: Publish documentation to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+    uses: TrentBest/TheSingularityWorkshop.CiAi/.github/workflows/deploy-pages.yml@5083c452b555d7645dd0c8ab01d76008026da436
